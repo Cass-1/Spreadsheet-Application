@@ -3,7 +3,7 @@ namespace hw1;
 public class BST
 {
     // Attributes
-    public Node? Root { get; set; } = null;
+    private Node? root { get; set; } = null;
     
     // PRIVATE METHODS ------------------------------------------------------------------------
     
@@ -81,44 +81,70 @@ public class BST
         return 1 + count_helper(curr.Left, count) + count_helper(curr.Right, count);
     }
     
+    // find levels helper
+    private int levels_helper(Node? curr)
+    {
+        if (curr == null)
+        {
+            return 0;
+        }
+
+        int leftLevels = levels_helper(curr.Left);
+        int rightLevels = levels_helper(curr.Right);
+
+        if (leftLevels > rightLevels)
+        {
+            return leftLevels + 1;
+        }
+        else
+        {
+            return rightLevels + 1;
+        }
+    }
+    
     // PUBLIC METHODS ------------------------------------------------------------------------
 
 
     // insert a node
     public void Insert(int num)
     {
-        if (this.Root == null)
+        if (this.root == null)
         {
-            this.Root = insert_helper(num, this.Root);
+            this.root = insert_helper(num, this.root);
         }
         else
         {
-            insert_helper(num, this.Root);
+            insert_helper(num, this.root);
         }
     }
     
     // preorder traversal
     public void PreorderTraversal()
     {
-        preorder_helper(this.Root);
+        preorder_helper(this.root);
     }
 
     // inorder traversal
     public void Inorder_Traversal()
     {
-        inorder_helper(this.Root);
+        inorder_helper(this.root);
     }
 
     // postorder traversal
     public void Postorder_Traversal()
     {
-        postorder_helper(this.Root);
+        postorder_helper(this.root);
     }
-
-    //TODO: count is not working
+    
     public int Count()
     {
         int count = 0;
-        return count_helper(this.Root, count);
+        return count_helper(this.root, count);
+    }
+
+    public int Levels()
+    {
+        return levels_helper(this.root);
+        return levels_helper(this.root);
     }
 }
