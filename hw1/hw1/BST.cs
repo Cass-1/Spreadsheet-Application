@@ -14,12 +14,12 @@ public class BST
         }
 
         // insert on the left
-        if (curr.number < num)
+        if (curr.Number < num)
         {
             insert_helper(num, curr.Left);
         }
         // insert on the right
-        else if (curr.number > num)
+        else if (curr.Number > num)
         {
             insert_helper(num, curr.Right);
         }
