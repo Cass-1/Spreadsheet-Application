@@ -147,4 +147,10 @@ public class BST
         return levels_helper(this.root);
         return levels_helper(this.root);
     }
+
+    public double TheoreticalMinLevels()
+    {
+        int n = this.Count();
+        return Math.Ceiling(Math.Log2(n + 1));
+    }
 }
