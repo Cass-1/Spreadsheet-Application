@@ -2,7 +2,7 @@ namespace hw1;
 
 public class BST
 {
-    public Node? Root { get; set; } = null;
+    
     
     // insert recursive helper
     private bool insert_helper(int num, Node? curr)
@@ -29,6 +29,41 @@ public class BST
             return false;
         }
     }
+    
+    public Node? Root { get; set; } = null;
+    
+    // preorder traversal helper
+    private void preorder_helper(Node? curr)
+    {
+        if (curr != null)
+        {
+            Console.WriteLine(curr.Number + " ");
+            preorder_helper(curr.Left);
+            preorder_helper(curr.Right);
+        }
+    }
+    
+    // inorder traversal helper
+    private void inorder_helper(Node? curr)
+    {
+        if (curr != null)
+        {
+            inorder_helper(curr.Left);
+            Console.WriteLine(curr.Number + " ");
+            inorder_helper(curr.Right);
+        }
+    }
+    
+    // postorder traversal helper
+    private void postorder_helper(Node? curr)
+    {
+        if (curr != null)
+        {
+            postorder_helper(curr.Left);
+            postorder_helper(curr.Right);
+            Console.WriteLine(curr.Number + " ");
+        }
+    }
 
     // insert a node
     public bool Insert(int num)
@@ -37,35 +72,19 @@ public class BST
     }
     
     // preorder traversal
-    public void Preorder(Node? curr)
+    public void PreorderTraversal()
     {
-        if (curr != null)
-        {
-            Console.WriteLine(curr.Number + " ");
-            Preorder(curr.Left);
-            Preorder(curr.Right);
-        }
+        preorder_helper(this.Root);
     }
-    
+
     // inorder traversal
-    public void Inorder(Node? curr)
+    public void Inorder_Traversal()
     {
-        if (curr != null)
-        {
-            Inorder(curr.Left);
-            Console.WriteLine(curr.Number + " ");
-            Inorder(curr.Right);
-        }
+        inorder_helper(this.Root);
     }
-    
-    // postorder traversal
-    public void Postorder(Node? curr)
+
+    public void Postorder_Traversal()
     {
-        if (curr != null)
-        {
-            Postorder(curr.Left);
-            Postorder(curr.Right);
-            Console.WriteLine(curr.Number + " ");
-        }
+        postorder_helper(this.Root);
     }
 }
