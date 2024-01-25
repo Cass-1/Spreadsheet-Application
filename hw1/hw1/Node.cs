@@ -2,8 +2,13 @@ namespace hw1;
 
 public class Node
 {
-    public Node Left { get; set; }
-    public Node right { get; set; }
-    public int number { get; set; }
+    public Node? Left { get; set; } = null;
+    public Node? Right { get; set; } = null;
+    public int number { get; set; } = 0;
+
+    public Node(int num)
+    {
+        this.number = num;
+    }
 
 }
