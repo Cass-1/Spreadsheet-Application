@@ -57,4 +57,15 @@ public class BST
             Inorder(curr.Right);
         }
     }
+    
+    // postorder traversal
+    public void Postorder(Node? curr)
+    {
+        if (curr != null)
+        {
+            Postorder(curr.Left);
+            Postorder(curr.Right);
+            Console.WriteLine(curr.Number + " ");
+        }
+    }
 }
