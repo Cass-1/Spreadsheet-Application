@@ -36,7 +36,16 @@ public class BST
         return insert_helper(num, this.Root);
     }
     
-
+    // preorder traversal
+    public void Preorder(Node? curr)
+    {
+        if (curr != null)
+        {
+            Console.WriteLine(curr.Number + " ");
+            Preorder(curr.Left);
+            Preorder(curr.Right);
+        }
+    }
     
     // inorder traversal
     public void Inorder(Node? curr)
