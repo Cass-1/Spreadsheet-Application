@@ -70,6 +70,17 @@ public class BST
         }
     }
     
+    // count helper
+    private int count_helper(Node? curr, int count)
+    {
+        if (curr == null)
+        {
+            return 0;
+        }
+
+        return 1 + count_helper(curr.Left, count) + count_helper(curr.Right, count);
+    }
+    
     // PUBLIC METHODS ------------------------------------------------------------------------
 
 
@@ -98,8 +109,16 @@ public class BST
         inorder_helper(this.Root);
     }
 
+    // postorder traversal
     public void Postorder_Traversal()
     {
         postorder_helper(this.Root);
+    }
+
+    //TODO: count is not working
+    public int Count()
+    {
+        int count = 0;
+        return count_helper(this.Root, count);
     }
 }
