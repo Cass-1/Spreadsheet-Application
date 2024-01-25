@@ -6,31 +6,35 @@ public class BST
     public Node? Root { get; set; } = null;
     
     // PRIVATE METHODS ------------------------------------------------------------------------
+    
+    // creates a new node
+    private Node newNode(int num)
+    {
+        Node node = new Node(num);
+        return node;
 
+    }
     // insert recursive helper
-    private bool insert_helper(int num, Node? curr)
+    private Node insert_helper(int num, Node? curr)
     {
         if (curr == null)
         {
-            curr = new Node(num);
-            return true;
+            return newNode(num);
         }
 
         // insert on the left
         if (curr.Number < num)
         {
-            return insert_helper(num, curr.Left);
+            curr.Left = insert_helper(num, curr.Left);
         }
         // insert on the right
         else if (curr.Number > num)
         {
-            return insert_helper(num, curr.Right);
+            curr.Right = insert_helper(num, curr.Right);
         }
-        // duplicate
-        else
-        {
-            return false;
-        }
+        
+        
+        return curr;
     }
 
     // preorder traversal helper
@@ -70,9 +74,16 @@ public class BST
 
 
     // insert a node
-    public bool Insert(int num)
+    public void Insert(int num)
     {
-        return insert_helper(num, this.Root);
+        if (this.Root == null)
+        {
+            this.Root = insert_helper(num, this.Root);
+        }
+        else
+        {
+            insert_helper(num, this.Root);
+        }
     }
     
     // preorder traversal
