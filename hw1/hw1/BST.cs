@@ -35,4 +35,17 @@ public class BST
     {
         return insert_helper(num, this.Root);
     }
+    
+
+    
+    // inorder traversal
+    public void Inorder(Node? curr)
+    {
+        if (curr != null)
+        {
+            Inorder(curr.Left);
+            Console.WriteLine(curr.Number + " ");
+            Inorder(curr.Right);
+        }
+    }
 }
