@@ -5,12 +5,6 @@ public class BST
     // Attributes
     public Node? Root { get; set; } = null;
     
-    // Constructor
-    public BST(int num)
-    {
-        Root = new Node(num);
-    }
-    
     // PRIVATE METHODS ------------------------------------------------------------------------
 
     // insert recursive helper
