@@ -2,8 +2,17 @@ namespace hw1;
 
 public class BST
 {
+    // Attributes
+    public Node? Root { get; set; } = null;
     
+    // Constructor
+    public BST(int num)
+    {
+        Root = new Node(num);
+    }
     
+    // PRIVATE METHODS ------------------------------------------------------------------------
+
     // insert recursive helper
     private bool insert_helper(int num, Node? curr)
     {
@@ -16,12 +25,12 @@ public class BST
         // insert on the left
         if (curr.Number < num)
         {
-            insert_helper(num, curr.Left);
+            return insert_helper(num, curr.Left);
         }
         // insert on the right
         else if (curr.Number > num)
         {
-            insert_helper(num, curr.Right);
+            return insert_helper(num, curr.Right);
         }
         // duplicate
         else
@@ -29,9 +38,7 @@ public class BST
             return false;
         }
     }
-    
-    public Node? Root { get; set; } = null;
-    
+
     // preorder traversal helper
     private void preorder_helper(Node? curr)
     {
@@ -64,6 +71,9 @@ public class BST
             Console.WriteLine(curr.Number + " ");
         }
     }
+    
+    // PUBLIC METHODS ------------------------------------------------------------------------
+
 
     // insert a node
     public bool Insert(int num)
