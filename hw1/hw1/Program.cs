@@ -15,11 +15,16 @@ string numberLine = Console.ReadLine();
 // seperate each of the numbers on the line and put them in an array
 string[] nums = numberLine.Split(' ');
 
-// for every number add it to the BST
-foreach (var num in nums)
+// prevents error if no elements are entered
+if (nums[0] != "")
 {
-    bst.Insert(int.Parse(num));
+    // for every number add it to the BST
+    foreach (var num in nums)
+    {
+        bst.Insert(int.Parse(num));
+    }
 }
+
 
 // print out the tree in order
 Console.Write("\nTree contents: ");
