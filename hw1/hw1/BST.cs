@@ -42,7 +42,7 @@ public class BST
     {
         if (curr != null)
         {
-            Console.WriteLine(curr.Number + " ");
+            Console.Write(curr.Number + " ");
             preorder_helper(curr.Left);
             preorder_helper(curr.Right);
         }
@@ -54,7 +54,7 @@ public class BST
         if (curr != null)
         {
             inorder_helper(curr.Left);
-            Console.WriteLine(curr.Number + " ");
+            Console.Write(curr.Number + " ");
             inorder_helper(curr.Right);
         }
     }
@@ -66,7 +66,7 @@ public class BST
         {
             postorder_helper(curr.Left);
             postorder_helper(curr.Right);
-            Console.WriteLine(curr.Number + " ");
+            Console.Write(curr.Number + " ");
         }
     }
     
