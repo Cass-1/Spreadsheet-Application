@@ -3,6 +3,8 @@ namespace hw1;
 public class BST
 {
     // Attributes
+    
+    // the root node
     private Node? root { get; set; } = null;
     
     // PRIVATE METHODS ------------------------------------------------------------------------
