@@ -136,18 +136,22 @@ public class BST
         postorder_helper(this.root);
     }
     
+    // returns the number of nodes in the tree
     public int Count()
     {
         int count = 0;
         return count_helper(this.root, count);
     }
 
+    // returns the number of levels in the tree
     public int Levels()
     {
         return levels_helper(this.root);
         return levels_helper(this.root);
     }
 
+    // returns the minimum number of levels a tree with
+    // this.Count() nodes can have
     public double TheoreticalMinLevels()
     {
         int n = this.Count();
