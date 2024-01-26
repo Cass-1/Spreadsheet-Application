@@ -20,10 +20,13 @@ foreach (var num in nums)
 {
     bst.Insert(int.Parse(num));
 }
+
+// print out the tree in order
 Console.Write("\nTree contents: ");
 bst.Inorder_Traversal();
-
 Console.WriteLine("\n");
+
+// print out tree statistics
 Console.WriteLine("Tree statistics: ");
 Console.WriteLine("The tree has " + bst.Count() + " nodes");
 Console.WriteLine("The tree has " + bst.Levels() + " levels\n");
