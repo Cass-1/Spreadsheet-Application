@@ -1,3 +1,4 @@
+using DynamicData;
 using Hw2;
 
 namespace Hw2Tests;
@@ -9,7 +10,26 @@ public class Tests
     }
 
     [Test]
-    public void MyDistinctUsingHashSetBasicTest()
+    public void MyDistinctUsingHashSetSimpleTest()
+    {
+        var list = new List<int>();
+    
+        list.Add(1);
+        list.Add(1);
+        list.Add(1);
+        list.Add(1);
+        list.Add(1);
+
+        // the correct answer to compare my implementation to
+        IEnumerable<int> distinctList = list.Distinct();
+        
+        // my implementation
+        var myDistinctList = MyDistinct.usingHashSet(list);
+        
+        Assert.IsTrue(distinctList.SequenceEqual(myDistinctList));
+    }
+    [Test]
+    public void MyDistinctUsingHashSetAssignmentTest()
     {
         var rand = new Random();
         var list = new List<int>();
@@ -30,7 +50,27 @@ public class Tests
     }
     
     [Test]
-    public void MyDistinctO1MemoryBasicTest()
+    public void MyDistinctO1MemorySimpleTest()
+    {
+        var list = new List<int>();
+        
+        list.Add(1);
+        list.Add(1);
+        list.Add(1);
+        list.Add(1);
+        list.Add(1);
+
+        // the correct answer to compare my implementation to
+        IEnumerable<int> distinctList = list.Distinct();
+        
+        // my implementation
+        var myDistinctList = MyDistinct.o1Memory(list);
+        
+        Assert.IsTrue(distinctList.SequenceEqual(myDistinctList));
+    }
+    
+    [Test]
+    public void MyDistinctO1MemoryAssignmentTest()
     {
         var rand = new Random();
         var list = new List<int>();
@@ -51,7 +91,27 @@ public class Tests
     }
     
     [Test]
-    public void MyDistinctSortFirstBasicTest()
+    public void MyDistinctSortFirstSimpleTest()
+    {
+        var list = new List<int>();
+    
+        list.Add(1);
+        list.Add(1);
+        list.Add(1);
+        list.Add(1);
+        list.Add(1);
+
+        // the correct answer to compare my implementation to
+        IEnumerable<int> distinctList = list.Distinct();
+        
+        // my implementation
+        var myDistinctList = MyDistinct.sortFirst(list);
+        
+        Assert.IsTrue(distinctList.SequenceEqual(myDistinctList));
+    }
+    
+    [Test]
+    public void MyDistinctSortFirstAssignmentTest()
     {
         var rand = new Random();
         var list = new List<int>();
