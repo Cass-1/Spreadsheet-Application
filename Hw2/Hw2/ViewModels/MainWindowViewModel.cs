@@ -8,7 +8,8 @@ public class MainWindowViewModel : ViewModelBase
     }
     private string RunDistinctIntegers() // this is your method
     {
-        return "test";
+        //TODO: finish the method
+        return MyApplication.Run();
     }
     public string Greeting { get; set;}
 }
