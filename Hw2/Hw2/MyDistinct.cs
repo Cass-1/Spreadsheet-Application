@@ -51,7 +51,8 @@ public class MyDistinct
 
         return distinctElements;
     }
-
+    
+    // sorts the list and then find the number of distinct elements in O(n) time and with O(1) storage
     public static int SortFirst(List<int> list)
     {
         //TODO: check MyDistinct.sortFirst()
