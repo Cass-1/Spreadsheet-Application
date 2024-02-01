@@ -55,9 +55,8 @@ public class MyDistinct
     // sorts the list and then find the number of distinct elements in O(n) time and with O(1) storage
     public static int SortFirst(List<int> list)
     {
-        //TODO: check MyDistinct.sortFirst()
-        int distinctElements = 0;
-        int i = 0;
+        //TODO: fix this, sometimes it is one off
+        int distinctElements = 1;
 
         list.Sort();
         
@@ -68,22 +67,10 @@ public class MyDistinct
         {
             return 0;
         }
-        // check if list is all the same number
-        if (list.ElementAt(0) == list.ElementAt(list.Count - 1))
-        {
-            return 1;
-        }
-        
-        // COMMON CASE
-        
-        // check first element
-        if (i + 1 < list.Count && list.ElementAt(i) != list.ElementAt(i + 1))
-        {
-            distinctElements++;
-        }
 
-        i++;
         
+        // COMMON CASE   1   1    3   4
+        int i = 1;
         // check all the elements in between
         for (; i < list.Count; i++)
         {
