@@ -2,7 +2,7 @@ using DynamicData;
 using Hw2;
 
 namespace Hw2Tests;
-public class Tests
+public class MyDistinctTests
 {
     [SetUp]
     public void Setup()
