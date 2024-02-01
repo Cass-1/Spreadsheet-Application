@@ -2,7 +2,7 @@ using System;
 
 namespace hw2;
 
-public class Application
+public class MyApplication
 {
     public static void Run()
     {

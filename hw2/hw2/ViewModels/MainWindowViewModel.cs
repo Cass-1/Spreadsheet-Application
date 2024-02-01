@@ -9,7 +9,7 @@ public class MainWindowViewModel : ViewModelBase
     private string RunDistinctIntegers() // this is your method
     {
         //TODO: make this method
-        Application.Run();
+        MyApplication.Run();
     }
     public string Greeting { get; set;}
 }

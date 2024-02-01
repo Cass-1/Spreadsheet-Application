@@ -6,7 +6,7 @@ using hw2.Views;
 
 namespace hw2;
 
-public partial class App : Application
+public partial class App : MyApplication
 {
     public override void Initialize()
     {
