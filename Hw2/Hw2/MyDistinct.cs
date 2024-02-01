@@ -54,7 +54,44 @@ public class MyDistinct
 
     public static int sortFirst(List<int> list)
     {
-        //TODO: implement MyDistinct.sortFirst()
-        return list.Count();
+        //TODO: check MyDistinct.sortFirst()
+        int distinctElements = 0;
+        int i = 0;
+
+        list.Sort();
+        
+        // EDGE CASES
+        
+        // check if list is empty
+        if (list.Count == 0)
+        {
+            return 0;
+        }
+        // check if list is all the same number
+        if (list.ElementAt(0) == list.ElementAt(list.Count - 1))
+        {
+            return 1;
+        }
+        
+        // COMMON CASE
+        
+        // check first element
+        if (i + 1 < list.Count && list.ElementAt(i) != list.ElementAt(i + 1))
+        {
+            distinctElements++;
+        }
+
+        i++;
+        
+        // check all the elements in between
+        for (; i < list.Count; i++)
+        {
+            if (list.ElementAt(i - 1) != list.ElementAt(i))
+            {
+                distinctElements++;
+            }
+        }
+        
+        return distinctElements;
     }
 }
