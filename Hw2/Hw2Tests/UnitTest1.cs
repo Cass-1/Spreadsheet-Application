@@ -26,7 +26,7 @@ public class Tests
         // my implementation
         var myDistinctList = MyDistinct.usingHashSet(list);
         
-        Assert.AreEqual(distinctList, myDistinctList);
+        Assert.IsTrue(distinctList.SequenceEqual(myDistinctList));
     }
     
     [Test]
@@ -47,7 +47,7 @@ public class Tests
         // my implementation
         var myDistinctList = MyDistinct.o1Memory(list);
         
-        Assert.AreEqual(distinctList, myDistinctList);
+        Assert.IsTrue(distinctList.SequenceEqual(myDistinctList));
     }
     
     [Test]
@@ -68,6 +68,6 @@ public class Tests
         // my implementation
         var myDistinctList = MyDistinct.sortFirst(list);
         
-        Assert.AreEqual(distinctList, myDistinctList);
+        Assert.IsTrue(distinctList.SequenceEqual(myDistinctList));
     }
 }
