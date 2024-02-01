@@ -1,0 +1,14 @@
+/.idea/*
+!/.idea/codeStyles
+!/.idea/dictionaries
+/.gradle/
+/nuget.config
+
+bin/
+build/
+obj/
+out/
+
+*.Generated.cs
+*.Generated.kt
+*.user
