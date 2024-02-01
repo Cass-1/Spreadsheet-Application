@@ -16,9 +16,13 @@ public class MyApplication
         {
             list.Add(rand.Next(0, 20000));
         }
+
+        var hashSetVal = MyDistinct.UsingHashSet(list);
+        var o1MemoryVal = MyDistinct.O1Memory(list);
+        var sortFirstVal = MyDistinct.SortFirst(list);
+
+        var vals = "Vals: " + hashSetVal + " " + o1MemoryVal + " " + sortFirstVal;
         
-        
-        
-        return "test";
+        return vals;
     }
 }
