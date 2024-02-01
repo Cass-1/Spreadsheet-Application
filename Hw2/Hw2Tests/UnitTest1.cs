@@ -1,5 +1,6 @@
-namespace Hw2Tests;
+using Hw2;
 
+namespace Hw2Tests;
 public class Tests
 {
     [SetUp]
