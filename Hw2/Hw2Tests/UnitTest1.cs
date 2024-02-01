@@ -9,6 +9,23 @@ public class Tests
     {
     }
 
+    // MyDistinct Tests ---------------------------------------------------------------------------------------------    
+    
+    // usingHashSet
+    [Test]
+    public void MyDistinctUsingHashSetEmptyTest()
+    {
+        var list = new List<int>();
+
+        // the correct answer to compare my implementation to
+        IEnumerable<int> distinctList = list.Distinct();
+        
+        // my implementation
+        var myDistinctList = MyDistinct.usingHashSet(list);
+        
+        Assert.IsTrue(distinctList.SequenceEqual(myDistinctList));
+    }
+    
     [Test]
     public void MyDistinctUsingHashSetSimpleTest()
     {
@@ -28,6 +45,7 @@ public class Tests
         
         Assert.IsTrue(distinctList.SequenceEqual(myDistinctList));
     }
+    
     [Test]
     public void MyDistinctUsingHashSetAssignmentTest()
     {
@@ -45,6 +63,21 @@ public class Tests
         
         // my implementation
         var myDistinctList = MyDistinct.usingHashSet(list);
+        
+        Assert.IsTrue(distinctList.SequenceEqual(myDistinctList));
+    }
+    
+    // o1Memory
+    [Test]
+    public void MyDistinctO1MemoryEmptyTest()
+    {
+        var list = new List<int>();
+
+        // the correct answer to compare my implementation to
+        IEnumerable<int> distinctList = list.Distinct();
+        
+        // my implementation
+        var myDistinctList = MyDistinct.o1Memory(list);
         
         Assert.IsTrue(distinctList.SequenceEqual(myDistinctList));
     }
@@ -86,6 +119,21 @@ public class Tests
         
         // my implementation
         var myDistinctList = MyDistinct.o1Memory(list);
+        
+        Assert.IsTrue(distinctList.SequenceEqual(myDistinctList));
+    }
+    
+    // sortFirst
+    [Test]
+    public void MyDistinctSortFirstEmptyTest()
+    {
+        var list = new List<int>();
+
+        // the correct answer to compare my implementation to
+        IEnumerable<int> distinctList = list.Distinct();
+        
+        // my implementation
+        var myDistinctList = MyDistinct.sortFirst(list);
         
         Assert.IsTrue(distinctList.SequenceEqual(myDistinctList));
     }
