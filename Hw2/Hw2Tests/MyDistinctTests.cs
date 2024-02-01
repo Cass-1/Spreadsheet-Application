@@ -15,15 +15,14 @@ public class MyDistinctTests
     [Test]
     public void MyDistinctUsingHashSetEmptyTest()
     {
-        var list = new List<int>();
+        List<int> list = new List<int>();
 
-        // the correct answer to compare my implementation to
+        // the correct distinct list
         IEnumerable<int> distinctList = list.Distinct();
+
+        int len = distinctList.Count();
         
-        // my implementation
-        var myDistinctList = MyDistinct.usingHashSet(list);
-        
-        Assert.IsTrue(distinctList.SequenceEqual(myDistinctList));
+        Assert.AreEqual(len, MyDistinct.usingHashSet(list));
     }
     
     [Test]
@@ -37,13 +36,10 @@ public class MyDistinctTests
         list.Add(1);
         list.Add(1);
 
-        // the correct answer to compare my implementation to
+        // the correct distinct list
         IEnumerable<int> distinctList = list.Distinct();
         
-        // my implementation
-        var myDistinctList = MyDistinct.usingHashSet(list);
-        
-        Assert.IsTrue(distinctList.SequenceEqual(myDistinctList));
+        Assert.AreEqual(distinctList.Count(), MyDistinct.usingHashSet(list));
     }
     
     [Test]
@@ -58,13 +54,10 @@ public class MyDistinctTests
             list.Add(rand.Next(0, 20000));
         }
 
-        // the correct answer to compare my implementation to
+        // the correct distinct list
         IEnumerable<int> distinctList = list.Distinct();
-        
-        // my implementation
-        var myDistinctList = MyDistinct.usingHashSet(list);
-        
-        Assert.IsTrue(distinctList.SequenceEqual(myDistinctList));
+
+        Assert.AreEqual(distinctList.Count(), MyDistinct.usingHashSet(list));
     }
     
     // o1Memory
@@ -73,13 +66,10 @@ public class MyDistinctTests
     {
         var list = new List<int>();
 
-        // the correct answer to compare my implementation to
+        // the correct distinct list
         IEnumerable<int> distinctList = list.Distinct();
         
-        // my implementation
-        var myDistinctList = MyDistinct.o1Memory(list);
-        
-        Assert.IsTrue(distinctList.SequenceEqual(myDistinctList));
+        Assert.AreEqual(distinctList.Count(), MyDistinct.o1Memory(list));
     }
     
     [Test]
@@ -93,13 +83,11 @@ public class MyDistinctTests
         list.Add(1);
         list.Add(1);
 
-        // the correct answer to compare my implementation to
+        // the correct distinct list
         IEnumerable<int> distinctList = list.Distinct();
         
-        // my implementation
-        var myDistinctList = MyDistinct.o1Memory(list);
         
-        Assert.IsTrue(distinctList.SequenceEqual(myDistinctList));
+        Assert.AreEqual(distinctList.Count(), MyDistinct.o1Memory(list));
     }
     
     [Test]
@@ -114,13 +102,10 @@ public class MyDistinctTests
             list.Add(rand.Next(0, 20000));
         }
 
-        // the correct answer to compare my implementation to
+        // the correct distinct list
         IEnumerable<int> distinctList = list.Distinct();
         
-        // my implementation
-        var myDistinctList = MyDistinct.o1Memory(list);
-        
-        Assert.IsTrue(distinctList.SequenceEqual(myDistinctList));
+        Assert.AreEqual(distinctList.Count(), MyDistinct.o1Memory(list));
     }
     
     // sortFirst
@@ -129,13 +114,11 @@ public class MyDistinctTests
     {
         var list = new List<int>();
 
-        // the correct answer to compare my implementation to
+        // the correct distinct list
         IEnumerable<int> distinctList = list.Distinct();
         
-        // my implementation
-        var myDistinctList = MyDistinct.sortFirst(list);
         
-        Assert.IsTrue(distinctList.SequenceEqual(myDistinctList));
+        Assert.AreEqual(distinctList.Count(), MyDistinct.sortFirst(list));
     }
     
     [Test]
@@ -149,13 +132,10 @@ public class MyDistinctTests
         list.Add(1);
         list.Add(1);
 
-        // the correct answer to compare my implementation to
+        // the correct distinct list
         IEnumerable<int> distinctList = list.Distinct();
         
-        // my implementation
-        var myDistinctList = MyDistinct.sortFirst(list);
-        
-        Assert.IsTrue(distinctList.SequenceEqual(myDistinctList));
+        Assert.AreEqual(distinctList.Count(),MyDistinct.sortFirst(list));
     }
     
     [Test]
@@ -170,12 +150,12 @@ public class MyDistinctTests
             list.Add(rand.Next(0, 20000));
         }
 
-        // the correct answer to compare my implementation to
+        // the correct distinct list
         IEnumerable<int> distinctList = list.Distinct();
         
         // my implementation
         var myDistinctList = MyDistinct.sortFirst(list);
         
-        Assert.IsTrue(distinctList.SequenceEqual(myDistinctList));
+        Assert.AreEqual(distinctList.Count(),MyDistinct.sortFirst(list));
     }
 }
