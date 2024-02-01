@@ -7,7 +7,7 @@ public class MyDistinct
 {
     
     // find the distinct elements in a list using a HashSet
-    public static int usingHashSet(List<int> list)
+    public static int UsingHashSet(List<int> list)
     {
         //TODO: check MyDistinct.usingHashSet()
         var set = new HashSet<int>();
@@ -19,7 +19,7 @@ public class MyDistinct
     }
 
     // find the distinct elements in a list with storage complexity O(1)
-    public static int o1Memory(List<int> list)
+    public static int O1Memory(List<int> list)
     {
         //TODO: check MyDistinct.o1Memory()
         
@@ -52,7 +52,7 @@ public class MyDistinct
         return distinctElements;
     }
 
-    public static int sortFirst(List<int> list)
+    public static int SortFirst(List<int> list)
     {
         //TODO: check MyDistinct.sortFirst()
         int distinctElements = 0;

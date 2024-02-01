@@ -22,7 +22,7 @@ public class MyDistinctTests
 
         int len = distinctList.Count();
         
-        Assert.AreEqual(len, MyDistinct.usingHashSet(list));
+        Assert.AreEqual(len, MyDistinct.UsingHashSet(list));
     }
     
     [Test]
@@ -39,7 +39,7 @@ public class MyDistinctTests
         // the correct distinct list
         IEnumerable<int> distinctList = list.Distinct();
         
-        Assert.AreEqual(distinctList.Count(), MyDistinct.usingHashSet(list));
+        Assert.AreEqual(distinctList.Count(), MyDistinct.UsingHashSet(list));
     }
     
     [Test]
@@ -57,7 +57,7 @@ public class MyDistinctTests
         // the correct distinct list
         IEnumerable<int> distinctList = list.Distinct();
 
-        Assert.AreEqual(distinctList.Count(), MyDistinct.usingHashSet(list));
+        Assert.AreEqual(distinctList.Count(), MyDistinct.UsingHashSet(list));
     }
     
     // o1Memory
@@ -69,7 +69,7 @@ public class MyDistinctTests
         // the correct distinct list
         IEnumerable<int> distinctList = list.Distinct();
         
-        Assert.AreEqual(distinctList.Count(), MyDistinct.o1Memory(list));
+        Assert.AreEqual(distinctList.Count(), MyDistinct.O1Memory(list));
     }
     
     [Test]
@@ -87,7 +87,7 @@ public class MyDistinctTests
         IEnumerable<int> distinctList = list.Distinct();
         
         
-        Assert.AreEqual(distinctList.Count(), MyDistinct.o1Memory(list));
+        Assert.AreEqual(distinctList.Count(), MyDistinct.O1Memory(list));
     }
     
     [Test]
@@ -105,7 +105,7 @@ public class MyDistinctTests
         // the correct distinct list
         IEnumerable<int> distinctList = list.Distinct();
         
-        Assert.AreEqual(distinctList.Count(), MyDistinct.o1Memory(list));
+        Assert.AreEqual(distinctList.Count(), MyDistinct.O1Memory(list));
     }
     
     // sortFirst
@@ -118,7 +118,7 @@ public class MyDistinctTests
         IEnumerable<int> distinctList = list.Distinct();
         
         
-        Assert.AreEqual(distinctList.Count(), MyDistinct.sortFirst(list));
+        Assert.AreEqual(distinctList.Count(), MyDistinct.SortFirst(list));
     }
     
     [Test]
@@ -135,7 +135,7 @@ public class MyDistinctTests
         // the correct distinct list
         IEnumerable<int> distinctList = list.Distinct();
         
-        Assert.AreEqual(distinctList.Count(),MyDistinct.sortFirst(list));
+        Assert.AreEqual(distinctList.Count(),MyDistinct.SortFirst(list));
     }
     
     [Test]
@@ -154,8 +154,8 @@ public class MyDistinctTests
         IEnumerable<int> distinctList = list.Distinct();
         
         // my implementation
-        var myDistinctList = MyDistinct.sortFirst(list);
+        var myDistinctList = MyDistinct.SortFirst(list);
         
-        Assert.AreEqual(distinctList.Count(),MyDistinct.sortFirst(list));
+        Assert.AreEqual(distinctList.Count(),MyDistinct.SortFirst(list));
     }
 }
