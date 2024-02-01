@@ -41,6 +41,53 @@ public class MyDistinctTests
     }
     
     [Test]
+    public void MyDistinctUsingHashSetEdgeTest1()
+    {
+        List<int> list = new List<int>();
+        list.Add(1);
+        list.Add(1);
+        list.Add(3);
+        list.Add(8);
+        list.Add(8);
+        
+        // the correct distinct list
+        IEnumerable<int> distinctList = list.Distinct();
+        
+        Assert.AreEqual(distinctList.Count(),MyDistinct.UsingHashSet(list));
+    }
+    
+    [Test]
+    public void MyDistinctUsingHashSetEdgeTest2()
+    {
+        List<int> list = new List<int>();
+        list.Add(1);
+        list.Add(1);
+        list.Add(1);
+        list.Add(1);
+        list.Add(8);
+        
+        // the correct distinct list
+        IEnumerable<int> distinctList = list.Distinct();
+        
+        Assert.AreEqual(distinctList.Count(),MyDistinct.UsingHashSet(list));
+    }
+    
+    [Test]
+    public void MyDistinctUsingHashSetEdgeTest3()
+    {
+        List<int> list = new List<int>();
+        list.Add(1);
+        list.Add(1);
+        list.Add(8);
+        list.Add(8);
+        
+        // the correct distinct list
+        IEnumerable<int> distinctList = list.Distinct();
+        
+        Assert.AreEqual(distinctList.Count(),MyDistinct.UsingHashSet(list));
+    }
+    
+    [Test]
     public void MyDistinctUsingHashSetAssignmentTest()
     {
         var rand = new Random();
@@ -87,6 +134,8 @@ public class MyDistinctTests
         
         Assert.AreEqual(distinctList.Count(), MyDistinct.O1Memory(list));
     }
+    
+
     
     [Test]
     public void MyDistinctO1MemoryAssignmentTest()
@@ -135,6 +184,8 @@ public class MyDistinctTests
         
         Assert.AreEqual(distinctList.Count(),MyDistinct.SortFirst(list));
     }
+    
+    
 
     [Test]
     public void MyDistinctSortFirstEdgeTest1()
