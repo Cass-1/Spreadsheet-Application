@@ -135,7 +135,52 @@ public class MyDistinctTests
         Assert.AreEqual(distinctList.Count(), MyDistinct.O1Memory(list));
     }
     
-
+    [Test]
+    public void MyDistinctO1MemoryEdgeTest1()
+    {
+        List<int> list = new List<int>();
+        list.Add(1);
+        list.Add(1);
+        list.Add(3);
+        list.Add(8);
+        list.Add(8);
+        
+        // the correct distinct list
+        IEnumerable<int> distinctList = list.Distinct();
+        
+        Assert.AreEqual(distinctList.Count(),MyDistinct.O1Memory(list));
+    }
+    
+    [Test]
+    public void MyDistinctO1MemoryEdgeTest2()
+    {
+        List<int> list = new List<int>();
+        list.Add(1);
+        list.Add(1);
+        list.Add(1);
+        list.Add(1);
+        list.Add(8);
+        
+        // the correct distinct list
+        IEnumerable<int> distinctList = list.Distinct();
+        
+        Assert.AreEqual(distinctList.Count(),MyDistinct.O1Memory(list));
+    }
+    
+    [Test]
+    public void MyDistinctO1MemoryEdgeTest3()
+    {
+        List<int> list = new List<int>();
+        list.Add(1);
+        list.Add(1);
+        list.Add(8);
+        list.Add(8);
+        
+        // the correct distinct list
+        IEnumerable<int> distinctList = list.Distinct();
+        
+        Assert.AreEqual(distinctList.Count(),MyDistinct.O1Memory(list));
+    }
     
     [Test]
     public void MyDistinctO1MemoryAssignmentTest()
