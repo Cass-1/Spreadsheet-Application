@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hw2", "Hw2\Hw2.csproj", "{7829FB4A-65F5-4ACE-A442-75AB0518FC64}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hw2Tests", "Hw2Tests\Hw2Tests.csproj", "{D922CDB4-DAC5-4E25-9FB3-0C3E8C769324}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{7829FB4A-65F5-4ACE-A442-75AB0518FC64}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7829FB4A-65F5-4ACE-A442-75AB0518FC64}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7829FB4A-65F5-4ACE-A442-75AB0518FC64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D922CDB4-DAC5-4E25-9FB3-0C3E8C769324}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D922CDB4-DAC5-4E25-9FB3-0C3E8C769324}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D922CDB4-DAC5-4E25-9FB3-0C3E8C769324}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D922CDB4-DAC5-4E25-9FB3-0C3E8C769324}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
