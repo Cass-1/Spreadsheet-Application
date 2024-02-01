@@ -8,8 +8,6 @@ public class MyDistinctTests
     public void Setup()
     {
     }
-
-    // MyDistinct Tests ---------------------------------------------------------------------------------------------    
     
     // usingHashSet
     [Test]
