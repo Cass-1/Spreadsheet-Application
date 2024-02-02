@@ -21,7 +21,6 @@ public class MyDistinct
     /// <returns>the number of distinct elements in the input list.</returns>
     public static int UsingHashSet(List<int> list)
     {
-        // TODO: check MyDistinct.usingHashSet()
         var set = new HashSet<int>();
         foreach (var item in list)
         {
@@ -36,9 +35,8 @@ public class MyDistinct
     /// </summary>
     /// <param name="list">a list of integers.</param>
     /// <returns>the number of distinct elements in the input list.</returns>
-    public static int O1Memory(List<int> list)
+    public static int ConstantMemory(List<int> list)
     {
-        // TODO: check MyDistinct.o1Memory()
         int distinctElements = 0;
         bool isUnique;
         
