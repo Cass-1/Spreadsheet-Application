@@ -6,6 +6,10 @@ namespace Hw2;
 
 public class MyApplication
 {
+    /// <summary>
+    /// The method called by avalonia to perform tasks 1, 2, and 3
+    /// </summary>
+    /// <returns>a string with answers to the questions for tasks 1, 2, and 3</returns>
     public static string Run()
     {
         var rand = new Random();
