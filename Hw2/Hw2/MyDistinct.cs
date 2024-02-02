@@ -1,36 +1,44 @@
-using System.Collections.Generic;
-using System.Linq;
+// <copyright file="MyDistinct.cs" company="Cass Dahle">
+// "GNU Public Licence v3"
+// </copyright>
 
 namespace Hw2;
 
+using System.Collections.Generic;
+using System.Linq;
+
+/// <summary>
+/// A class that contains the methods to count the number of distinct elements in a list.
+/// </summary>
 public class MyDistinct
 {
-    
+    // TODO: remove numbers from all method names
+
     /// <summary>
-    /// Find the number of distinct elements in a list using a HashSet
+    /// Find the number of distinct elements in a list using a HashSet.
     /// </summary>
-    /// <param name="list">a list of integers</param>
-    /// <returns>the number of distinct elements in the input list</returns>
+    /// <param name="list">a list of integers.</param>
+    /// <returns>the number of distinct elements in the input list.</returns>
     public static int UsingHashSet(List<int> list)
     {
-        //TODO: check MyDistinct.usingHashSet()
+        // TODO: check MyDistinct.usingHashSet()
         var set = new HashSet<int>();
         foreach (var item in list)
         {
             set.Add(item);
         }
+
         return set.ToList().Count;
     }
     
     /// <summary>
-    /// find the number distinct elements in a list with storage complexity O(1)
+    /// find the number distinct elements in a list with storage complexity O(1).
     /// </summary>
-    /// <param name="list">a list of integers</param>
-    /// <returns>the number of distinct elements in the input list</returns>
+    /// <param name="list">a list of integers.</param>
+    /// <returns>the number of distinct elements in the input list.</returns>
     public static int O1Memory(List<int> list)
     {
-        //TODO: check MyDistinct.o1Memory()
-        
+        // TODO: check MyDistinct.o1Memory()
         int distinctElements = 0;
         bool isUnique;
         
@@ -41,9 +49,9 @@ public class MyDistinct
             int j = i;
             
             // check if any elements are the same as i in the rest of the list
-            for(; j < list.Count; j++)
+            for (; j < list.Count; j++)
             {
-                if (i !=j && list.ElementAt(i) == list.ElementAt(j))
+                if (i != j && list.ElementAt(i) == list.ElementAt(j))
                 {
                     isUnique = false;
                     break;
@@ -60,13 +68,12 @@ public class MyDistinct
         return distinctElements;
     }
     
-    // 
     /// <summary>
     /// sorts the prameter list and then finds the number of distinct elements in O(n) time and with O(1) storage
-    /// complexity
+    /// complexity.
     /// </summary>
-    /// <param name="list">a list of integers</param>
-    /// <returns>the number of distinct elements in the input list</returns>
+    /// <param name="list">a list of integers.</param>
+    /// <returns>the number of distinct elements in the input list.</returns>
     public static int SortFirst(List<int> list)
     {
         int distinctElements = 1;
@@ -80,10 +87,10 @@ public class MyDistinct
         {
             return 0;
         }
-
         
-        // COMMON CASE   1   1    3   4
+        // COMMON CASE
         int i = 1;
+        
         // check all the elements in between
         for (; i < list.Count; i++)
         {
