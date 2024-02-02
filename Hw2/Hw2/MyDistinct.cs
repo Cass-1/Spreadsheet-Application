@@ -6,7 +6,11 @@ namespace Hw2;
 public class MyDistinct
 {
     
-    // find the distinct elements in a list using a HashSet
+    /// <summary>
+    /// Find the number of distinct elements in a list using a HashSet
+    /// </summary>
+    /// <param name="list">a list of integers</param>
+    /// <returns>the number of distinct elements in the input list</returns>
     public static int UsingHashSet(List<int> list)
     {
         //TODO: check MyDistinct.usingHashSet()
@@ -17,8 +21,12 @@ public class MyDistinct
         }
         return set.ToList().Count;
     }
-
-    // find the distinct elements in a list with storage complexity O(1)
+    
+    /// <summary>
+    /// find the number distinct elements in a list with storage complexity O(1)
+    /// </summary>
+    /// <param name="list">a list of integers</param>
+    /// <returns>the number of distinct elements in the input list</returns>
     public static int O1Memory(List<int> list)
     {
         //TODO: check MyDistinct.o1Memory()
@@ -52,10 +60,15 @@ public class MyDistinct
         return distinctElements;
     }
     
-    // sorts the list and then find the number of distinct elements in O(n) time and with O(1) storage
+    // 
+    /// <summary>
+    /// sorts the prameter list and then finds the number of distinct elements in O(n) time and with O(1) storage
+    /// complexity
+    /// </summary>
+    /// <param name="list">a list of integers</param>
+    /// <returns>the number of distinct elements in the input list</returns>
     public static int SortFirst(List<int> list)
     {
-        //TODO: fix this, sometimes it is one off
         int distinctElements = 1;
 
         list.Sort();
