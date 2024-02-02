@@ -1,6 +1,7 @@
-using DynamicData;
 using Hw2;
-
+// <copyright file="MyDistinctTests.cs" company="Cass Dahle">
+// "GNU Public Licence v3"
+// </copyright>
 namespace Hw2Tests;
 public class MyDistinctTests
 {
@@ -8,8 +9,10 @@ public class MyDistinctTests
     public void Setup()
     {
     }
-    //TODO: add /// comment blocks for each of the test cases
-    // usingHashSet
+    
+    /// <summary>
+    /// tests the UsingHashSet method with an empty list
+    /// </summary>
     [Test]
     public void MyDistinctUsingHashSetEmptyTest()
     {
@@ -20,9 +23,12 @@ public class MyDistinctTests
 
         int len = distinctList.Count();
         
-        Assert.AreEqual(len, MyDistinct.UsingHashSet(list));
+        Assert.That(MyDistinct.UsingHashSet(list), Is.EqualTo(len));
     }
     
+    /// <summary>
+    /// tests the UsingHashSet method with a simple list
+    /// </summary>
     [Test]
     public void MyDistinctUsingHashSetSimpleTest()
     {
@@ -37,9 +43,12 @@ public class MyDistinctTests
         // the correct distinct list
         IEnumerable<int> distinctList = list.Distinct();
         
-        Assert.AreEqual(distinctList.Count(), MyDistinct.UsingHashSet(list));
+        Assert.That(MyDistinct.UsingHashSet(list), Is.EqualTo(distinctList.Count()));
     }
     
+    /// <summary>
+    /// tests the UsingHashSet method with an edge case
+    /// </summary>
     [Test]
     public void MyDistinctUsingHashSetEdgeTest1()
     {
@@ -53,9 +62,12 @@ public class MyDistinctTests
         // the correct distinct list
         IEnumerable<int> distinctList = list.Distinct();
         
-        Assert.AreEqual(distinctList.Count(),MyDistinct.UsingHashSet(list));
+        Assert.That(MyDistinct.UsingHashSet(list), Is.EqualTo(distinctList.Count()));
     }
     
+    /// <summary>
+    /// tests the UsingHashSet method with an edge case
+    /// </summary>
     [Test]
     public void MyDistinctUsingHashSetEdgeTest2()
     {
@@ -69,9 +81,12 @@ public class MyDistinctTests
         // the correct distinct list
         IEnumerable<int> distinctList = list.Distinct();
         
-        Assert.AreEqual(distinctList.Count(),MyDistinct.UsingHashSet(list));
+        Assert.That(MyDistinct.UsingHashSet(list), Is.EqualTo(distinctList.Count()));
     }
     
+    /// <summary>
+    /// tests the UsingHashSet method with an edge case
+    /// </summary>
     [Test]
     public void MyDistinctUsingHashSetEdgeTest3()
     {
@@ -84,9 +99,12 @@ public class MyDistinctTests
         // the correct distinct list
         IEnumerable<int> distinctList = list.Distinct();
         
-        Assert.AreEqual(distinctList.Count(),MyDistinct.UsingHashSet(list));
+        Assert.That(MyDistinct.UsingHashSet(list), Is.EqualTo(distinctList.Count()));
     }
     
+    /// <summary>
+    /// tests the UsingHashSet method with the actual assignment specifications
+    /// </summary>
     [Test]
     public void MyDistinctUsingHashSetAssignmentTest()
     {
@@ -102,23 +120,29 @@ public class MyDistinctTests
         // the correct distinct list
         IEnumerable<int> distinctList = list.Distinct();
 
-        Assert.AreEqual(distinctList.Count(), MyDistinct.UsingHashSet(list));
+        Assert.That(MyDistinct.UsingHashSet(list), Is.EqualTo(distinctList.Count()));
     }
     
+    /// <summary>
+    /// tests the ConstantMemory method with an empty list
+    /// </summary>
     // o1Memory
     [Test]
-    public void MyDistinctO1MemoryEmptyTest()
+    public void MyDistinctConstantMemoryEmptyTest()
     {
         var list = new List<int>();
 
         // the correct distinct list
         IEnumerable<int> distinctList = list.Distinct();
         
-        Assert.AreEqual(distinctList.Count(), MyDistinct.O1Memory(list));
+        Assert.That(MyDistinct.ConstantMemory(list), Is.EqualTo(distinctList.Count()));
     }
     
+    /// <summary>
+    /// tests the ConstantMemory method with a simple list
+    /// </summary>
     [Test]
-    public void MyDistinctO1MemorySimpleTest()
+    public void MyDistinctConstantMemorySimpleTest()
     {
         var list = new List<int>();
         
@@ -132,11 +156,14 @@ public class MyDistinctTests
         IEnumerable<int> distinctList = list.Distinct();
         
         
-        Assert.AreEqual(distinctList.Count(), MyDistinct.O1Memory(list));
+        Assert.That(MyDistinct.ConstantMemory(list), Is.EqualTo(distinctList.Count()));
     }
     
+    /// <summary>
+    /// tests the ConstantMemory method with an edge case
+    /// </summary>
     [Test]
-    public void MyDistinctO1MemoryEdgeTest1()
+    public void MyDistinctConstantMemoryEdgeTest1()
     {
         List<int> list = new List<int>();
         list.Add(1);
@@ -148,11 +175,14 @@ public class MyDistinctTests
         // the correct distinct list
         IEnumerable<int> distinctList = list.Distinct();
         
-        Assert.AreEqual(distinctList.Count(),MyDistinct.O1Memory(list));
+        Assert.That(MyDistinct.ConstantMemory(list), Is.EqualTo(distinctList.Count()));
     }
     
+    /// <summary>
+    /// tests the ConstantMemory method with an edge case
+    /// </summary>
     [Test]
-    public void MyDistinctO1MemoryEdgeTest2()
+    public void MyDistinctConstantMemoryEdgeTest2()
     {
         List<int> list = new List<int>();
         list.Add(1);
@@ -164,11 +194,14 @@ public class MyDistinctTests
         // the correct distinct list
         IEnumerable<int> distinctList = list.Distinct();
         
-        Assert.AreEqual(distinctList.Count(),MyDistinct.O1Memory(list));
+        Assert.That(MyDistinct.ConstantMemory(list), Is.EqualTo(distinctList.Count()));
     }
     
+    /// <summary>
+    /// tests the ConstantMemory method with an edge case
+    /// </summary>
     [Test]
-    public void MyDistinctO1MemoryEdgeTest3()
+    public void MyDistinctConstantMemoryEdgeTest3()
     {
         List<int> list = new List<int>();
         list.Add(1);
@@ -179,11 +212,14 @@ public class MyDistinctTests
         // the correct distinct list
         IEnumerable<int> distinctList = list.Distinct();
         
-        Assert.AreEqual(distinctList.Count(),MyDistinct.O1Memory(list));
+        Assert.That(MyDistinct.ConstantMemory(list), Is.EqualTo(distinctList.Count()));
     }
     
+    /// <summary>
+    /// tests the ConstantMemory method with the actual assignment specifications
+    /// </summary>
     [Test]
-    public void MyDistinctO1MemoryAssignmentTest()
+    public void MyDistinctConstantMemoryAssignmentTest()
     {
         var rand = new Random();
         var list = new List<int>();
@@ -197,9 +233,12 @@ public class MyDistinctTests
         // the correct distinct list
         IEnumerable<int> distinctList = list.Distinct();
         
-        Assert.AreEqual(distinctList.Count(), MyDistinct.O1Memory(list));
+        Assert.That(MyDistinct.ConstantMemory(list), Is.EqualTo(distinctList.Count()));
     }
     
+    /// <summary>
+    /// tests the SortFirst method with an empty list
+    /// </summary>
     // sortFirst
     [Test]
     public void MyDistinctSortFirstEmptyTest()
@@ -210,9 +249,12 @@ public class MyDistinctTests
         IEnumerable<int> distinctList = list.Distinct();
         
         
-        Assert.AreEqual(distinctList.Count(), MyDistinct.SortFirst(list));
+        Assert.That(MyDistinct.SortFirst(list), Is.EqualTo(distinctList.Count()));
     }
     
+    /// <summary>
+    /// tests the SortFirst method with a simple list
+    /// </summary>
     [Test]
     public void MyDistinctSortFirstSimpleTest()
     {
@@ -227,11 +269,12 @@ public class MyDistinctTests
         // the correct distinct list
         IEnumerable<int> distinctList = list.Distinct();
         
-        Assert.AreEqual(distinctList.Count(),MyDistinct.SortFirst(list));
+        Assert.That(MyDistinct.SortFirst(list), Is.EqualTo(distinctList.Count()));
     }
     
-    
-
+    /// <summary>
+    /// tests the SortFirst method with an edge case
+    /// </summary>
     [Test]
     public void MyDistinctSortFirstEdgeTest1()
     {
@@ -245,9 +288,12 @@ public class MyDistinctTests
         // the correct distinct list
         IEnumerable<int> distinctList = list.Distinct();
         
-        Assert.AreEqual(distinctList.Count(),MyDistinct.SortFirst(list));
+        Assert.That(MyDistinct.SortFirst(list), Is.EqualTo(distinctList.Count()));
     }
     
+    /// <summary>
+    /// tests the SortFirst method with an edge case
+    /// </summary>
     [Test]
     public void MyDistinctSortFirstEdgeTest2()
     {
@@ -261,9 +307,12 @@ public class MyDistinctTests
         // the correct distinct list
         IEnumerable<int> distinctList = list.Distinct();
         
-        Assert.AreEqual(distinctList.Count(),MyDistinct.SortFirst(list));
+        Assert.That(MyDistinct.SortFirst(list), Is.EqualTo(distinctList.Count()));
     }
     
+    /// <summary>
+    /// tests the SortFirst method with an edge case
+    /// </summary>
     [Test]
     public void MyDistinctSortFirstEdgeTest3()
     {
@@ -276,9 +325,12 @@ public class MyDistinctTests
         // the correct distinct list
         IEnumerable<int> distinctList = list.Distinct();
         
-        Assert.AreEqual(distinctList.Count(),MyDistinct.SortFirst(list));
+        Assert.That(MyDistinct.SortFirst(list), Is.EqualTo(distinctList.Count()));
     }
     
+    /// <summary>
+    /// tests the SortFirst method with the actual assignment specifications
+    /// </summary>
     [Test]
     public void MyDistinctSortFirstAssignmentTest()
     {
@@ -294,6 +346,6 @@ public class MyDistinctTests
         // the correct distinct list
         IEnumerable<int> distinctList = list.Distinct();
         
-        Assert.AreEqual(distinctList.Count(),MyDistinct.SortFirst(list));
+        Assert.That(MyDistinct.SortFirst(list), Is.EqualTo(distinctList.Count()));
     }
 }
