@@ -1,20 +1,26 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+// <copyright file="MyApplication.cs" company="Cass Dahle">
+// "GNU Public Licence v3"
+// </copyright>
 
 namespace Hw2;
 
+using System;
+using System.Collections.Generic;
+
+/// <summary>
+/// The main driver of the program.
+/// </summary>
 public class MyApplication
 {
     /// <summary>
-    /// The method called by avalonia to perform tasks 1, 2, and 3
+    /// The method called by avalonia to perform tasks 1, 2, and 3.
     /// </summary>
-    /// <returns>a string with answers to the questions for tasks 1, 2, and 3</returns>
+    /// <returns>a string with answers to the questions for tasks 1, 2, and 3.</returns>
     public static string Run()
     {
         var rand = new Random();
         var list = new List<int>();
-    
+
         // make list of 10000 from 0 to 20000
         for (int i = 0; i < 10000; i++)
         {
@@ -22,10 +28,10 @@ public class MyApplication
         }
 
         var hashSetVal = MyDistinct.UsingHashSet(list);
-        var o1MemoryVal = MyDistinct.O1Memory(list);
+        var o1MemoryVal = MyDistinct.ConstantMemory(list);
         var sortFirstVal = MyDistinct.SortFirst(list);
 
-        String hashSetString = "1. HashSet method: " + hashSetVal + " unique numbers\n" +
+        var hashSetString = "1. HashSet method: " + hashSetVal + " unique numbers\n" +
                                "The time complexity of this method is O(n^2). " +
                                "This is due to the fact that it requires: \n\n" +
                                "> Constant time to create a HashSet\n\n" +
@@ -41,11 +47,8 @@ public class MyApplication
                                "> O(n) time to call the toList() method on the hash set. \n\n" +
                                "Thus the complexity can be represented as T(n) = O(1) + O(n)*O(n) + O(n)\n" +
                                "Meaning that the worst case time complexity is O(n^2)\n\n\n";
-
-        String o1MemoryString = "2. O(1) storage method: " + o1MemoryVal + " unique numbers\n\n\n";
-        
-        String sortFirstString = "3. Sorted method: " + sortFirstVal + " unique numbers\n\n\n";
-        
+        var o1MemoryString = "2. O(1) storage method: " + o1MemoryVal + " unique numbers\n\n\n";
+        var sortFirstString = "3. Sorted method: " + sortFirstVal + " unique numbers\n\n\n";
         return hashSetString + o1MemoryString + sortFirstString;
     }
 }
