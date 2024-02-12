@@ -1,8 +1,58 @@
-﻿namespace HW3.ViewModels;
+﻿// <copyright file="MainWindow.axaml.cs" company="CptS 321 Instructor">
+// Copyright (c) CptS 321 Instructor. All rights reserved.
+// </copyright>
+
+namespace HW3.ViewModels;
+
+using System.IO;
+using System.Reactive;
+using System.Reactive.Linq;
+using ReactiveUI;
 
 public class MainWindowViewModel : ViewModelBase
 {
-#pragma warning disable CA1822 // Mark members as static
-    public string Greeting => "Welcome to Avalonia!";
-#pragma warning restore CA1822 // Mark members as static
+
+    public MainWindowViewModel()
+    {
+
+        // Create an interaction between the view model and the view for the file to be loaded:
+        AskForFileToLoad = new Interaction<Unit, string?>();
+
+        // Similarly to load, there is a need to create an interaction for saving into a file:
+        // TODO: Your code goes here.
+    }
+
+    /// <summary>
+    /// This is a property that will notify the user interface when changed.
+    /// TODO: You need to bind this property in the .axaml file
+    /// </summary>
+    public string FibonacciNumbers
+    {
+        get => fibonacciNumbers;
+        private set => this.RaiseAndSetIfChanged(ref fibonacciNumbers, value);
+    }
+
+    /// <summary>
+    /// This method will be executed when the user wants to load content from a file.
+    /// </summary>
+    public async void LoadFromFile()
+    {
+        // Wait for the user to select the file to load from.
+        var filePath = await AskForFileToLoad.Handle(default);
+        if (filePath == null) return;
+
+        // If the user selected a file, create the stream reader and load the text.
+        var textReader = new StreamReader(filePath);
+        LoadText(textReader);
+        textReader.Close();
+    }
+
+    public async void SaveToFile()
+    {
+        // TODO: Implement this method.
+    }
+
+    public Interaction<Unit, string?> AskForFileToLoad { get; }
+
+    // other code...
 }
