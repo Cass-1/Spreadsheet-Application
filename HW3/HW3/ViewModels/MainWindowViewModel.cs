@@ -11,6 +11,7 @@ using ReactiveUI;
 
 public class MainWindowViewModel : ViewModelBase
 {
+    private string fibonacciNumbers;
 
     public MainWindowViewModel()
     {
@@ -45,6 +46,11 @@ public class MainWindowViewModel : ViewModelBase
         var textReader = new StreamReader(filePath);
         LoadText(textReader);
         textReader.Close();
+    }
+
+    private void LoadText(StreamReader textReader)
+    {
+        throw new System.NotImplementedException();
     }
 
     public async void SaveToFile()
