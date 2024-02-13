@@ -21,6 +21,8 @@ public class MainWindowViewModel : ViewModelBase
 
         // Similarly to load, there is a need to create an interaction for saving into a file:
         // TODO: Your code goes here.
+        AskForFileToSave = new Interaction<Unit, string?>();
+
     }
 
     /// <summary>
@@ -59,6 +61,7 @@ public class MainWindowViewModel : ViewModelBase
     }
 
     public Interaction<Unit, string?> AskForFileToLoad { get; }
+    public Interaction<Unit, string?> AskForFileToSave { get; }
 
     // other code...
 }
