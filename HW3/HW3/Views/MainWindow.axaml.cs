@@ -30,6 +30,8 @@ public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
         this.WhenActivated(d => d(ViewModel!.AskForFileToLoad.RegisterHandler(DoOpenFile)));
         
         // TODO: add code for saving
+        this.WhenActivated(d => d(ViewModel!.AskForFileToSave.RegisterHandler(DoSaveFile)));
+
     }
 
     // Use the following version of DoOpenFile if you are using Avalonia 11
@@ -57,7 +59,7 @@ public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
         });
 
         interaction.SetOutput(filePath.Count == 1 ? filePath[0].Path.AbsolutePath : null);
-  
+
     }
 
     /// <summary>
