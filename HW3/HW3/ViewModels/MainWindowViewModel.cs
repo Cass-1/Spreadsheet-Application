@@ -69,4 +69,22 @@ public class MainWindowViewModel : ViewModelBase
     public Interaction<Unit, string?> AskForFileToSave { get; }
 
     // other code...
+    /// <summary>
+    /// Loads text from a file and puts it into the UI
+    /// </summary>
+    /// <param name="textReader">the file to read from</param>
+    private void LoadText(StreamReader textReader)
+    {
+        //TODO: make tests and implement
+    }
+    
+    /// <summary>
+    /// Reads text from the UI and saves it to a file
+    /// </summary>
+    /// <param name="textWriter">the file to save to</param>
+    private void SaveText(StreamWriter textWriter)
+    {
+        //TODO: make tests and implement
+    }
+
 }
