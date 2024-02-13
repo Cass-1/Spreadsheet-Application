@@ -49,15 +49,20 @@ public class MainWindowViewModel : ViewModelBase
         LoadText(textReader);
         textReader.Close();
     }
-
-    private void LoadText(StreamReader textReader)
-    {
-        throw new System.NotImplementedException();
-    }
-
+    
+    /// <summary>
+    /// This method will be executed when a user wants to save content to a file.
+    /// </summary>
     public async void SaveToFile()
     {
-        // TODO: Implement this method.
+        // Wait for the user to select the file to save to.
+        var filePath = await AskForFileToSave.Handle(default);
+        if (filePath == null) return;
+        
+        // If the user selected a file create new stream writer and save the text
+        var textWriter = new StreamWriter(filePath);
+        SaveText(textWriter);
+        textWriter.Close();
     }
 
     public Interaction<Unit, string?> AskForFileToLoad { get; }
