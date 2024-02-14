@@ -36,6 +36,22 @@ public class MainWindowViewModel : ViewModelBase
         // TODO: Your code goes here.
         AskForFileToSave = new Interaction<Unit, string?>();
 
+        // instantiate textbody
+        textbody = new TextBody();
+        
+        // subscribe to the textbody broadcaster
+        textbody.PropertyChanged += TextBody_PropertyChanged;
+
+    }
+
+    /// <summary>
+    /// Signals for the UI to update whenever the textbody class is changed
+    /// </summary>
+    /// <param name="sender">the object sending the signal</param>
+    /// <param name="e">any arguments</param>
+    private void TextBody_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        this.RaisePropertyChanged("EditableText");
     }
 
     /// <summary>
