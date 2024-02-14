@@ -27,11 +27,9 @@ public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
         InitializeComponent();
         DataContext = new MainWindowViewModel();
 
+        // watchers for when interactions are called
         this.WhenActivated(d => d(ViewModel!.AskForFileToLoad.RegisterHandler(DoOpenFile)));
-        
-        // TODO: add code for saving
         this.WhenActivated(d => d(ViewModel!.AskForFileToSave.RegisterHandler(DoSaveFile)));
-
     }
 
     // Use the following version of DoOpenFile if you are using Avalonia 11
