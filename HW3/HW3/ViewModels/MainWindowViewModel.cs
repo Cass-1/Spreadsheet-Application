@@ -12,7 +12,20 @@ using ReactiveUI;
 public class MainWindowViewModel : ViewModelBase
 {
     private string fibonacciNumbers;
+    private TextBody textbody;
 
+    // a wrapper for the textbody.Text
+    public string TextBodyWrapper
+    {
+        get => textbody.Text;
+        set => textbody.Text = value;
+    }
+    
+    // interactions
+    public Interaction<Unit, string?> AskForFileToLoad { get; }
+    public Interaction<Unit, string?> AskForFileToSave { get; }
+
+    // constructor
     public MainWindowViewModel()
     {
 
@@ -76,6 +89,7 @@ public class MainWindowViewModel : ViewModelBase
     private void LoadText(StreamReader textReader)
     {
         //TODO: make tests and implement
+        TextBodyWrapper = textReader.ReadToEnd();
     }
     
     /// <summary>
@@ -85,6 +99,7 @@ public class MainWindowViewModel : ViewModelBase
     private void SaveText(StreamWriter textWriter)
     {
         //TODO: make tests and implement
+        textWriter.Write(TextBodyWrapper);
     }
 
 }
