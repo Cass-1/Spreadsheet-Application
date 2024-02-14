@@ -39,7 +39,6 @@ public class MainWindowViewModel : ViewModelBase
         AskForFileToLoad = new Interaction<Unit, string?>();
 
         // Similarly to load, there is a need to create an interaction for saving into a file:
-        // TODO: Your code goes here.
         AskForFileToSave = new Interaction<Unit, string?>();
 
         // instantiate textbody
