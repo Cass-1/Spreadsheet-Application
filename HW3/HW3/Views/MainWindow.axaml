@@ -24,7 +24,7 @@
                 <MenuItem Header="_Exit"/>
             </MenuItem>
         </Menu>
-        <TextBlock/>
+        <TextBox Name="editableText" Text="{Binding TextBodyWrapper }"/>
     </DockPanel>
 
 </Window>
