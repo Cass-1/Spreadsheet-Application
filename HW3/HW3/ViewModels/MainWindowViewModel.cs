@@ -2,6 +2,10 @@
 // Copyright (c) CptS 321 Instructor. All rights reserved.
 // </copyright>
 
+using System.ComponentModel;
+using System.Net.Mime;
+using HW3.Models;
+
 namespace HW3.ViewModels;
 
 using System.IO;
@@ -11,6 +15,8 @@ using ReactiveUI;
 
 public class MainWindowViewModel : ViewModelBase
 {
+    
+    // private attributes
     private string fibonacciNumbers;
     private TextBody textbody;
 
@@ -93,10 +99,7 @@ public class MainWindowViewModel : ViewModelBase
         SaveText(textWriter);
         textWriter.Close();
     }
-
-    public Interaction<Unit, string?> AskForFileToLoad { get; }
-    public Interaction<Unit, string?> AskForFileToSave { get; }
-
+    
     // other code...
     /// <summary>
     /// Loads text from a file and puts it into the UI
