@@ -24,11 +24,11 @@ public class Tests
     {
         FibonacciTextReader fib = new FibonacciTextReader(0);
         var str = fib.ReadToEnd();
-        Assert.True(str, "0\n");
+        Assert.Equals(str, "0\n");
     }
 
     [Test]
-    public void FibonacciTextReaderFirstTen()
+    public void FibonacciTextReaderFirstTenStringTest()
     {
         FibonacciTextReader fib = new FibonacciTextReader(10);
         var str = fib.ReadToEnd();
