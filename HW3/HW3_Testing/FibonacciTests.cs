@@ -48,4 +48,18 @@ public class Tests
         
         Assert.Fail();
     }
+    
+    public void FibonacciTextReaderHundredTest()
+    {
+        FibonacciTextReader fib = new FibonacciTextReader(100);
+        for (int i = 0; i < 99; i++)
+        {
+            fib.ReadLine();
+        }
+
+        var str = fib.ReadLine();
+        var fibonacci_hundred = "354224848179261915075";
+
+        Assert.Equals(str, fibonacci_hundred);
+    }
 }
