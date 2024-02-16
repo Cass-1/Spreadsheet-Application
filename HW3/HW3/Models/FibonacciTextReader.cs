@@ -41,11 +41,11 @@ public class FibonacciTextReader : TextReader
         if (currentPosition == 0)
         {
             previousNumber = 0;
-            currentNumber = 1;
+            currentNumber = 0;
         }
         else if (currentPosition == 1)
         {
-            previousNumber = 1;
+            previousNumber = 0;
             currentNumber = 1;
         }
         else
@@ -76,6 +76,7 @@ public class FibonacciTextReader : TextReader
         while (number != null)
         {
             sequence.Append(number);
+            number = this.ReadLine();
         }
 
         return sequence.ToString();
