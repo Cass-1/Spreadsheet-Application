@@ -1,0 +1,17 @@
+{
+  "$schema": "https://raw.githubusercontent.com/DotNetAnalyzers/StyleCopAnalyzers/master/StyleCop.Analyzers/StyleCop.Analyzers/Settings/stylecop.schema.json",
+  "settings": {
+    "documentationRules": {
+      "companyName": "Cass Dahle",
+      "copyrightText": "Copyright (c) {companyName}. Licensed under the GPL v3.0 License. See LICENSE in the project root for license information.",
+      "xmlHeader": false,
+      "fileNamingConvention": "metadata"
+    },
+    "layoutRules": {
+      "newlineAtEndOfFile": "require"
+    },
+    "namingRules": {
+      "tupleElementNameCasing": "camelCase"
+    }
+  }
+}
