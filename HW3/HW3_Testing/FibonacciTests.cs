@@ -28,4 +28,24 @@ public class Tests
         var ans = "0\n1\n1\n3\n4\n5\n8\n13\n21\n34";
         Assert.Equals(str, ans);
     }
+
+    [Test]
+    public void FibonacciTextReaderOverflowTest()
+    {
+        FibonacciTextReader fib = new FibonacciTextReader(10000);
+        try
+        {
+            checked
+            {
+                fib.ReadToEnd();
+            }
+        }
+        catch (OverflowException e)
+        {
+            Assert.Pass();
+            throw;
+        }
+        
+        Assert.Fail();
+    }
 }
