@@ -30,11 +30,15 @@ public class FibonacciTextReader : TextReader
 
     public override string? ReadLine()
     {
+        
+        // check if done
         if (currentPosition > MaxLines)
         {
             return null;
         }
-        else if (currentPosition == 0)
+        
+        // spcial cases
+        if (currentPosition == 0)
         {
             previousNumber = 0;
             currentNumber = 1;
@@ -67,6 +71,13 @@ public class FibonacciTextReader : TextReader
 
     public override string ReadToEnd()
     {
-        return base.ReadToEnd();
+        StringBuilder sequence = new StringBuilder();
+        string number = this.ReadLine();
+        while (number != null)
+        {
+            sequence.Append(number);
+        }
+
+        return sequence.ToString();
     }
 }
