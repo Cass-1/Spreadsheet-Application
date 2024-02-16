@@ -3,11 +3,8 @@
 // </copyright>
 
 using System.ComponentModel;
-using System.Net.Mime;
 using System.Text;
-using Avalonia.Controls;
 using HW3.Models;
-using HW3.Views;
 
 namespace HW3.ViewModels;
 
@@ -123,6 +120,9 @@ public class MainWindowViewModel : ViewModelBase
         textWriter.Write(TextBodyWrapper);
     }
 
+    /// <summary>
+    /// loads the first 50 numbers of the fibonacci sequence to the UI textbox
+    /// </summary>
     public void FibonacciFifty()
     {
         // get the fibonacci numbers in string form
@@ -136,6 +136,9 @@ public class MainWindowViewModel : ViewModelBase
         LoadText(fibonacciStreamReader);
     }
     
+    /// <summary>
+    /// loads the first 100 numbers of the fibonacci sequence to the UI textbox
+    /// </summary>
     public void FibonacciHundred()
     {
         // get the fibonacci numbers in string form
