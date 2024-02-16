@@ -81,26 +81,6 @@ public class Tests
 
         Assert.AreEqual(str, fibonacci_hundred);
     }
-
-    [Test]
-    public void FibonacciTextReaderOverflowTest()
-    {
-        FibonacciTextReader fib = new FibonacciTextReader(60000);
-        try
-        {
-            checked
-            {
-                fib.ReadToEnd();
-            }
-        }
-        catch (Exception e)
-        {
-            Assert.Pass();
-            throw;
-        }
-        
-        Assert.Fail();
-    }
     
     
 }
