@@ -6,6 +6,9 @@ using HarfBuzzSharp;
 
 namespace HW3.Models;
 
+/// <summary>
+/// calculates fibonacci sequence
+/// </summary>
 public class FibonacciTextReader : TextReader
 {
     
@@ -28,6 +31,10 @@ public class FibonacciTextReader : TextReader
         currentPosition = 0;
     }
 
+    /// <summary>
+    /// returns the next value in the fibonacci sequence
+    /// </summary>
+    /// <returns>a string of the next value in the fibonacci sequence</returns>
     public override string? ReadLine()
     {
         
@@ -69,9 +76,16 @@ public class FibonacciTextReader : TextReader
         return str.ToString();
     }
 
+    /// <summary>
+    /// creates a string of the fibonacci sequence up to the maxline
+    /// </summary>
+    /// <returns>a string of the fibonacci sequence</returns>
     public override string ReadToEnd()
     {
+        // will store the fibonacci sequence
         StringBuilder sequence = new StringBuilder("");
+        
+        // read all the fibonacci numbers up to the MaxLines
         string number = this.ReadLine();
         while (number != null)
         {
