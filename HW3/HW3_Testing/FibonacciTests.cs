@@ -20,6 +20,7 @@ public class Tests
         Assert.Equals(str, null);
     }
     
+    [Test]
     public void FibonacciTextReaderZeroTest()
     {
         FibonacciTextReader fib = new FibonacciTextReader(0);
@@ -36,6 +37,7 @@ public class Tests
         Assert.Equals(str, ans);
     }
     
+    [Test]
     public void FibonacciTextReaderFiftyTest()
     {
         FibonacciTextReader fib = new FibonacciTextReader(50);
@@ -50,6 +52,7 @@ public class Tests
         Assert.Equals(str, fibonacci_fifty);
     }
     
+    [Test]
     public void FibonacciTextReaderHundredTest()
     {
         FibonacciTextReader fib = new FibonacciTextReader(100);
