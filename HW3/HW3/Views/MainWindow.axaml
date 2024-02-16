@@ -19,9 +19,10 @@
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
                 <MenuItem Header="_Open..." Command="{Binding LoadFromFile}"/>
-                <MenuItem Header="_Save..." Command="{Binding SaveToFile}"/>
+                <MenuItem Header="Load Fibonacci Numbers (First 50)" Command="{Binding FibonacciFifty}"></MenuItem>
+                <MenuItem Header="Load Fibonacci Numbers (First 100)" Command="{Binding FibonacciHundred}"></MenuItem>
                 <Separator/>
-                <MenuItem Header="_Exit"/>
+                <MenuItem Header="_Save..." Command="{Binding SaveToFile}"/>
             </MenuItem>
         </Menu>
         <TextBox Name="editableText" Text="{Binding TextBodyWrapper }"/>
