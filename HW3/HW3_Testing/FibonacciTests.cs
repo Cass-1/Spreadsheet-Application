@@ -48,7 +48,7 @@ public class Tests
     {
         FibonacciTextReader fib = new FibonacciTextReader(10);
         var str = fib.ReadToEnd();
-        var ans = "0\n1\n1\n3\n4\n5\n8\n13\n21\n34\n";
+        var ans = "0\n1\n1\n2\n4\n5\n8\n13\n21\n34\n";
         Assert.AreEqual(str, ans);
     }
     
