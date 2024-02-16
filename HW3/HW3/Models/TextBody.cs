@@ -4,9 +4,13 @@ using System.Runtime.CompilerServices;
 
 namespace HW3.Models;
 
+/// <summary>
+/// A class to store the text the user enters in the textbox
+/// </summary>
 public class TextBody : INotifyPropertyChanged
 {
 
+    // the text the user entered
     private string text;
     public string Text
     {
@@ -18,10 +22,12 @@ public class TextBody : INotifyPropertyChanged
         }
     }
 
+    // constructor
     public TextBody(string text = "Enter text")
     {
         this.Text = text;
     }
+
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
