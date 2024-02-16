@@ -25,7 +25,22 @@ public class Tests
     {
         FibonacciTextReader fib = new FibonacciTextReader(0);
         var str = fib.ReadToEnd();
-        Assert.Equals(str, "0");
+        Assert.Equals(str, "0\n");
+    }
+    
+    [Test]
+    public void FibonacciTextReaderFirstTenTest()
+    {
+        FibonacciTextReader fib = new FibonacciTextReader(10);
+        for (int i = 0; i < 9; i++)
+        {
+            fib.ReadLine();
+        }
+
+        var str = fib.ReadLine();
+        var fibonacci_ten = "55\n";
+
+        Assert.Equals(str, fibonacci_ten);
     }
 
     [Test]
@@ -33,7 +48,7 @@ public class Tests
     {
         FibonacciTextReader fib = new FibonacciTextReader(10);
         var str = fib.ReadToEnd();
-        var ans = "0\n1\n1\n3\n4\n5\n8\n13\n21\n34";
+        var ans = "0\n1\n1\n3\n4\n5\n8\n13\n21\n34\n";
         Assert.Equals(str, ans);
     }
     
@@ -47,7 +62,7 @@ public class Tests
         }
 
         var str = fib.ReadLine();
-        var fibonacci_fifty = "12586269025";
+        var fibonacci_fifty = "12586269025\n";
 
         Assert.Equals(str, fibonacci_fifty);
     }
@@ -62,7 +77,7 @@ public class Tests
         }
 
         var str = fib.ReadLine();
-        var fibonacci_hundred = "354224848179261915075";
+        var fibonacci_hundred = "354224848179261915075\n";
 
         Assert.Equals(str, fibonacci_hundred);
     }
