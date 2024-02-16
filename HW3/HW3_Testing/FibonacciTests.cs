@@ -24,7 +24,7 @@ public class Tests
     {
         FibonacciTextReader fib = new FibonacciTextReader(0);
         var str = fib.ReadToEnd();
-        Assert.Equals(str, "0\n");
+        Assert.Equals(str, "0");
     }
 
     [Test]
@@ -34,6 +34,20 @@ public class Tests
         var str = fib.ReadToEnd();
         var ans = "0\n1\n1\n3\n4\n5\n8\n13\n21\n34";
         Assert.Equals(str, ans);
+    }
+    
+    public void FibonacciTextReaderFiftyTest()
+    {
+        FibonacciTextReader fib = new FibonacciTextReader(50);
+        for (int i = 0; i < 49; i++)
+        {
+            fib.ReadLine();
+        }
+
+        var str = fib.ReadLine();
+        var fibonacci_fifty = "12586269025";
+
+        Assert.Equals(str, fibonacci_fifty);
     }
     
     public void FibonacciTextReaderHundredTest()
