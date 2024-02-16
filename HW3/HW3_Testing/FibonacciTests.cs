@@ -21,9 +21,9 @@ public class Tests
     }
     
     [Test]
-    public void FibonacciTextReaderZeroTest()
+    public void FibonacciTextReaderOneTest()
     {
-        FibonacciTextReader fib = new FibonacciTextReader(0);
+        FibonacciTextReader fib = new FibonacciTextReader(1);
         var str = fib.ReadToEnd();
         Assert.AreEqual(str, "0\n");
     }
