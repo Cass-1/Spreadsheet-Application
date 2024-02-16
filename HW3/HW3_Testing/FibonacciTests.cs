@@ -19,6 +19,13 @@ public class Tests
         var str = fib.ReadToEnd();
         Assert.Equals(str, null);
     }
+    
+    public void FibonacciTextReaderZeroTest()
+    {
+        FibonacciTextReader fib = new FibonacciTextReader(0);
+        var str = fib.ReadToEnd();
+        Assert.True(str, "0\n");
+    }
 
     [Test]
     public void FibonacciTextReaderFirstTen()
@@ -27,6 +34,20 @@ public class Tests
         var str = fib.ReadToEnd();
         var ans = "0\n1\n1\n3\n4\n5\n8\n13\n21\n34";
         Assert.Equals(str, ans);
+    }
+    
+    public void FibonacciTextReaderHundredTest()
+    {
+        FibonacciTextReader fib = new FibonacciTextReader(100);
+        for (int i = 0; i < 99; i++)
+        {
+            fib.ReadLine();
+        }
+
+        var str = fib.ReadLine();
+        var fibonacci_hundred = "354224848179261915075";
+
+        Assert.Equals(str, fibonacci_hundred);
     }
 
     [Test]
@@ -49,17 +70,5 @@ public class Tests
         Assert.Fail();
     }
     
-    public void FibonacciTextReaderHundredTest()
-    {
-        FibonacciTextReader fib = new FibonacciTextReader(100);
-        for (int i = 0; i < 99; i++)
-        {
-            fib.ReadLine();
-        }
-
-        var str = fib.ReadLine();
-        var fibonacci_hundred = "354224848179261915075";
-
-        Assert.Equals(str, fibonacci_hundred);
-    }
+    
 }
