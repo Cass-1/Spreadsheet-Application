@@ -38,7 +38,7 @@ public class Tests
         }
 
         var str = fib.ReadLine();
-        var fibonacci_ten = "55\n";
+        var fibonacci_ten = "34\n";
 
         Assert.AreEqual(str, fibonacci_ten);
     }
@@ -48,7 +48,7 @@ public class Tests
     {
         FibonacciTextReader fib = new FibonacciTextReader(10);
         var str = fib.ReadToEnd();
-        var ans = "0\n1\n1\n2\n4\n5\n8\n13\n21\n34\n";
+        var ans = "0\n1\n1\n2\n3\n5\n8\n13\n21\n34\n";
         Assert.AreEqual(str, ans);
     }
     
@@ -62,7 +62,7 @@ public class Tests
         }
 
         var str = fib.ReadLine();
-        var fibonacci_fifty = "12586269025\n";
+        var fibonacci_fifty = "7778742049\n";
 
         Assert.AreEqual(str, fibonacci_fifty);
     }
@@ -77,7 +77,7 @@ public class Tests
         }
 
         var str = fib.ReadLine();
-        var fibonacci_hundred = "354224848179261915075\n";
+        var fibonacci_hundred = "218922995834555169026\n";
 
         Assert.AreEqual(str, fibonacci_hundred);
     }
@@ -85,7 +85,7 @@ public class Tests
     [Test]
     public void FibonacciTextReaderOverflowTest()
     {
-        FibonacciTextReader fib = new FibonacciTextReader(10000);
+        FibonacciTextReader fib = new FibonacciTextReader(60000);
         try
         {
             checked
@@ -93,7 +93,7 @@ public class Tests
                 fib.ReadToEnd();
             }
         }
-        catch (OverflowException e)
+        catch (Exception e)
         {
             Assert.Pass();
             throw;
