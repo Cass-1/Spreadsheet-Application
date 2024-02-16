@@ -17,7 +17,7 @@ public class Tests
     {
         FibonacciTextReader fib = new FibonacciTextReader();
         var str = fib.ReadToEnd();
-        Assert.Equals(str, null);
+        Assert.AreEqual(str, string.Empty);
     }
     
     [Test]
@@ -25,7 +25,7 @@ public class Tests
     {
         FibonacciTextReader fib = new FibonacciTextReader(0);
         var str = fib.ReadToEnd();
-        Assert.Equals(str, "0\n");
+        Assert.AreEqual(str, "0\n");
     }
     
     [Test]
@@ -40,7 +40,7 @@ public class Tests
         var str = fib.ReadLine();
         var fibonacci_ten = "55\n";
 
-        Assert.Equals(str, fibonacci_ten);
+        Assert.AreEqual(str, fibonacci_ten);
     }
 
     [Test]
@@ -49,7 +49,7 @@ public class Tests
         FibonacciTextReader fib = new FibonacciTextReader(10);
         var str = fib.ReadToEnd();
         var ans = "0\n1\n1\n3\n4\n5\n8\n13\n21\n34\n";
-        Assert.Equals(str, ans);
+        Assert.AreEqual(str, ans);
     }
     
     [Test]
@@ -64,7 +64,7 @@ public class Tests
         var str = fib.ReadLine();
         var fibonacci_fifty = "12586269025\n";
 
-        Assert.Equals(str, fibonacci_fifty);
+        Assert.AreEqual(str, fibonacci_fifty);
     }
     
     [Test]
@@ -79,7 +79,7 @@ public class Tests
         var str = fib.ReadLine();
         var fibonacci_hundred = "354224848179261915075\n";
 
-        Assert.Equals(str, fibonacci_hundred);
+        Assert.AreEqual(str, fibonacci_hundred);
     }
 
     [Test]
