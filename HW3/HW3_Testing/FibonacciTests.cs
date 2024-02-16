@@ -21,7 +21,7 @@ public class Tests
     }
 
     [Test]
-    public void FibonacciTextReaderBasicTest()
+    public void FibonacciTextReaderFirstTen()
     {
         FibonacciTextReader fib = new FibonacciTextReader(10);
         var str = fib.ReadToEnd();
