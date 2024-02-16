@@ -32,7 +32,7 @@ public class FibonacciTextReader : TextReader
     {
         
         // check if done
-        if (currentPosition > MaxLines)
+        if (currentPosition == MaxLines)
         {
             return null;
         }
@@ -71,7 +71,7 @@ public class FibonacciTextReader : TextReader
 
     public override string ReadToEnd()
     {
-        StringBuilder sequence = new StringBuilder();
+        StringBuilder sequence = new StringBuilder("");
         string number = this.ReadLine();
         while (number != null)
         {
