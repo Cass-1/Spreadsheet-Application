@@ -4,7 +4,10 @@
 
 using System.ComponentModel;
 using System.Net.Mime;
+using System.Text;
+using Avalonia.Controls;
 using HW3.Models;
+using HW3.Views;
 
 namespace HW3.ViewModels;
 
@@ -56,7 +59,7 @@ public class MainWindowViewModel : ViewModelBase
     /// <param name="e">any arguments</param>
     private void TextBody_PropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        this.RaisePropertyChanged("EditableText");
+        this.RaisePropertyChanged("TextBodyWrapper");
     }
 
     /// <summary>
@@ -118,6 +121,49 @@ public class MainWindowViewModel : ViewModelBase
     {
         //TODO: make tests and implement
         textWriter.Write(TextBodyWrapper);
+    }
+
+    public void FibonacciFifty()
+    {
+        // get the fibonacci numbers in string form
+        FibonacciTextReader fib = new FibonacciTextReader(50);
+        FibonacciNumbers = fib.ReadToEnd();
+        
+        // convert the string to a streamreader
+        var fibonacciStreamReader = stringToStreamReader(FibonacciNumbers);
+        
+        // load the text
+        LoadText(fibonacciStreamReader);
+    }
+    
+    public void FibonacciHundred()
+    {
+        // get the fibonacci numbers in string form
+        FibonacciTextReader fib = new FibonacciTextReader(100);
+        FibonacciNumbers = fib.ReadToEnd();
+        
+        // convert the string to a streamreader
+        var fibonacciStreamReader = stringToStreamReader(FibonacciNumbers);
+        
+        // load the text
+        LoadText(fibonacciStreamReader);
+    }
+
+    /// <summary>
+    /// Takes a string and turns it into a stream
+    /// Code retrived from https://code-maze.com/dotnet-generate-stream-from-string/
+    /// </summary>
+    /// <param name="str">the string to convert</param>
+    /// <param name="encoding">the encoding type</param>
+    /// <returns>a stream version of the inputted string</returns>
+    private StreamReader stringToStreamReader(string str, Encoding? encoding = null)
+    {
+        encoding ??= Encoding.UTF8;
+        
+        var byteArray = encoding.GetBytes(str);
+        var memoryStream = new MemoryStream(byteArray);
+        var streamReader = new StreamReader(memoryStream);
+        return streamReader;
     }
 
 }
