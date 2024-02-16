@@ -1,8 +1,6 @@
 namespace HW3_Testing;
 
 using HW3.Models;
-using HW3.ViewModels;
-
 
 public class Tests
 {
@@ -12,22 +10,31 @@ public class Tests
 
     }
 
+    /// <summary>
+    /// Tests when the FibonacciTextReader is instantiated with no inputs.
+    /// </summary>
     [Test]
     public void FibonacciTextReaderEmptyTest()
     {
         FibonacciTextReader fib = new FibonacciTextReader();
         var str = fib.ReadToEnd();
-        Assert.AreEqual(str, string.Empty);
+        Assert.That(str, Is.EqualTo(string.Empty));
     }
     
+    /// <summary>
+    /// Tests the first value of the fibonacci sequence.
+    /// </summary>
     [Test]
     public void FibonacciTextReaderOneTest()
     {
         FibonacciTextReader fib = new FibonacciTextReader(1);
         var str = fib.ReadToEnd();
-        Assert.AreEqual(str, "0\n");
+        Assert.That(str, Is.EqualTo("0\n"));
     }
     
+    /// <summary>
+    /// Tests the tenth value of the fibonacci sequence.
+    /// </summary>
     [Test]
     public void FibonacciTextReaderFirstTenTest()
     {
@@ -38,20 +45,26 @@ public class Tests
         }
 
         var str = fib.ReadLine();
-        var fibonacci_ten = "34\n";
+        var fibonacciTen = "34\n";
 
-        Assert.AreEqual(str, fibonacci_ten);
+        Assert.That(fibonacciTen, Is.EqualTo(str));
     }
 
+    /// <summary>
+    /// Tests the first 10 values in the fibonacci sequence
+    /// </summary>
     [Test]
     public void FibonacciTextReaderFirstTenStringTest()
     {
         FibonacciTextReader fib = new FibonacciTextReader(10);
         var str = fib.ReadToEnd();
         var ans = "0\n1\n1\n2\n3\n5\n8\n13\n21\n34\n";
-        Assert.AreEqual(str, ans);
+        Assert.That(ans, Is.EqualTo(str));
     }
     
+    /// <summary>
+    /// Tests the 50th value in the fibonacci sequence.
+    /// </summary>
     [Test]
     public void FibonacciTextReaderFiftyTest()
     {
@@ -62,11 +75,14 @@ public class Tests
         }
 
         var str = fib.ReadLine();
-        var fibonacci_fifty = "7778742049\n";
+        var fibonacciFifty = "7778742049\n";
 
-        Assert.AreEqual(str, fibonacci_fifty);
+        Assert.That(fibonacciFifty, Is.EqualTo(str));
     }
     
+    /// <summary>
+    /// Tests the 100th value of the fibonacci sequence
+    /// </summary>
     [Test]
     public void FibonacciTextReaderHundredTest()
     {
@@ -77,10 +93,8 @@ public class Tests
         }
 
         var str = fib.ReadLine();
-        var fibonacci_hundred = "218922995834555169026\n";
+        var fibonacciHundred = "218922995834555169026\n";
 
-        Assert.AreEqual(str, fibonacci_hundred);
+        Assert.That(fibonacciHundred, Is.EqualTo(str));
     }
-    
-    
 }
