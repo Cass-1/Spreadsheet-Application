@@ -16,7 +16,7 @@ public class SpreadsheetCell : Cell, INotifyPropertyChanged
             if (value != Text)
             {
                 Text = value;
-                this.PropertyChanged();
+                this.OnPropertyChanged(Text);
             }
         }
     }
