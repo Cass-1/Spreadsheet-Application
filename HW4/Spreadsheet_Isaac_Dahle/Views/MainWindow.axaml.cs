@@ -1,9 +1,13 @@
 namespace HW4.Views;
 
-using System;
-using System.Reactive.Linq;
 using Avalonia.ReactiveUI;
 using HW4.ViewModels;
+using ReactiveUI;
+using System;
+using System.Linq.Expressions;
+using System.Reactive.Linq;
+using Avalonia.Controls;
+using Avalonia.ReactiveUI;
 using ReactiveUI;
 
 /// <summary>
