@@ -1,10 +1,10 @@
 namespace HW4.Views;
 
+using System;
+using System.Reactive.Linq;
 using Avalonia.ReactiveUI;
 using HW4.ViewModels;
 using ReactiveUI;
-using System;
-using System.Reactive.Linq;
 
 /// <summary>
 /// The maid window of the UI
