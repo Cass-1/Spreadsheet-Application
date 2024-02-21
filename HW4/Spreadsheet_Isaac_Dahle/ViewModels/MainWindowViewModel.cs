@@ -2,7 +2,7 @@
 
 namespace HW4.ViewModels;
 
-public class MainWindowViewModel : ReactiveWindow<MainWindowViewModel>
+public class MainWindowViewModel : ViewModelBase
 {
     public string Greeting => "Welcome to Avalonia!";
     
