@@ -1,32 +1,13 @@
-using System.Collections.Generic;
-using System.Linq;
-using Avalonia;
-using Avalonia.Controls.Templates;
-using Avalonia.Data;
-using Avalonia.Layout;
-using Avalonia.Media;
-using SpreadsheetEngine;
-
 namespace HW4.Views;
 
 using Avalonia.ReactiveUI;
 using HW4.ViewModels;
-using ReactiveUI;
-using System;
-using System.Linq.Expressions;
-using System.Reactive.Linq;
-using Avalonia.Controls;
-using Avalonia.ReactiveUI;
-using ReactiveUI;
 
 /// <summary>
 /// The maid window of the UI
 /// </summary>
 public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
 {
-    private bool _isInitialized;
-
-
     /// <summary>
     /// Initializes a new instance of the <see cref="MainWindow"/> class.
     /// </summary>
