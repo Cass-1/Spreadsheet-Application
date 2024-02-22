@@ -6,4 +6,5 @@ public abstract class Cell
     public int ColumnIndex;
 
     protected string Text;
+    protected string Value;
 }
