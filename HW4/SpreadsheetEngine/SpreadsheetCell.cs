@@ -5,6 +5,21 @@ using System.Runtime.CompilerServices;
 
 public class SpreadsheetCell : Cell, INotifyPropertyChanged
 {
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="SpreadsheetCell"/> class.
+    /// </summary>
+    /// <param name="rowIndex">The cell's row position in the spreadsheet</param>
+    /// <param name="columnIndex">The cell's column position in the spreadsheet</param>
+    public SpreadsheetCell(int rowIndex, int columnIndex)
+    {
+        RowIndex = rowIndex;
+        ColumnIndex = columnIndex;
+    }
+
+    /// <summary>
+    /// The cell's row position.
+    /// </summary>
     public int RowIndex { get; }
 
     public int ColumnIndex { get; }
