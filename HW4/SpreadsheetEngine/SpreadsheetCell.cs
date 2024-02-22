@@ -23,9 +23,13 @@ public class SpreadsheetCell : Cell, INotifyPropertyChanged
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
+    /// <summary>
+    /// Function that broadcasts nessisary information when a property is changed.
+    /// </summary>
+    /// <param name="propertyName">The name of the property that was changed</param>
     protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
     {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
     // protected bool SetField<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
