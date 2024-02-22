@@ -26,6 +26,19 @@ public class SpreadsheetCell : Cell, INotifyPropertyChanged
     /// The cell's column position.
     /// </summary>
     public int ColumnIndex { get; }
+
+    /// <summary>
+    /// Gets the evaluated value of the cell. Will be the same as this.Text if this.Text doesn't start with '='.
+    /// </summary>
+    public string Value
+    {
+        get => this.Value;
+        protected internal set => this.Value = value;
+    }
+
+    /// <summary>
+    /// Gets or sets the actual text entered into the cell.
+    /// </summary>
     protected string Text
     {
         get => Text;
