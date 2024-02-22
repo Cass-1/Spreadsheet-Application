@@ -22,6 +22,9 @@ public class SpreadsheetCell : Cell, INotifyPropertyChanged
     /// </summary>
     public int RowIndex { get; }
 
+    /// <summary>
+    /// The cell's column position.
+    /// </summary>
     public int ColumnIndex { get; }
     protected string Text
     {
