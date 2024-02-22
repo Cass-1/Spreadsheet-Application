@@ -41,13 +41,24 @@ public class SpreadsheetCell : Cell, INotifyPropertyChanged
     /// </summary>
     protected string Text
     {
-        get => Text;
+        get => this.Text;
         set
         {
-            if (value != Text)
+            // only update if the value is different from this.Text
+            if (value != this.Text)
             {
-                Text = value;
-                this.OnPropertyChanged(Text);
+                // update text
+                this.Text = value;
+
+                // TODO: maybe need to evaluate the expression here? Not sure
+                // check if the text starts with =
+                if (!this.Text.StartsWith('='))
+                {
+                    this.Value = this.Text;
+                }
+
+                // broadcast change
+                this.OnPropertyChanged(this.Text);
             }
         }
     }
