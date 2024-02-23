@@ -37,5 +37,66 @@ public class Spreadsheet
     {
         throw new NotImplementedException();
     }
+    
+    private class SpreadsheetCell : Cell
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SpreadsheetCell"/> class.
+        /// </summary>
+        /// <param name="rowIndex">The cell's row position in the spreadsheet</param>
+        /// <param name="columnIndex">The cell's column position in the spreadsheet</param>
+        public SpreadsheetCell(int rowIndex, int columnIndex) : base(rowIndex, columnIndex)
+        {
+        }
+
+        /// <summary>
+        /// The cell's row position.
+        /// </summary>
+        public int RowIndex { get; }
+
+        /// <summary>
+        /// The cell's column position.
+        /// </summary>
+        public int ColumnIndex { get; }
+
+        /// <summary>
+        /// Gets the evaluated value of the cell. Will be the same as this.Text if this.Text doesn't start with '='.
+        /// </summary>
+        public string Value
+        {
+            get => this.Value;
+            private set => this.Value = value;
+        }
+
+        /// <summary>
+        /// Gets or sets the actual text entered into the cell.
+        /// </summary>
+        protected string Text
+        {
+            get => this.Text;
+            set
+            {
+                // only update if the value is different from this.Text
+                if (value != this.Text)
+                {
+                    // check if the text starts with =
+                    if (this.Text.StartsWith('='))
+                    {
+                        // TODO: evaluate value
+                    }
+                    else
+                    {
+                        this.Value = this.Text;
+                    }
+                    
+                    // update text
+                    this.Text = value;
+    
+                    // broadcast change
+                    this.OnPropertyChanged(this.Text);
+                }
+            }
+        }
+    }
 
 }
