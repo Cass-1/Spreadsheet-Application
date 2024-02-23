@@ -55,7 +55,7 @@ public class Spreadsheet
     /// <exception cref="NotImplementedException"></exception>
     private void CellPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        // throw new NotImplementedException();
+        // TODO: imlement this method
     }
 
     /// <summary>
@@ -91,13 +91,12 @@ public class Spreadsheet
         {
         }
         
-        // TODO: implement override of Value after TDD
         protected override string Value
         {
             get => base.Value;
             set
             {
-                _value = value;
+                base.Value = value;
             }
         }
     }
