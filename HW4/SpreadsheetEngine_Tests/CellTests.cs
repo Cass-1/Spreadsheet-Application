@@ -75,4 +75,30 @@ public class CellTests
 
         Assert.AreEqual("hello", text);
     }
+    
+    /// <summary>
+    /// Tests the getter for Value when no value has been instantiated.
+    /// </summary>
+    [Test]
+    public void ValueGetterEmptyTest()
+    {
+        Spreadsheet _spreadsheet = new Spreadsheet(10,10);
+        Cell cell = _spreadsheet.GetCell(0, 0);
+        string text = cell.Value;
+
+        Assert.AreEqual(String.Empty, text);
+    }
+    
+    /// <summary>
+    /// Tests if value is updated when text is updated.
+    /// </summary>
+    [Test]
+    public void SetValueTest()
+    {
+        Spreadsheet _spreadsheet = new Spreadsheet(10,10);
+        Cell cell = _spreadsheet.GetCell(0, 0);
+        cell.Text = "test";
+
+        Assert.AreEqual(cell.Text,Cell.Value);
+    }
 }
