@@ -36,5 +36,43 @@ public class CellTests
         Assert.AreEqual(0, columnIndex);
     }
     
+    /// <summary>
+    /// Tests the getter for Text when no value has been initalized yet.
+    /// </summary>
+    [Test]
+    public void TextGetterEmptyTest()
+    {
+        Spreadsheet _spreadsheet = new Spreadsheet(10,10);
+        Cell cell = _spreadsheet.GetCell(0, 0);
+        string text = cell.Text;
+
+        Assert.AreEqual(String.Empty, text);
+    }
     
+    /// <summary>
+    /// Tests the setter for Text.
+    /// </summary>
+    [Test]
+    public void TextSetterTest()
+    {
+        Spreadsheet _spreadsheet = new Spreadsheet(10,10);
+        Cell cell = _spreadsheet.GetCell(0, 0);
+        cell.Text = "hello";
+
+        Assert.AreEqual("hello", cell.Text);
+    }
+    
+    /// <summary>
+    /// Tests the getter for Text when a value has been initalized.
+    /// </summary>
+    [Test]
+    public void TextGetterTest()
+    {
+        Spreadsheet _spreadsheet = new Spreadsheet(10,10);
+        Cell cell = _spreadsheet.GetCell(0, 0);
+        cell.Text = "hello";
+        string text = cell.Text;
+
+        Assert.AreEqual("hello", text);
+    }
 }
