@@ -14,7 +14,7 @@ public class CellTests
     /// Tests the getter for RowIndex
     /// </summary>
     [Test]
-    public void RowIndexGetterCellTest()
+    public void RowIndexGetterTest()
     {
         Spreadsheet _spreadsheet = new Spreadsheet(10,10);
         Cell cell = _spreadsheet.GetCell(0, 0);
@@ -27,7 +27,7 @@ public class CellTests
     /// Tests the getter for ColumnIndex
     /// </summary>
     [Test]
-    public void ColumnIndexGetterCellTest()
+    public void ColumnIndexGetterTest()
     {
         Spreadsheet _spreadsheet = new Spreadsheet(10,10);
         Cell cell = _spreadsheet.GetCell(0, 0);
