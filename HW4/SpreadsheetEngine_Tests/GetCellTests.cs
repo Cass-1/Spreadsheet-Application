@@ -1,9 +1,8 @@
 namespace SpreadsheetEngine_Tests;
 
-using System.Reflection;
 using SpreadsheetEngine;
 
-public class Tests
+public class GetCellTests
 {
     [SetUp]
     public void Setup()
