@@ -8,7 +8,7 @@ public abstract class Cell : INotifyPropertyChanged
 {
 
     private string _text;
-    protected string _value;
+    private string _value;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Cell"/> class.
