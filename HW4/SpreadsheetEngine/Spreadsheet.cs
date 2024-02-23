@@ -79,11 +79,7 @@ public class Spreadsheet
         public SpreadsheetCell(int rowIndex, int columnIndex) : base(rowIndex, columnIndex)
         {
         }
-
-        /// <summary>
-        /// Gets the evaluated value of the cell. Will be the same as this.Text if this.Text doesn't start with '='.
-        /// </summary>
-        public string Value { get; set; }
+        
     }
 
 }
