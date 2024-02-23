@@ -4,16 +4,10 @@ using SpreadsheetEngine;
 
 public class CellTests
 {
-
-    private Spreadsheet _spreadsheet;
     
-    /// <summary>
-    /// Initalizes a 10 by 10 spreadsheet.
-    /// </summary>
     [SetUp]
     public void Setup()
     {
-        Spreadsheet _spreadsheet = new Spreadsheet(10,10);
     }
 
     /// <summary>
@@ -22,10 +16,11 @@ public class CellTests
     [Test]
     public void RowIndexGetterCellTest()
     {
+        Spreadsheet _spreadsheet = new Spreadsheet(10,10);
         Cell cell = _spreadsheet.GetCell(0, 0);
         var rowIndex = cell.RowIndex;
 
-        Assert.Equals(0, rowIndex);
+        Assert.AreEqual(0, rowIndex);
     }
 
     /// <summary>
@@ -34,9 +29,12 @@ public class CellTests
     [Test]
     public void ColumnIndexGetterCellTest()
     {
+        Spreadsheet _spreadsheet = new Spreadsheet(10,10);
         Cell cell = _spreadsheet.GetCell(0, 0);
         var columnIndex = cell.ColumnIndex;
 
-        Assert.Equals(0, columnIndex);
+        Assert.AreEqual(0, columnIndex);
     }
+    
+    
 }
