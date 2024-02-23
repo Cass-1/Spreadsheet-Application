@@ -61,12 +61,12 @@ public class Spreadsheet
     /// <summary>
     /// Returns the cell at a given row and column index
     /// </summary>
-    /// <param name="rowIndex">the row index of the cell, starting at 1</param>
-    /// <param name="colInxex">the column index of the cell, starting at 1</param>
+    /// <param name="rowIndex">the row index of the cell</param>
+    /// <param name="colInxex">the column index of the cell</param>
     /// <returns>A cell</returns>
-    private Cell GetCell(int rowIndex, int colInxex)
+    public Cell GetCell(int rowIndex, int colInxex)
     {
-        return cellGrid[rowIndex - 1][colInxex - 1];
+        return CellGrid[rowIndex, colInxex];
     }
     
     private class SpreadsheetCell : Cell
