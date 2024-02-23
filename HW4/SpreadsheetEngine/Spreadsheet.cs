@@ -86,10 +86,20 @@ public class Spreadsheet
         /// </summary>
         /// <param name="rowIndex">The cell's row position in the spreadsheet</param>
         /// <param name="columnIndex">The cell's column position in the spreadsheet</param>
-        public SpreadsheetCell(int rowIndex, int columnIndex) : base(rowIndex, columnIndex)
+        public SpreadsheetCell(int rowIndex, int columnIndex)
+            : base(rowIndex, columnIndex)
         {
         }
         
+        // TODO: implement override of Value after TDD
+        protected override string Value
+        {
+            get => base.Value;
+            set
+            {
+                _value = value;
+            }
+        }
     }
 
 }
