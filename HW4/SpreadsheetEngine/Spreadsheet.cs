@@ -62,16 +62,6 @@ public class Spreadsheet
         }
 
         /// <summary>
-        /// The cell's row position.
-        /// </summary>
-        public int RowIndex { get; }
-
-        /// <summary>
-        /// The cell's column position.
-        /// </summary>
-        public int ColumnIndex { get; }
-
-        /// <summary>
         /// Gets the evaluated value of the cell. Will be the same as this.Text if this.Text doesn't start with '='.
         /// </summary>
         public string Value
