@@ -1,8 +1,8 @@
+namespace SpreadsheetEngine;
+
 using System.ComponentModel;
 using System.Data;
 using System.Runtime.CompilerServices;
-
-namespace SpreadsheetEngine;
 
 public abstract class Cell : INotifyPropertyChanged
 {
@@ -19,14 +19,14 @@ public abstract class Cell : INotifyPropertyChanged
     {
         this.RowIndex = rowIndex;
         this.ColumnIndex = columnIndex;
-        this._text = String.Empty;
-        this._value = String.Empty;
+        this._text = string.Empty;
+        this._value = string.Empty;
     }
 
     public int RowIndex { get; }
     public int ColumnIndex { get; }
     
-    // TODO: implement text after TDD
+
     protected virtual string Text
     {
         get => _text;
@@ -40,7 +40,7 @@ public abstract class Cell : INotifyPropertyChanged
         }
     }
 
-    // TODO: implement value after TDD
+
     protected virtual string Value
     {
         get => _value;
