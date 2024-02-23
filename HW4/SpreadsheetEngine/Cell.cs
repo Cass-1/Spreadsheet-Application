@@ -5,7 +5,6 @@ namespace SpreadsheetEngine;
 
 public abstract class Cell : INotifyPropertyChanged
 {
-    
     public Cell(int rowIndex, int columnIndex)
     {
         this.RowIndex = rowIndex;
@@ -14,8 +13,7 @@ public abstract class Cell : INotifyPropertyChanged
 
     public int RowIndex { get; }
     public int ColumnIndex { get; }
-    
-    
+
     public event PropertyChangedEventHandler? PropertyChanged;
 
     protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
