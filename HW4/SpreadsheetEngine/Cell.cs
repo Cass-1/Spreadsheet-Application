@@ -8,15 +8,15 @@ public abstract class Cell : INotifyPropertyChanged
     
     public Cell(int rowIndex, int columnIndex)
     {
-        RowIndex = rowIndex;
-        ColumnIndex = columnIndex;
+        this.RowIndex = rowIndex;
+        this.ColumnIndex = columnIndex;
     }
-    // TODO: implement getters
-    public int RowIndex { get; set; }
-    public int ColumnIndex { get; set; }
+
+    public int RowIndex { get; }
+    public int ColumnIndex { get; }
 
     public virtual string Text { get; set; }
-    public virtual string Value { get; }
+    public virtual string Value { get; protected set; }
     
     public event PropertyChangedEventHandler? PropertyChanged;
 

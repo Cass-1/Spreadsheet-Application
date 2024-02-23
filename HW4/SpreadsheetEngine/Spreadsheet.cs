@@ -75,14 +75,7 @@ public class Spreadsheet
         /// <summary>
         /// Gets the evaluated value of the cell. Will be the same as this.Text if this.Text doesn't start with '='.
         /// </summary>
-        public string Value
-        {
-            get => this.Value;
-            set
-            {
-                this.Value = value;
-            }
-        }
+        public string Value { get; set; }
     }
 
 }
