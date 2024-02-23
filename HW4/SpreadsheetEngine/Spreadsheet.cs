@@ -49,6 +49,17 @@ public class Spreadsheet
     {
         throw new NotImplementedException();
     }
+
+    /// <summary>
+    /// Returns the cell at a given row and column index
+    /// </summary>
+    /// <param name="rowIndex">the row index of the cell, starting at 1</param>
+    /// <param name="colInxex">the column index of the cell, starting at 1</param>
+    /// <returns>A cell</returns>
+    private Cell GetCell(int rowIndex, int colInxex)
+    {
+        return cellGrid[rowIndex - 1][colInxex - 1];
+    }
     
     private class SpreadsheetCell : Cell
     {
