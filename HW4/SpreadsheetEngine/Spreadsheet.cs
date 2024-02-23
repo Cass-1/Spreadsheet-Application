@@ -15,17 +15,19 @@ public class Spreadsheet
         this.RowCount = rowCount;
         this.ColumnCount = columnCount;
         
-        // initalize cell grid, starting with index of 1
+        // initalize all cells as null
+        CellGrid = new SpreadsheetCell[this.RowCount,this.ColumnCount];
+        
+        // populate cell grid
         foreach (var rowIndex in Enumerable.Range(0, this.RowCount))
         {
             foreach (var columnIndex in Enumerable.Range(0, this.ColumnCount))
             {
-                // set each cell's row and column index
-                cellGrid[rowIndex][columnIndex].RowIndex = rowIndex + 1;
-                cellGrid[rowIndex][columnIndex].ColumnIndex = columnIndex + 1;
+                // set the cell to an actual instance of a cell
+                this.CellGrid[rowIndex, columnIndex] = new SpreadsheetCell(rowIndex,columnIndex);
                 
-                // TODO: subscribe to each cell
-                cellGrid[rowIndex][columnIndex].PropertyChanged += this.CellPropertyChanged;
+                // subscribe to each cell
+                this.CellGrid[rowIndex, columnIndex].PropertyChanged += this.CellPropertyChanged;
             }
         }
     }
