@@ -21,6 +21,7 @@ public class MainWindowViewModel : ViewModelBase
     private bool _isInitialized;
     private int _rowCount;
     private int _columnCount;
+    private Spreadsheet _spreadsheet;
 
     /// <summary>
     /// Gets a 2D array of Cells that is populated with the cells from the Spreadsheet.
