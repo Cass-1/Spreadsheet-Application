@@ -43,10 +43,16 @@ public class Spreadsheet
     public int ColumnCount { get; }
 
     /// <summary>
-    /// The grid of cells in the spreadsheet.
+    /// The 2D grid of cells in the spreadsheet.
     /// </summary>
     private SpreadsheetCell[,] CellGrid;
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    /// <exception cref="NotImplementedException"></exception>
     private void CellPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
         throw new NotImplementedException();
