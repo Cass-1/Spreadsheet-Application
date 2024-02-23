@@ -67,36 +67,9 @@ public class Spreadsheet
         public string Value
         {
             get => this.Value;
-            private set => this.Value = value;
-        }
-
-        /// <summary>
-        /// Gets or sets the actual text entered into the cell.
-        /// </summary>
-        protected string Text
-        {
-            get => this.Text;
             set
             {
-                // only update if the value is different from this.Text
-                if (value != this.Text)
-                {
-                    // check if the text starts with =
-                    if (this.Text.StartsWith('='))
-                    {
-                        // TODO: evaluate value
-                    }
-                    else
-                    {
-                        this.Value = this.Text;
-                    }
-                    
-                    // update text
-                    this.Text = value;
-    
-                    // broadcast change
-                    this.OnPropertyChanged(this.Text);
-                }
+                this.Value = value;
             }
         }
     }
