@@ -39,8 +39,7 @@ public class MainWindowViewModel : ViewModelBase
         this._rowCount = 50;
 
         this._spreadsheet = new Spreadsheet(_rowCount, _columnCount);
-
-        // TODO: fix this
+        
         this.Rows = Enumerable.Range(0, this._rowCount)
             .Select(row => Enumerable.Range(0, this._columnCount)
                 .Select(column => _spreadsheet.GetCell(row,column)).ToArray())
