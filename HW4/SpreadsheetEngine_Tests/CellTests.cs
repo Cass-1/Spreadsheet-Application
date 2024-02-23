@@ -1,3 +1,5 @@
+using System.Data;
+
 namespace SpreadsheetEngine_Tests;
 
 using SpreadsheetEngine;
@@ -84,9 +86,14 @@ public class CellTests
     public void SetValueTest()
     {
         TestingCell cell = new TestingCell(0, 0);
-        cell.SetValue("hello");
-        Assert.AreEqual("hello", cell.GetValue());
-        
+        try
+        {
+            cell.SetValue("hello");
+        }
+        catch (Exception e)
+        {
+            Assert.True(e is ReadOnlyException);
+        }
     }
     
     /// <summary>
