@@ -15,8 +15,8 @@ public abstract class Cell : INotifyPropertyChanged
     public int RowIndex { get; set; }
     public int ColumnIndex { get; set; }
 
-    protected string Text { get; }
-    protected string Value { get; }
+    public virtual string Text { get; set; }
+    public virtual string Value { get; }
     
     public event PropertyChangedEventHandler? PropertyChanged;
 
