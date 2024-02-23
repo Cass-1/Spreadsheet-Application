@@ -29,16 +29,6 @@ public class Spreadsheet
             }
         }
     }
-    
-    /// <summary>
-    /// Gets the number of rows.
-    /// </summary>
-    public int RowCount { get; }
-    
-    /// <summary>
-    /// Gets the number of comumns.
-    /// </summary>
-    public int ColumnCount { get; }
 
     /// <summary>
     /// The grid of cells in the spreadsheet.
