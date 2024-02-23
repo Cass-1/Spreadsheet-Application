@@ -2,6 +2,10 @@ namespace SpreadsheetEngine_Tests;
 
 using SpreadsheetEngine;
 
+/// <summary>
+/// Tests methods in the Cell class
+/// Note: Getter and Setter tests are included because I was trying to figure out how to implement them.
+/// </summary>
 public class CellTests
 {
     
@@ -37,14 +41,13 @@ public class CellTests
     }
     
     /// <summary>
-    /// Tests the getter for Text when no value has been initalized yet.
+    /// Tests the getter for Text.
     /// </summary>
     [Test]
-    public void TextGetterEmptyTest()
+    public void TextGetterTest()
     {
-        Spreadsheet _spreadsheet = new Spreadsheet(10,10);
-        Cell cell = _spreadsheet.GetCell(0, 0);
-        string text = cell.Text;
+        TestingCell cell = new TestingCell(0, 0);
+        string text = cell.GetText();
 
         Assert.AreEqual(String.Empty, text);
     }
@@ -55,50 +58,70 @@ public class CellTests
     [Test]
     public void TextSetterTest()
     {
-        Spreadsheet _spreadsheet = new Spreadsheet(10,10);
-        Cell cell = _spreadsheet.GetCell(0, 0);
-        cell.Text = "hello";
+        TestingCell cell = new TestingCell(0, 0);
+        cell.SetText("hello");
 
-        Assert.AreEqual("hello", cell.Text);
+        Assert.AreEqual("hello", cell.GetText());
     }
     
-    /// <summary>
-    /// Tests the getter for Text when a value has been initalized.
-    /// </summary>
-    [Test]
-    public void TextGetterTest()
-    {
-        Spreadsheet _spreadsheet = new Spreadsheet(10,10);
-        Cell cell = _spreadsheet.GetCell(0, 0);
-        cell.Text = "hello";
-        string text = cell.Text;
-
-        Assert.AreEqual("hello", text);
-    }
     
     /// <summary>
-    /// Tests the getter for Value when no value has been instantiated.
+    /// Tests the getter for Value.
     /// </summary>
     [Test]
-    public void ValueGetterEmptyTest()
+    public void ValueGetterTest()
     {
-        Spreadsheet _spreadsheet = new Spreadsheet(10,10);
-        Cell cell = _spreadsheet.GetCell(0, 0);
-        string text = cell.Value;
+        TestingCell cell = new TestingCell(0, 0);
+        string text = cell.GetValue();
 
         Assert.AreEqual(String.Empty, text);
     }
     
     /// <summary>
-    /// Tests if value is updated when text is updated.
+    /// Tests the setter for Value.
     /// </summary>
     [Test]
     public void SetValueTest()
     {
-        Spreadsheet _spreadsheet = new Spreadsheet(10,10);
-        Cell cell = _spreadsheet.GetCell(0, 0);
-        cell.Text = "test";
+        TestingCell cell = new TestingCell(0, 0);
+        cell.SetValue("hello");
+        Assert.AreEqual("hello", cell.GetValue());
+        
+    }
+    
+    /// <summary>
+    /// This allows testing of protected methods.
+    /// </summary>
+    private class TestingCell : Cell
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TestingCell"/> class. This is done so that protected
+        /// methods can be tested.
+        /// </summary>
+        /// <param name="rowIndex">The cell's row index in a spreadsheet.</param>
+        /// <param name="columnIndex">The cell's column index in a spreadsheet.</param>
+        public TestingCell(int rowIndex, int columnIndex) : base(rowIndex, columnIndex)
+        {
+        }
+        public string GetText()
+        {
+            return base.Text;
+        }
 
-        Assert.AreEqual(cell.Text,Cell.Value);
+        public void SetText(string str)
+        {
+            base.Text = str;
+        }
+
+        public string GetValue()
+        {
+            return base.Value;
+        }
+
+        public void SetValue(string str)
+        {
+            base.Value = str;
+        }
+
     }
 }
