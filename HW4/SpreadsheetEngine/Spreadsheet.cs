@@ -45,7 +45,7 @@ public class Spreadsheet
     /// <summary>
     /// The grid of cells in the spreadsheet.
     /// </summary>
-    public Cell[][] cellGrid;
+    private SpreadsheetCell[,] CellGrid;
 
     private void CellPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
