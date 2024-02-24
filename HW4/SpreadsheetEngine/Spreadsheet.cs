@@ -90,14 +90,11 @@ public class Spreadsheet
             : base(rowIndex, columnIndex)
         {
         }
-        
-        protected override string Value
+
+        public override string Value
         {
-            get => base.Value;
-            set
-            {
-                base.Value = value;
-            }
+            get => this.value;
+            protected internal set => SetandNotifyIfChanged(ref this.value, value);
         }
     }
 
