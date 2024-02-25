@@ -24,7 +24,7 @@ public class Spreadsheet
         this.ColumnCount = columnCount;
 
         // initalize all cells as null
-        this.CellGrid = new SpreadsheetCell[this.RowCount,this.ColumnCount];
+        this._cellGrid = new SpreadsheetCell[this.RowCount, this.ColumnCount];
 
         // populate cell grid
         foreach (var rowIndex in Enumerable.Range(0, this.RowCount))
@@ -32,10 +32,10 @@ public class Spreadsheet
             foreach (var columnIndex in Enumerable.Range(0, this.ColumnCount))
             {
                 // set the cell to an actual instance of a cell
-                this.CellGrid[rowIndex, columnIndex] = new SpreadsheetCell(rowIndex,columnIndex);
+                this._cellGrid[rowIndex, columnIndex] = new SpreadsheetCell(rowIndex,columnIndex);
 
                 // subscribe to each cell
-                this.CellGrid[rowIndex, columnIndex].PropertyChanged += this.CellPropertyChanged;
+                this._cellGrid[rowIndex, columnIndex].PropertyChanged += this.CellPropertyChanged;
             }
         }
     }
@@ -53,7 +53,7 @@ public class Spreadsheet
     /// <summary>
     /// The 2D grid of cells in the spreadsheet.
     /// </summary>
-    private SpreadsheetCell[,] CellGrid;
+    private SpreadsheetCell[,] _cellGrid;
 
     /// <summary>
     /// 
@@ -70,23 +70,24 @@ public class Spreadsheet
     /// Returns the cell at a given row and column index.
     /// </summary>
     /// <param name="rowIndex">the row index of the cell.</param>
-    /// <param name="colInxex">the column index of the cell.</param>
+    /// <param name="colIndex">the column index of the cell.</param>
     /// <returns>A cell</returns>
-    public Cell GetCell(int rowIndex, int colInxex)
+    public Cell GetCell(int rowIndex, int colIndex)
     {
         if (rowIndex >= this.RowCount)
         {
             throw new ArgumentOutOfRangeException(nameof(rowIndex) + " is out of bounds");
         }
-        
-        if (colInxex >= this.ColumnCount)
+
+        if (colIndex >= this.ColumnCount)
         {
-            throw new ArgumentOutOfRangeException(nameof(colInxex) + " is out of bounds");
+            throw new ArgumentOutOfRangeException(nameof(colIndex) + " is out of bounds");
         }
-        
-        return this.CellGrid[rowIndex, colInxex];
+
+        return this._cellGrid[rowIndex, colIndex];
     }
 
+    
     private class SpreadsheetCell : Cell
     {
         /// <summary>
