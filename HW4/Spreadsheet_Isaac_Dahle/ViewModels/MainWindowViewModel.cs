@@ -22,6 +22,26 @@ public class MainWindowViewModel : ViewModelBase
     private int _rowCount;
     private int _columnCount;
     private Spreadsheet _spreadsheet;
+    private List<List<Cell>> _spreadsheetData;
+    
+    private void InitializeSpreadsheet()
+    {
+        const int rowCount = 50;
+        const int columnCount = 'Z' - 'A' + 1;
+        _spreadsheet = new Spreadsheet(rowCount: rowCount, columnCount:
+            columnCount);
+        _spreadsheetData = new List<List<Cell>>(rowCount);
+        foreach (var rowIndex in Enumerable.Range(0, rowCount))
+        {
+            var columns = new List<Cell>(columnCount);
+            foreach (var columnIndex in Enumerable.Range(0, columnCount))
+            {
+                columns.Add(_spreadsheet.GetCell(rowIndex, columnIndex));
+            }
+            _spreadsheetData.Add(columns);
+        }
+    }
+    
 
     /// <summary>
     /// Gets a 2D array of Cells that is populated with the cells from the Spreadsheet.
@@ -37,13 +57,15 @@ public class MainWindowViewModel : ViewModelBase
         // initalize row and column count
         this._columnCount = 'Z' - 'A' + 1;
         this._rowCount = 50;
-
-        this._spreadsheet = new Spreadsheet(_rowCount, _columnCount);
+        
+        InitializeSpreadsheet();
+        
         
         this.Rows = Enumerable.Range(0, this._rowCount)
             .Select(row => Enumerable.Range(0, this._columnCount)
                 .Select(column => _spreadsheet.GetCell(row,column)).ToArray())
             .ToArray();
+        
     }
 
     /// <summary>
