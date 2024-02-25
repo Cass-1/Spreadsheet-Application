@@ -5,12 +5,20 @@ namespace SpreadsheetEngine;
 
 public class Spreadsheet
 {
+
+    public event PropertyChangedEventHandler CellPropertyChangedEvent = (sender, e) => { };
+
     /// <summary>
     /// Initializes a new instance of the <see cref="Spreadsheet"/> class.
-    /// The Constructor
     /// </summary>
+    /// <param name="rowCount">The number of rows to have.</param>
+    /// <param name="columnCount">the number of columns to have.</param>
     public Spreadsheet(int rowCount, int columnCount)
     {
+        // check if arguments are out of range
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero<int>(rowCount);
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero<int>(columnCount);
+
         // initalize row and column count
         this.RowCount = rowCount;
         this.ColumnCount = columnCount;
