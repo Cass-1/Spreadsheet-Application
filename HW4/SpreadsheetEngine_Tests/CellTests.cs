@@ -80,23 +80,6 @@ public class CellTests
     }
     
     /// <summary>
-    /// Tests the setter for Value.
-    /// </summary>
-    [Test]
-    public void SetValueTest()
-    {
-        TestingCell cell = new TestingCell(0, 0);
-        try
-        {
-            cell.SetValue("hello");
-        }
-        catch (Exception e)
-        {
-            Assert.True(e is ReadOnlyException);
-        }
-    }
-    
-    /// <summary>
     /// This allows testing of protected methods.
     /// </summary>
     private class TestingCell : Cell
@@ -110,24 +93,25 @@ public class CellTests
         public TestingCell(int rowIndex, int columnIndex) : base(rowIndex, columnIndex)
         {
         }
+
         public string GetText()
         {
-            return base.Text;
+            return base.text;
         }
 
         public void SetText(string str)
         {
-            base.Text = str;
+            base.text = str;
         }
 
         public string GetValue()
         {
-            return base.Value;
+            return base.value;
         }
 
         public void SetValue(string str)
         {
-            base.Value = str;
+            base.value = str;
         }
 
     }
