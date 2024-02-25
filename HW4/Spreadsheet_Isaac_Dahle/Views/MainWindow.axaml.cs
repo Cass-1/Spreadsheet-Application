@@ -1,3 +1,5 @@
+using Avalonia.Controls;
+
 namespace HW4.Views;
 
 using Avalonia.ReactiveUI;
@@ -13,8 +15,12 @@ public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
     /// </summary>
     public MainWindow()
     {
+        
+        
         // basic initalization
         this.InitializeComponent();
+        
+        SpreadsheetDataGrid.HeadersVisibility = DataGridHeadersVisibility.All;
 
         // code for initalizing the SpreadsheetDataGrid
         this.DataContextChanged += (sender, args) =>
@@ -25,5 +31,12 @@ public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
                 viewModel.InitializeDataGrid(this.SpreadsheetDataGrid);
             }
         };
+        
+        // code for getting the row headers
+        SpreadsheetDataGrid.LoadingRow += (sender, args) =>
+        {
+            args.Row.Header = args.Row.GetIndex() + 1;
+        };
     }
+    
 }
