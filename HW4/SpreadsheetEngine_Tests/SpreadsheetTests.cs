@@ -72,4 +72,40 @@ public class SpreadsheetTests
             Assert.True(e is ArgumentOutOfRangeException);
         }
     }
+
+    /// <summary>
+    /// Tests if a cell's value is updated when the text is.
+    /// </summary>
+    [Test]
+    public void CellPropertyChangedBasicTest()
+    {
+        Spreadsheet spreadsheet = new Spreadsheet(10,10);
+        var cell = spreadsheet.GetCell(1, 1);
+        cell.Text = "testing";
+
+        Assert.That(cell.Value, Is.EqualTo(cell.Text));
+    }
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    [Test]
+    public void CellPropertyChangedExpressionTest()
+    {
+        
+    }
+    
+    [Test]
+    public void CellPropertyChangedIndirectReferenceTest()
+    {
+        // TODO: implement this
+        Assert.Pass();
+    }
+    
+    [Test]
+    public void CellPropertyChangedCircularReferenceTest()
+    {
+        // TODO: implement this
+        Assert.Pass();
+    }
 }
