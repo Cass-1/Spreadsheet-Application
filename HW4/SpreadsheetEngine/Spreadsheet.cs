@@ -56,14 +56,65 @@ public class Spreadsheet
     private SpreadsheetCell[,] _cellGrid;
 
     /// <summary>
-    /// 
+    /// The function that is called whenever a cell has been changed.
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    /// <exception cref="NotImplementedException"></exception>
+    /// <param name="sender">The object that send the property changed event.</param>
+    /// <param name="e">The event arguments.</param>
     private void CellPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        // TODO: imlement this method
+
+        // get the spreadsheet cell that sent the event
+        var cell = (SpreadsheetCell)sender!;
+
+        // if the cell's text is an expression
+        if (cell.Text.StartsWith('='))
+        {
+            // The location of the cell to get the value from.
+            var expression = cell.Text.TrimStart('=');
+            string rowCharacter = string.Empty;
+            char columnCharacter = '\0';
+
+            try
+            {
+                rowCharacter = expression.Substring(1, expression.Length - 1);
+                columnCharacter = expression[0];
+
+                // evaluate the expression to 
+                cell.Value = this.GetCell(int.Parse(rowCharacter) - 1, columnCharacter - 'A').Text;
+
+            }
+            catch (Exception exception)
+            {
+                
+                // if (exception is ArgumentOutOfRangeException)
+                // {
+                //     // inputted location is outside the bounds of the _cellGrid
+                //     cell.Text = "error";
+                //     cell.Value = "error";
+                // }
+                // else if (exception is IndexOutOfRangeException)
+                // {
+                //     // inputted number is outside the expression array
+                // }
+            }
+        }
+
+        // if the cell's text is not an expression
+        else
+        {
+            cell.Value = cell.Text;
+        }
+
+        // invoke the property changed event to update the UI
+        this.CellPropertyChangedEvent.Invoke(sender, e);
+
+    }
+
+    private string GetValue(int row, char column)
+    {
+        int rowIndex = row - '1';
+        int columnIndex = column - 'A';
+        return string.Empty;
     }
 
     /// <summary>
