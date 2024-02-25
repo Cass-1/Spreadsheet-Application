@@ -7,9 +7,6 @@ using System.Runtime.CompilerServices;
 public abstract class Cell : INotifyPropertyChanged
 {
 
-    private string _text;
-    private string _value;
-
     /// <summary>
     /// Initializes a new instance of the <see cref="Cell"/> class.
     /// </summary>
@@ -19,49 +16,44 @@ public abstract class Cell : INotifyPropertyChanged
     {
         this.RowIndex = rowIndex;
         this.ColumnIndex = columnIndex;
-        this._text = string.Empty;
-        this._value = string.Empty;
+        this.text = string.Empty;
+        this.value = string.Empty;
     }
 
     public int RowIndex { get; }
     public int ColumnIndex { get; }
+
+    protected string text;
+    protected string value;
     
-
-    protected virtual string Text
+    public string Text
     {
-        get => _text;
+        get => text;
         set
         {
-            if (this.Text != value)
-            {
-                _text = value;
-                OnPropertyChanged(this.Text);
-            }
+            this.SetandNotifyIfChanged(ref this.text, value);
         }
     }
 
+    public virtual string Value { get; protected internal set; }
 
-    protected virtual string Value
-    {
-        get => _value;
-        set
-        {
-            throw new ReadOnlyException(nameof(Value));
-        }
-    }
-
+    /// <inheritdoc/>
     public event PropertyChangedEventHandler? PropertyChanged;
 
     protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
     {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
-    protected bool SetField<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
+    protected bool SetandNotifyIfChanged<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
     {
-        if (EqualityComparer<T>.Default.Equals(field, value)) return false;
+        if (EqualityComparer<T>.Default.Equals(field, value))
+        {
+            return false;
+        }
+
         field = value;
-        OnPropertyChanged(propertyName);
+        this.OnPropertyChanged(propertyName);
         return true;
     }
 }
