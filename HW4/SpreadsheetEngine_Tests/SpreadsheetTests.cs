@@ -2,6 +2,9 @@ namespace SpreadsheetEngine_Tests;
 
 using SpreadsheetEngine;
 
+/// <summary>
+/// Tests for the spreadsheet class.
+/// </summary>
 public class SpreadsheetTests
 {
     [SetUp]
@@ -65,11 +68,11 @@ public class SpreadsheetTests
         
         try
         {
-            Cell cell = spreadsheet.GetCell(0, 1);
+            var cell = spreadsheet.GetCell(0, 1);
         }
         catch (Exception e)
         {
-            Assert.True(e is ArgumentOutOfRangeException);
+            Assert.That(e is ArgumentOutOfRangeException);
         }
     }
 
@@ -87,12 +90,18 @@ public class SpreadsheetTests
     }
     
     /// <summary>
-    /// 
+    /// Tests if when the text is a expression to another cell if value is set to the other cell's value;
     /// </summary>
     [Test]
-    public void CellPropertyChangedExpressionTest()
+    public void CellPropertyChangedExpressionIsOtherCellTest()
     {
+        Spreadsheet spreadsheet = new Spreadsheet(10,10);
+        var referenceCell = spreadsheet.GetCell(1, 1);
+        var testCell = spreadsheet.GetCell(2, 2);
+        referenceCell.Text = "testing";
+        testCell.Text = "=B2";
         
+        Assert.That(referenceCell.Value, Is.EqualTo(testCell.Value));
     }
     
     [Test]
