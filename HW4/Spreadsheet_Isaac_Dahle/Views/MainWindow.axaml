@@ -8,15 +8,22 @@
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
         Title="Spreadsheet_Isaac_Dahle">
+    
 
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
         <vm:MainWindowViewModel/>
     </Design.DataContext>
+    
+    <DockPanel Margin="20">
+        <Button Click="StartDemo" DockPanel.Dock="Top">Start Demo</Button>
+        <DataGrid Name="SpreadsheetDataGrid" AutoGenerateColumns="False" HorizontalScrollBarVisibility="Visible" 
+                  VerticalScrollBarVisibility="Visible" GridLinesVisibility="All" RowHeaderWidth="40">
+        
+        </DataGrid>
+    </DockPanel>
+    
+    
 
-    <DataGrid Name="SpreadsheetDataGrid" AutoGenerateColumns="False" HorizontalScrollBarVisibility="Visible" 
-              VerticalScrollBarVisibility="Visible">
-
-    </DataGrid>
 </Window>
