@@ -1,4 +1,6 @@
-﻿namespace HW4.ViewModels;
+﻿using System;
+
+namespace HW4.ViewModels;
 
 using System.Collections.Generic;
 using System.Linq;
@@ -57,21 +59,22 @@ public class MainWindowViewModel : ViewModelBase
         // initalize row and column count
         this._columnCount = 'Z' - 'A' + 1;
         this._rowCount = 50;
-        
-        InitializeSpreadsheet();
-        
-        
+
+        // initalize the spreadsheet
+        this.InitializeSpreadsheet();
+
+        // initalize the rows
         this.Rows = Enumerable.Range(0, this._rowCount)
             .Select(row => Enumerable.Range(0, this._columnCount)
                 .Select(column => _spreadsheet.GetCell(row,column)).ToArray())
             .ToArray();
-        
+
     }
 
     /// <summary>
-    /// 
+    /// Initalizes the datagrid
     /// </summary>
-    /// <param name="dataGrid"></param>
+    /// <param name="dataGrid">The datagrid to inialize.</param>
     public void InitializeDataGrid(DataGrid dataGrid)
     {
         if (this._isInitialized)
@@ -111,4 +114,27 @@ public class MainWindowViewModel : ViewModelBase
 
         this._isInitialized = true;
     }
+
+    public void Demo()
+    {
+        int rowIndex = 0;
+        int columnIndex = 0;
+        
+        // add text to 50 random cells
+        for (int i = 0; i < 50; i++)
+        {
+            rowIndex = Random.Shared.Next(0, 50);
+            columnIndex = Random.Shared.Next(0, 26);
+            this._spreadsheet.GetCell(rowIndex, columnIndex).Text = "Hell0";
+        }
+
+        for (int i = 0; i < 50; i++)
+        {
+            var strA = "=B" + (i+1);
+            var strB = "This is cell B" + (i + 1);
+            this._spreadsheet.GetCell(i, 1).Text = strB;
+            this._spreadsheet.GetCell(i, 0).Text = strA;
+        }
+    }
+    
  }
