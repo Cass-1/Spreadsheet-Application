@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Linq.Expressions;
 using System.Transactions;
 
 namespace SpreadsheetEngine;
@@ -125,6 +126,31 @@ public class Spreadsheet
     /// <returns>A cell</returns>
     public Cell GetCell(int rowIndex, int colIndex)
     {
+        if (rowIndex >= this.RowCount)
+        {
+            throw new ArgumentOutOfRangeException(nameof(rowIndex) + " is out of bounds");
+        }
+
+        if (colIndex >= this.ColumnCount)
+        {
+            throw new ArgumentOutOfRangeException(nameof(colIndex) + " is out of bounds");
+        }
+
+        return this._cellGrid[rowIndex, colIndex];
+    }
+
+    /// <summary>
+    /// Returns the cell at a specified location, using the spreadsheet naming convention.
+    /// </summary>
+    /// <param name="col">A character that represents the column in the spreadsheet UI.</param>
+    /// <param name="row">A number that represents the row in the spreadsheet UI.</param>
+    /// <returns>A cell in the spreadsheet.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">The argument(s) given are outside the bounds of
+    /// the spreadsheet.</exception>
+    public Cell GetCell(char col, int row)
+    {
+        var rowIndex = row - 1;
+        var colIndex = col - 'A';
         if (rowIndex >= this.RowCount)
         {
             throw new ArgumentOutOfRangeException(nameof(rowIndex) + " is out of bounds");
