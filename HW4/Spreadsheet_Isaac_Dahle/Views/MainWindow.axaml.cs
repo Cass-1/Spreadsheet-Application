@@ -1,4 +1,6 @@
+using System;
 using Avalonia.Controls;
+using Avalonia.Interactivity;
 
 namespace HW4.Views;
 
@@ -20,6 +22,7 @@ public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
         // basic initalization
         this.InitializeComponent();
         
+        // add headers for the rows
         SpreadsheetDataGrid.HeadersVisibility = DataGridHeadersVisibility.All;
 
         // code for initalizing the SpreadsheetDataGrid
@@ -37,6 +40,11 @@ public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
         {
             args.Row.Header = args.Row.GetIndex() + 1;
         };
+    }
+
+    public void StartDemo(object? sender, RoutedEventArgs routedEventArgs)
+    {
+        this.ViewModel.Demo();
     }
     
 }
