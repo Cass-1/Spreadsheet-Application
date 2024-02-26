@@ -93,14 +93,32 @@ public class SpreadsheetTests
     /// Tests if when the text is a expression to another cell if value is set to the other cell's value;
     /// </summary>
     [Test]
-    public void CellPropertyChangedExpressionIsOtherCellTest()
+    public void CellPropertyChangedExpressionIsOtherCellTest1()
     {
         Spreadsheet spreadsheet = new Spreadsheet(10,10);
         var referenceCell = spreadsheet.GetCell(1, 1);
         var testCell = spreadsheet.GetCell(2, 2);
+
         referenceCell.Text = "testing";
         testCell.Text = "=B2";
+
+        Assert.That(referenceCell.Value, Is.EqualTo(testCell.Value));
+    }
+    
+    /// <summary>
+    /// Tests if when the text is a expression to another cell if value is set to the other cell's value;
+    /// </summary>
+    [Test]
+    public void CellPropertyChangedExpressionIsOtherCellTest2()
+    {
+        Spreadsheet spreadsheet = new Spreadsheet(20, 20);
+        var referenceCell = spreadsheet.GetCell(9, 1);
+        var testCell = spreadsheet.GetCell(2, 2);
+
+        referenceCell.Text = "testing";
+        testCell.Text = "=B10";
         
+
         Assert.That(referenceCell.Value, Is.EqualTo(testCell.Value));
     }
     
