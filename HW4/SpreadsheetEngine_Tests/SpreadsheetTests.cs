@@ -122,6 +122,26 @@ public class SpreadsheetTests
         Assert.That(referenceCell.Value, Is.EqualTo(testCell.Value));
     }
     
+    /// <summary>
+    /// TEests when a cell references a cell that doesn't exist.
+    /// </summary>
+    [Test]
+    public void CellPropertyChangedExpressionIsOtherCellTestOutOfBounds()
+    {
+        Spreadsheet spreadsheet = new Spreadsheet(20, 20);
+        var testCell = spreadsheet.GetCell(2, 2);
+        try
+        {
+            testCell.Text = "=B60";
+        }
+        catch (Exception e)
+        {
+            Assert.True(e is ArgumentOutOfRangeException);
+        }
+        
+        
+    }
+    
     [Test]
     public void CellPropertyChangedIndirectReferenceTest()
     {
