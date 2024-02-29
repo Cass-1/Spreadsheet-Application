@@ -12,12 +12,12 @@ public class ExpressionTreeTests
     [Test]
     public void SetVariableCreateVariableTest()
     {
-        ExpressionTree expressionTree = new ExpressionTree();
+        ExpressionTree expressionTree = new ExpressionTree("");
         
         expressionTree.SetVariable("A1", 5);
         
         // TODO: be able to access private members
-        var value = expressionTree.GetVariable["A1"];
+        var value = expressionTree.GetVariable("A1");
 
         Assert.Equals(value, 5);
     }
@@ -28,11 +28,11 @@ public class ExpressionTreeTests
     [Test]
     public void SetVariableCreateLongVariableNameTest()
     {
-        ExpressionTree expressionTree = new ExpressionTree();
+        ExpressionTree expressionTree = new ExpressionTree("");
         
         expressionTree.SetVariable("a123123a342a4", 5);
         
-        var value = expressionTree.GetVariable["a123123a342a4"];
+        var value = expressionTree.GetVariable("a123123a342a4");
 
         Assert.Equals(value, 5);
     }
@@ -43,7 +43,7 @@ public class ExpressionTreeTests
     [Test]
     public void SetVariableInvalidBasicNameTest()
     {
-        ExpressionTree expressionTree = new ExpressionTree();
+        ExpressionTree expressionTree = new ExpressionTree("");
 
         try
         {
@@ -63,7 +63,7 @@ public class ExpressionTreeTests
     [Test]
     public void SetVariableInvalidLongNameTest()
     {
-        ExpressionTree expressionTree = new ExpressionTree();
+        ExpressionTree expressionTree = new ExpressionTree("");
 
         try
         {
@@ -83,11 +83,11 @@ public class ExpressionTreeTests
     [Test]
     public void SetVariableUpdateExistingVariableTest()
     {
-        ExpressionTree expressionTree = new ExpressionTree();
+        ExpressionTree expressionTree = new ExpressionTree("");
         expressionTree.SetVariable("A2", 5);
         expressionTree.SetVariable("A2", 12);
         
-        var value = expressionTree.GetVariable["A2"];
+        var value = expressionTree.GetVariable("A2");
         
         Assert.Equals(value, 12);
     }
@@ -104,33 +104,59 @@ public class ExpressionTreeTests
     }
     
     [Test]
-         public void GetVariableNotExistingVariableTest()
+     public void GetVariableNotExistingVariableTest()
+     {
+         ExpressionTree expressionTree = new ExpressionTree("");
+
+         try
          {
-             ExpressionTree expressionTree = new ExpressionTree("");
-
-             try
-             {
-                var value = expressionTree.GetVariable("A2");
-             }
-             catch (Exception e)
-             {
-                 Assert.True(e is InvalidEnumArgumentException);
-             }
-     
-             Assert.Fail();
+            var value = expressionTree.GetVariable("A2");
          }
+         catch (Exception e)
+         {
+             Assert.True(e is InvalidEnumArgumentException);
+         }
+ 
+         Assert.Fail();
+     }
 
+    /// <summary>
+    /// Tests TokeniseExpression when there are only short constants.
+    /// </summary>
     [Test]
-    public void TokenizeExpressionConstantsTest()
+    public void TokenizeExpressionShortConstantsTest()
     {
         ExpressionTree expressionTree = new ExpressionTree("5+1+9");
 
         expressionTree.TokenizeExpression();
 
-        expressionTree.
+        var correct = checkTokenizedExpression(
+            expressionTree.tokenizedExpression,
+            ["5", "+", "1", "+", "9"]);
+        
+        Assert.IsTrue(correct);
     }
     
+    /// <summary>
+    /// Tests TokeniseExpression when there are long constants.
+    /// </summary>
+    [Test]
+    public void TokenizeExpressionLongConstantsTest()
+    {
+        ExpressionTree expressionTree = new ExpressionTree("533+123+9222222");
+
+        expressionTree.TokenizeExpression();
+
+        var correct = checkTokenizedExpression(
+            expressionTree.tokenizedExpression,
+            ["533", "+", "123", "+", "9222222"]);
+        
+        Assert.IsTrue(correct);
+    }
     
+    /// <summary>
+    /// Tests TokenizeExpression when there are variables inthe expression.
+    /// </summary>
     [Test]
     public void TokenizeExpressionVariablesTest()
     {
@@ -141,10 +167,14 @@ public class ExpressionTreeTests
 
         expressionTree.TokenizeExpression();
         
+        var correct = checkTokenizedExpression(
+            expressionTree.tokenizedExpression,
+            ["A22222", "+", "1", "-", "A1"]);
         
+        Assert.IsTrue(correct);
     }
     
-    
+     
     [Test]
     public void TokenizeExpressionOneValueTest()
     {
@@ -152,21 +182,24 @@ public class ExpressionTreeTests
         
         expressionTree.TokenizeExpression();
         
+        var correct = checkTokenizedExpression(
+            expressionTree.tokenizedExpression,
+            ["1"]);
+        
     }
 
     [Test]
     public void TokenizeExpressionInvalidExpressionTest1()
     {
         ExpressionTree expressionTree = new ExpressionTree("++-*/");
-
-        try
-        {
-            expressionTree.TokenizeExpression();
-        }
-        catch (Exception e)
-        {
-            
-        }
+        
+        expressionTree.TokenizeExpression();
+        
+        var correct = checkTokenizedExpression(
+            expressionTree.tokenizedExpression,
+            ["+", "+", "-", "*", "/"]);
+        
+        Assert.IsTrue(correct);
     }
     
     [Test]
@@ -174,14 +207,13 @@ public class ExpressionTreeTests
     {
         ExpressionTree expressionTree = new ExpressionTree("*");
 
-        try
-        {
-            expressionTree.TokenizeExpression();
-        }
-        catch (Exception e)
-        {
-            
-        }
+        expressionTree.TokenizeExpression();
+        
+        var correct = checkTokenizedExpression(
+            expressionTree.tokenizedExpression,
+            ["*"]);
+        
+        Assert.IsTrue(correct);
     }
     
     [Test]
@@ -189,14 +221,38 @@ public class ExpressionTreeTests
     {
         ExpressionTree expressionTree = new ExpressionTree("1+A2+5-3*/");
 
-        try
+        expressionTree.TokenizeExpression();
+        
+        var correct = checkTokenizedExpression(
+            expressionTree.tokenizedExpression,
+            ["1", "+","A2", "+","5", "-", "3", "*", "/"]);
+        
+        Assert.IsTrue(correct);
+
+    }
+
+    /// <summary>
+    /// Helper function to check if TokenizedExpression works
+    /// </summary>
+    /// <param name="tokens">The list of tokens generated by TokenizeExpression.</param>
+    /// <param name="answerKey">What the correct tokenized result is.</param>
+    /// <returns>If the two lists are the same.</returns>
+    private bool checkTokenizedExpression(List<string> tokens, List<string> answerKey)
+    {
+        if (tokens.Count != answerKey.Count)
         {
-            expressionTree.TokenizeExpression();
+            return false;
         }
-        catch (Exception e)
+        
+        for (int i = 0; i < tokens.Count; i++)
         {
-            
+            if (tokens.ElementAt(i) != answerKey.ElementAt(i))
+            {
+                return false;
+            }
         }
+
+        return true;
     }
 }
 
