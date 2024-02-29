@@ -9,14 +9,14 @@ public class ExpressionTreeTests
     /// Tests a basic creation of a variable.
     /// </summary>
     [Test]
-    public void SetVariableBasicTest()
+    public void SetVariableCreateVariableTest()
     {
         ExpressionTree expressionTree = new ExpressionTree();
         
         expressionTree.SetVariable("A1", 5);
         
         // TODO: be able to access private members
-        var value = expressionTree._variableDatabase["A1"];
+        var value = expressionTree.GetVariable["A1"];
 
         Assert.Equals(value, 5);
     }
@@ -26,7 +26,7 @@ public class ExpressionTreeTests
     /// Testing the creation of a variable with a long name.
     /// </summary>
     [Test]
-    public void SetVariableLongVariableNameTest()
+    public void SetVariableCreateLongVariableNameTest()
     {
         ExpressionTree expressionTree = new ExpressionTree();
         
@@ -56,7 +56,7 @@ public class ExpressionTreeTests
 
         Assert.Fail();
     }
-    
+
     /// <summary>
     /// Tests the creation of a variable with an invalid name
     /// </summary>
