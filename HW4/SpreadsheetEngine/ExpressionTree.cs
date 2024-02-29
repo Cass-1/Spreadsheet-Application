@@ -3,9 +3,52 @@ namespace SpreadsheetEngine;
 public class ExpressionTree
 {
 
-    private Dictionary<string, double> _variableDatabase;
+    /// <summary>
+    /// A dictionary of all the variables.
+    /// </summary>
+    private Dictionary<string, double> variableDatabase;
+    
 
-    private string _expression;
+    private List<string> tokenizedExpression;
+
+    /// <summary>
+    /// The actual expression tree.
+    /// </summary>
+    private Node root;
+
+    /// <summary>
+    /// The expression as a string.
+    /// </summary>
+    private string expression;
+    
+    private void ConvertExpressionToPostfix()
+    {
+        
+    }
+
+    private void TokenizeExpession()
+    {
+        
+    }
+
+    private void CheckExpressionTree()
+    {
+        
+    }
+    
+    private Node GenerateExpressionTree()
+    {
+        foreach (var item in tokenizedExpression)
+        {
+            
+        }
+    }
+
+
+    private double EvaluateExpressionTree()
+    {
+        
+    }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ExpressionTree"/> class.
