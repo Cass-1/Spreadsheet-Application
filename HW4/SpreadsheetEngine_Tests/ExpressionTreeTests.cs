@@ -91,4 +91,33 @@ public class ExpressionTreeTests
 
         Assert.Equals(value, 12);
     }
+    
+    [Test]
+    public void GetVariableExistingVariableTest()
+    {
+        ExpressionTree expressionTree = new ExpressionTree("");
+        expressionTree.SetVariable("A2", 5);
+
+        var value = expressionTree.GetVariable("A2");
+
+        Assert.Equals(value, 5);
+    }
+    
+    [Test]
+         public void GetVariableNotExistingVariableTest()
+         {
+             ExpressionTree expressionTree = new ExpressionTree("");
+
+             try
+             {
+                var value = expressionTree.GetVariable("A2");
+             }
+             catch (Exception e)
+             {
+                 Assert.True(e is InvalidEnumArgumentException);
+             }
+     
+             Assert.Fail();
+         }
 }
+
