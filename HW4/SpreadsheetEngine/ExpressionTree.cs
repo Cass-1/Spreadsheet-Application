@@ -57,13 +57,18 @@ public class ExpressionTree
     public ExpressionTree(string expression)
     {
         // set the _expression
-        this._expression = expression;
+        this.expression = expression;
 
         // allocate variable database
-        this._variableDatabase = new Dictionary<string, double>();
+        this.variableDatabase = new Dictionary<string, double>();
 
     }
 
+    /// <summary>
+    /// Sets of value of a variable. Creates a variable if it doesn't already exist.
+    /// </summary>
+    /// <param name="variableName">The name of the variable to create/update.</param>
+    /// <param name="variableValue">The value to set the variable to.</param>
     public void SetVariable(string variableName, double variableValue)
     {
 
@@ -84,10 +89,15 @@ public class ExpressionTree
         // evaluate the expression
         double result = 0;
 
+        TokenizeExpession();
+        
+        ConvertExpressionToPostfix();
+
+        this.root = GenerateExpressionTree();
+
+        result = EvaluateExpressionTree();
 
         return result;
     }
-    
-    
     
 }
