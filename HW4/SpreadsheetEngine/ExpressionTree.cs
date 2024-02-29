@@ -69,6 +69,16 @@ public class ExpressionTree
 
     }
 
+    /// <summary>
+    /// Gets the value of a specified variable.
+    /// </summary>
+    /// <param name="varName">The name of the variable to get.</param>
+    /// <returns>The value of the variable.</returns>
+    public double GetVariable(string varName)
+    {
+        return this.variableDatabase[varName];
+    }
+
     public double Evaluate()
     {
         // evaluate the expression
