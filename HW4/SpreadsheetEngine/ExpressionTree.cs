@@ -26,9 +26,43 @@ public class ExpressionTree
         
     }
 
-    private void TokenizeExpession()
+    /// <summary>
+    /// Takes this.expression and populates this.tokenizedExpression.
+    /// </summary>
+    public void TokenizeExpression()
     {
+        OperatorNodeFactory operatorNodeFactory = new OperatorNodeFactory();
+        // keeps track of any multicharacter token
+        var buffer = string.Empty;
         
+        // loop through the expressoin and tokenize it
+        foreach (char c in this.expression)
+        {
+            // first check the one character tokens
+            if (c == '(' || c == ')' || operatorNodeFactory.IsOperator(c))
+            {
+                // check if there is a multiCharacterToken that needs to be added
+                if (buffer != string.Empty)
+                {
+                    tokenizedExpression.Add(buffer);
+                    buffer = string.Empty;
+                }
+                
+                tokenizedExpression.Add(c.ToString());
+            }
+            // either a constant or a variable
+            else
+            {
+                // add the character onto the multicharacter token
+                buffer += c;
+            }
+        }
+        // check if there is a multiCharacterToken that needs to be added
+        if (buffer != string.Empty)
+        {
+            tokenizedExpression.Add(buffer);
+            buffer = string.Empty;
+        }
     }
 
     private void CheckExpressionTree()
