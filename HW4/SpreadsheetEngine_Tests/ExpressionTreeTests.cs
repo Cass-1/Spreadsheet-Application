@@ -76,4 +76,19 @@ public class ExpressionTreeTests
 
         Assert.Fail();
     }
+
+    /// <summary>
+    /// Tests if SetVariable can update the value of a variable.
+    /// </summary>
+    [Test]
+    public void SetVariableUpdateExistingVariableTest()
+    {
+        ExpressionTree expressionTree = new ExpressionTree();
+        expressionTree.SetVariable("A2", 5);
+        expressionTree.SetVariable("A2", 12);
+
+        var value = expressionTree.GetVariable["A2"];
+
+        Assert.Equals(value, 12);
+    }
 }
