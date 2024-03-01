@@ -8,10 +8,10 @@ Isaac Dahle
 ### Spreadsheet_Isaac_Dahle
 This contains all of the UI implementation.
 
-#### ViewModels
+- **ViewModels**
 This is layer of the UI has access to the actual logic layer of the application and serves as the in-between between the Views and the actual logic of the application.
 
-#### Views
+- **Views**
 These are the front of the UI. There is no contact between the Views and the logic layer of the application.
 
 ### SpreadsheetEngine
