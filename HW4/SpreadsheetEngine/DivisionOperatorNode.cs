@@ -1,5 +1,11 @@
+// Copyright (c) Cass Dahle 11775278.
+// Licensed under the GPL v3.0 License. See LICENSE in the project root for license information.
+
 namespace SpreadsheetEngine;
 
+/// <summary>
+/// A node that represents the division operator.
+/// </summary>
 public class DivisionOperatorNode : OperatorNode
 {
      /// <summary>
@@ -11,13 +17,13 @@ public class DivisionOperatorNode : OperatorNode
     /// The right child node.
     /// </summary>
     private Node rightChild;
-    
+
     /// <summary>
-    /// Evaluates the product of the two child nodes.
+    /// Evaluates the quotient of the two child nodes.
     /// </summary>
-    /// <returns>The product of the two child nodes.</returns>
+    /// <returns>The quotient of the two child nodes.</returns>
     public override double Evaluate()
     {
-        return leftChild.Evaluate() / rightChild.Evaluate();
+        return this.leftChild.Evaluate() / this.rightChild.Evaluate();
     }
 }
