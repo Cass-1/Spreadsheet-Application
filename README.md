@@ -3,31 +3,31 @@
 Isaac Dahle
 11775278
 
-# Structure of the Project
+## Structure of the Project
 
-## Spreadsheet_Isaac_Dahle
+### Spreadsheet_Isaac_Dahle
 This contains all of the UI implementation.
 
-### ViewModels
+#### ViewModels
 This is layer of the UI has access to the actual logic layer of the application and serves as the in-between between the Views and the actual logic of the application.
 
-### Views
+#### Views
 These are the front of the UI. There is no contact between the ViewModels and the logic layer of the application.
 
-## SpreadsheetEngine
+## # SpreadsheetEngine
 This contains all of the actual classes and logic for the program outside of the UI.
 
-## SpreadsheetEngine_Tests
+### SpreadsheetEngine_Tests
 This contains tests for classes in the SpreadsheetEngine.
 
-# Current State of Project
-## Spreadsheet
+## Current State of Project
+### Spreadsheet
 The basic speadsheet is working and can have values inputted. Additionally, the spreadsheet supports basic references.
 
-## ExpressionTree
+### ExpressionTree
 Not finished. I need to implement
 - Converting from infix expression to postfix expression
 - Creating the nodes and building the expression tree from a tokenized list of the expression.
 
-## Integration
+### Integration
 The Spreadsheet and the ExpressionTree are not yet integrated.
