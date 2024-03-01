@@ -49,6 +49,7 @@ public class ExpressionTree
     /// </summary>
     private void ConvertExpressionToPostfix()
     {
+        // TODO: implement shunting yard algorithm
     }
 
     // TODO: make this private. It is currently public for testing but i should use refelction to test it
@@ -100,6 +101,7 @@ public class ExpressionTree
     /// <exception cref="NotImplementedException">Not implemented.</exception>
     private Node GenerateExpressionTree()
     {
+        // TODO: Loop through postfix tokenized expression and generate nodes.
         throw new NotImplementedException();
     }
 
@@ -110,6 +112,7 @@ public class ExpressionTree
     /// <exception cref="NotImplementedException">Not implemented.</exception>
     private double EvaluateExpressionTree()
     {
+        // TODO: Recursively evaluate the expression tree.
         throw new NotImplementedException();
     }
 
@@ -120,6 +123,8 @@ public class ExpressionTree
     /// <param name="variableValue">The value to set the variable to.</param>
     public void SetVariable(string variableName, double variableValue)
     {
+        // TODO: Implement
+        throw new NotImplementedException();
     }
 
     /// <summary>
