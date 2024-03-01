@@ -1,15 +1,20 @@
+// Copyright (c) Cass Dahle 11775278.
+// Licensed under the GPL v3.0 License. See LICENSE in the project root for license information.
+
 namespace SpreadsheetEngine;
 
+using NotImplementedException = System.NotImplementedException;
+
+/// <summary>
+/// Represents an expression as a binary tree. Used to evaluate expressions in the spreadsheet.
+/// </summary>
 public class ExpressionTree
 {
-
+    // TODO: make this private. It is currently public for testing but i should use refelction to test it
     /// <summary>
-    /// A dictionary of all the variables.
+    /// A list of all the tokens in an expression.
     /// </summary>
-    private Dictionary<string, double> variableDatabase;
-    
-
-    private List<string> tokenizedExpression;
+    public List<string> TokenizedExpression = new List<string>();
 
     /// <summary>
     /// The actual expression tree.
@@ -20,69 +25,11 @@ public class ExpressionTree
     /// The expression as a string.
     /// </summary>
     private string expression;
-    
-    private void ConvertExpressionToPostfix()
-    {
-        
-    }
 
     /// <summary>
-    /// Takes this.expression and populates this.tokenizedExpression.
+    /// A dictionary of all the variables.
     /// </summary>
-    public void TokenizeExpression()
-    {
-        OperatorNodeFactory operatorNodeFactory = new OperatorNodeFactory();
-        // keeps track of any multicharacter token
-        var buffer = string.Empty;
-        
-        // loop through the expressoin and tokenize it
-        foreach (char c in this.expression)
-        {
-            // first check the one character tokens
-            if (c == '(' || c == ')' || operatorNodeFactory.IsOperator(c))
-            {
-                // check if there is a multiCharacterToken that needs to be added
-                if (buffer != string.Empty)
-                {
-                    tokenizedExpression.Add(buffer);
-                    buffer = string.Empty;
-                }
-                
-                tokenizedExpression.Add(c.ToString());
-            }
-            // either a constant or a variable
-            else
-            {
-                // add the character onto the multicharacter token
-                buffer += c;
-            }
-        }
-        // check if there is a multiCharacterToken that needs to be added
-        if (buffer != string.Empty)
-        {
-            tokenizedExpression.Add(buffer);
-            buffer = string.Empty;
-        }
-    }
-
-    private void CheckExpressionTree()
-    {
-        
-    }
-    
-    private Node GenerateExpressionTree()
-    {
-        foreach (var item in tokenizedExpression)
-        {
-            
-        }
-    }
-
-
-    private double EvaluateExpressionTree()
-    {
-        
-    }
+    private Dictionary<string, double> variableDatabase;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ExpressionTree"/> class.
@@ -95,7 +42,75 @@ public class ExpressionTree
 
         // allocate variable database
         this.variableDatabase = new Dictionary<string, double>();
+    }
 
+    /// <summary>
+    /// Converts a list of tokens from infix to postfix.
+    /// </summary>
+    private void ConvertExpressionToPostfix()
+    {
+    }
+
+    // TODO: make this private. It is currently public for testing but i should use refelction to test it
+    /// <summary>
+    /// Takes this.expression and populates this.tokenizedExpression.
+    /// </summary>
+    public void TokenizeExpression()
+    {
+        OperatorNodeFactory operatorNodeFactory = new OperatorNodeFactory();
+
+        // keeps track of any multicharacter token
+        var buffer = string.Empty;
+
+        // loop through the expressoin and tokenize it
+        foreach (char c in this.expression)
+        {
+            // first check the one character tokens
+            if (c == '(' || c == ')' || operatorNodeFactory.IsOperator(c))
+            {
+                // check if there is a multiCharacterToken that needs to be added
+                if (buffer != string.Empty)
+                {
+                    this.TokenizedExpression.Add(buffer);
+                    buffer = string.Empty;
+                }
+
+                this.TokenizedExpression.Add(c.ToString());
+            }
+
+            // either a constant or a variable
+            else
+            {
+                // add the character onto the multicharacter token
+                buffer += c;
+            }
+        }
+
+        // check if there is a multiCharacterToken that needs to be added
+        if (buffer != string.Empty)
+        {
+            this.TokenizedExpression.Add(buffer);
+        }
+    }
+
+    /// <summary>
+    /// Generates the expression tree from a list of tokenized strings.
+    /// </summary>
+    /// <returns>The root of the generated expression tree.</returns>
+    /// <exception cref="NotImplementedException">Not implemented.</exception>
+    private Node GenerateExpressionTree()
+    {
+        throw new NotImplementedException();
+    }
+
+    /// <summary>
+    /// Evaluates a postfix expression tree.
+    /// </summary>
+    /// <returns>The value of the evaluated expression tree.</returns>
+    /// <exception cref="NotImplementedException">Not implemented.</exception>
+    private double EvaluateExpressionTree()
+    {
+        throw new NotImplementedException();
     }
 
     /// <summary>
@@ -105,7 +120,6 @@ public class ExpressionTree
     /// <param name="variableValue">The value to set the variable to.</param>
     public void SetVariable(string variableName, double variableValue)
     {
-
     }
 
     /// <summary>
@@ -118,20 +132,23 @@ public class ExpressionTree
         return this.variableDatabase[varName];
     }
 
+    /// <summary>
+    /// Evaluates the expression tree.
+    /// </summary>
+    /// <returns>The result of the evaluated tree.</returns>
     public double Evaluate()
     {
         // evaluate the expression
-        double result = 0;
+        double result;
 
-        TokenizeExpession();
-        
-        ConvertExpressionToPostfix();
+        this.TokenizeExpression();
 
-        this.root = GenerateExpressionTree();
+        this.ConvertExpressionToPostfix();
 
-        result = EvaluateExpressionTree();
+        this.root = this.GenerateExpressionTree();
+
+        result = this.EvaluateExpressionTree();
 
         return result;
     }
-    
 }
