@@ -1,10 +1,13 @@
-using System.Runtime.CompilerServices;
+// Copyright (c) Cass Dahle 11775278.
+// Licensed under the GPL v3.0 License. See LICENSE in the project root for license information.
 
 namespace SpreadsheetEngine;
 
+/// <summary>
+/// Represents a node that is a variable.
+/// </summary>
 public class VariableNode : Node
 {
-
     /// <summary>
     /// The variable's name.
     /// </summary>
@@ -14,14 +17,18 @@ public class VariableNode : Node
     /// A reference to the ExpressionTree's dictionary of all the variables.
     /// </summary>
     private Dictionary<string, double> dictionary;
-    
-    // TODO: pass a reference into the constructor to the variableDatabase in expressionTree
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="VariableNode"/> class.
+    /// </summary>
+    /// <param name="name">The name of the variable.</param>
+    /// <param name="dictionary">A reference to the variable dictionary in the spreadsheet class.</param>
     public VariableNode(string name, ref Dictionary<string, double> dictionary)
     {
         this.name = name;
         this.dictionary = dictionary;
     }
-    
+
     /// <summary>
     /// Returns the variable's value.
     /// </summary>
