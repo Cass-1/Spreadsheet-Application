@@ -25,4 +25,8 @@
       <ProjectReference Include="..\SpreadsheetEngine\SpreadsheetEngine.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <AdditionalFiles Include="stylecop.json" />
+    </ItemGroup>
+
 </Project>
