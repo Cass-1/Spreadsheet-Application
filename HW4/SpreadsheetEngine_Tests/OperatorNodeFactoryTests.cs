@@ -1,7 +1,13 @@
-using SpreadsheetEngine;
+// Copyright (c) Cass Dahle 11775278.
+// Licensed under the GPL v3.0 License. See LICENSE in the project root for license information.
 
 namespace SpreadsheetEngine_Tests;
 
+using SpreadsheetEngine;
+
+/// <summary>
+/// Tests for the OperatorNodeFactory class.
+/// </summary>
 public class OperatorNodeFactoryTests
 {
     /// <summary>
@@ -13,10 +19,10 @@ public class OperatorNodeFactoryTests
         OperatorNodeFactory factory = new OperatorNodeFactory();
 
         var operatorNode = factory.CreateOperatorNode('*');
-        
+
         Assert.IsTrue(operatorNode is MultiplicationOperatorNode);
     }
-    
+
     /// <summary>
     /// Tests the creation of an AdditionOperatorNode.
     /// </summary>
@@ -26,10 +32,10 @@ public class OperatorNodeFactoryTests
         OperatorNodeFactory factory = new OperatorNodeFactory();
 
         var operatorNode = factory.CreateOperatorNode('+');
-        
+
         Assert.IsTrue(operatorNode is AdditionOperatorNode);
     }
-    
+
      /// <summary>
      /// Tests what happens when we try and create an unsupported operation.
      /// </summary>
@@ -40,7 +46,7 @@ public class OperatorNodeFactoryTests
 
         try
         {
-            var operatorNode = factory.CreateOperatorNode(']');
+            factory.CreateOperatorNode(']');
         }
         catch (Exception e)
         {
@@ -50,5 +56,4 @@ public class OperatorNodeFactoryTests
 
         Assert.Fail();
     }
-    
 }
