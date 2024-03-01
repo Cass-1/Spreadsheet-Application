@@ -1,7 +1,9 @@
-﻿using System;
+﻿// Copyright (c) Cass Dahle 11775278.
+// Licensed under the GPL v3.0 License. See LICENSE in the project root for license information.
 
 namespace HW4.ViewModels;
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Avalonia;
@@ -20,35 +22,13 @@ public class MainWindowViewModel : ViewModelBase
 #pragma warning restore CA1822 // Mark members as static
 #pragma warning disable CA1822 // Mark members as static
 
-    private bool _isInitialized;
-    private int _rowCount;
-    private int _columnCount;
-    private Spreadsheet _spreadsheet;
-    private List<List<Cell>> _spreadsheetData;
-    
-    private void InitializeSpreadsheet()
-    {
-        const int rowCount = 50;
-        const int columnCount = 'Z' - 'A' + 1;
-        _spreadsheet = new Spreadsheet(rowCount: rowCount, columnCount:
-            columnCount);
-        _spreadsheetData = new List<List<Cell>>(rowCount);
-        foreach (var rowIndex in Enumerable.Range(0, rowCount))
-        {
-            var columns = new List<Cell>(columnCount);
-            foreach (var columnIndex in Enumerable.Range(0, columnCount))
-            {
-                columns.Add(_spreadsheet.GetCell(rowIndex, columnIndex));
-            }
-            _spreadsheetData.Add(columns);
-        }
-    }
-    
+    private bool isInitialized;
+    private int rowCount;
+    private int columnCount;
+    private Spreadsheet? spreadsheet;
 
-    /// <summary>
-    /// Gets a 2D array of Cells that is populated with the cells from the Spreadsheet.
-    /// </summary>
-    public Cell[][] Rows { get; }
+    // ReSharper disable once CollectionNeverQueried.Local
+    private List<List<Cell>>? spreadsheetData;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MainWindowViewModel"/> class.
@@ -56,43 +36,43 @@ public class MainWindowViewModel : ViewModelBase
     /// </summary>
     public MainWindowViewModel()
     {
-        // initalize row and column count
-        this._columnCount = 'Z' - 'A' + 1;
-        this._rowCount = 50;
-
         // initalize the spreadsheet
         this.InitializeSpreadsheet();
 
         // initalize the rows
-        this.Rows = Enumerable.Range(0, this._rowCount)
-            .Select(row => Enumerable.Range(0, this._columnCount)
-                .Select(column => _spreadsheet.GetCell(row,column)).ToArray())
+        this.Rows = Enumerable.Range(0, this.rowCount)
+            .Select(row => Enumerable.Range(0, this.columnCount)
+                .Select(column => this.spreadsheet?.GetCell(row, column)).ToArray())
             .ToArray();
-
     }
 
     /// <summary>
-    /// Initalizes the datagrid
+    /// Gets a 2D array of Cells that is populated with the cells from the Spreadsheet.
+    /// </summary>
+    public Cell?[][] Rows { get; }
+
+    /// <summary>
+    /// Initalizes the datagrid.
     /// </summary>
     /// <param name="dataGrid">The datagrid to inialize.</param>
     public void InitializeDataGrid(DataGrid dataGrid)
     {
-        if (this._isInitialized)
+        if (this.isInitialized)
         {
             return;
         }
 
         // initialize A to Z columns headers since these are indexed this is not a behavior supported by default
         // var columnCount = 'Z' - 'A' + 1;
-        foreach (var columnIndex in Enumerable.Range(0, this._columnCount))
+        foreach (var columnIndex in Enumerable.Range(0, this.columnCount))
         {
             // for each column we will define the header text and
             // the binding to use
-            var columnHeader = (char) ('A' + columnIndex);
+            var columnHeader = (char)('A' + columnIndex);
             var columnTemplate = new DataGridTemplateColumn
             {
                 Header = columnHeader,
-                CellTemplate = new FuncDataTemplate<IEnumerable<Cell>>((value, namescope) =>
+                CellTemplate = new FuncDataTemplate<IEnumerable<Cell>>((_, _) =>
                     new TextBlock
                     {
                         [!TextBlock.TextProperty] = new Binding($"[{columnIndex}].Value"),
@@ -100,7 +80,7 @@ public class MainWindowViewModel : ViewModelBase
                         VerticalAlignment = VerticalAlignment.Center,
                         Padding = Thickness.Parse("5,0,5,0"),
                     }),
-                CellEditingTemplate = new FuncDataTemplate<IEnumerable<Cell>>((value, namescope) =>
+                CellEditingTemplate = new FuncDataTemplate<IEnumerable<Cell>>((_, _) =>
                     new TextBox
                     {
                         [!TextBox.TextProperty] = new Binding($"[{columnIndex}].Text"),
@@ -110,31 +90,63 @@ public class MainWindowViewModel : ViewModelBase
         }
 
         dataGrid.ItemsSource = this.Rows;
-        dataGrid.LoadingRow += (sender, args) => { args.Row.Header = (args.Row.GetIndex() + 1).ToString(); };
+        dataGrid.LoadingRow += (_, args) => { args.Row.Header = (args.Row.GetIndex() + 1).ToString(); };
 
-        this._isInitialized = true;
+        this.isInitialized = true;
     }
 
+    /// <summary>
+    /// Runs the demo for presenting the spreadsheets to TA's.
+    /// </summary>
     public void Demo()
     {
-        int rowIndex = 0;
-        int columnIndex = 0;
-        
+        int rowIndex;
+
         // add text to 50 random cells
         for (int i = 0; i < 50; i++)
         {
             rowIndex = Random.Shared.Next(0, 50);
-            columnIndex = Random.Shared.Next(0, 26);
-            this._spreadsheet.GetCell(rowIndex, columnIndex).Text = "Hell0";
+            var columnIndex = Random.Shared.Next(0, 26);
+            var o = this.spreadsheet;
+            if (o != null)
+            {
+                o.GetCell(rowIndex, columnIndex).Text = "Hell0";
+            }
         }
 
         for (int i = 0; i < 50; i++)
         {
-            var strA = "=B" + (i+1);
+            var strA = "=B" + (i + 1);
             var strB = "This is cell B" + (i + 1);
-            this._spreadsheet.GetCell(i, 1).Text = strB;
-            this._spreadsheet.GetCell(i, 0).Text = strA;
+            var o = this.spreadsheet;
+            if (o != null)
+            {
+                o.GetCell(i, 1).Text = strB;
+                o.GetCell(i, 0).Text = strA;
+            }
         }
     }
-    
- }
+
+    /// <summary>
+    /// Initializes the spreadsheet.
+    /// </summary>
+    /// <param name="row">The number of rows the spreadsheet should have.</param>
+    /// <param name="column">The number of columns the spreadsheet should have.</param>
+    private void InitializeSpreadsheet(int row = 50, int column = 'Z' - 'A' + 1)
+    {
+        this.rowCount = row;
+        this.columnCount = column;
+        this.spreadsheet = new Spreadsheet(rowCount: this.rowCount, columnCount: this.columnCount);
+        this.spreadsheetData = new List<List<Cell>>(this.rowCount);
+        foreach (var rowIndex in Enumerable.Range(0, this.rowCount))
+        {
+            var columns = new List<Cell>(this.columnCount);
+            foreach (var columnIndex in Enumerable.Range(0, this.columnCount))
+            {
+                columns.Add(this.spreadsheet.GetCell(rowIndex, columnIndex));
+            }
+
+            this.spreadsheetData.Add(columns);
+        }
+    }
+}
