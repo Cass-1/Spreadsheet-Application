@@ -1,4 +1,5 @@
-using System.Data;
+// Copyright (c) Cass Dahle 11775278.
+// Licensed under the GPL v3.0 License. See LICENSE in the project root for license information.
 
 namespace SpreadsheetEngine_Tests;
 
@@ -10,38 +11,32 @@ using SpreadsheetEngine;
 /// </summary>
 public class CellTests
 {
-    
-    [SetUp]
-    public void Setup()
-    {
-    }
-
     /// <summary>
-    /// Tests the getter for RowIndex
+    /// Tests the getter for RowIndex.
     /// </summary>
     [Test]
     public void RowIndexGetterTest()
     {
-        Spreadsheet _spreadsheet = new Spreadsheet(10,10);
-        Cell cell = _spreadsheet.GetCell(0, 0);
+        Spreadsheet spreadsheet = new Spreadsheet(10, 10);
+        Cell cell = spreadsheet.GetCell(0, 0);
         var rowIndex = cell.RowIndex;
 
-        Assert.AreEqual(0, rowIndex);
+        Assert.That(rowIndex, Is.EqualTo(0));
     }
 
     /// <summary>
-    /// Tests the getter for ColumnIndex
+    /// Tests the getter for ColumnIndex.
     /// </summary>
     [Test]
     public void ColumnIndexGetterTest()
     {
-        Spreadsheet _spreadsheet = new Spreadsheet(10,10);
-        Cell cell = _spreadsheet.GetCell(0, 0);
+        Spreadsheet spreadsheet = new Spreadsheet(10, 10);
+        Cell cell = spreadsheet.GetCell(0, 0);
         var columnIndex = cell.ColumnIndex;
 
-        Assert.AreEqual(0, columnIndex);
+        Assert.That(columnIndex, Is.EqualTo(0));
     }
-    
+
     /// <summary>
     /// Tests the getter for Text.
     /// </summary>
@@ -51,9 +46,9 @@ public class CellTests
         TestingCell cell = new TestingCell(0, 0);
         string text = cell.GetText();
 
-        Assert.AreEqual(String.Empty, text);
+        Assert.That(text, Is.EqualTo(string.Empty));
     }
-    
+
     /// <summary>
     /// Tests the setter for Text.
     /// </summary>
@@ -63,10 +58,9 @@ public class CellTests
         TestingCell cell = new TestingCell(0, 0);
         cell.SetText("hello");
 
-        Assert.AreEqual("hello", cell.GetText());
+        Assert.That(cell.GetText(), Is.EqualTo("hello"));
     }
-    
-    
+
     /// <summary>
     /// Tests the getter for Value.
     /// </summary>
@@ -76,9 +70,9 @@ public class CellTests
         TestingCell cell = new TestingCell(0, 0);
         string text = cell.GetValue();
 
-        Assert.AreEqual(String.Empty, text);
+        Assert.That(text, Is.EqualTo(string.Empty));
     }
-    
+
     /// <summary>
     /// This allows testing of protected methods.
     /// </summary>
@@ -90,29 +84,21 @@ public class CellTests
         /// </summary>
         /// <param name="rowIndex">The cell's row index in a spreadsheet.</param>
         /// <param name="columnIndex">The cell's column index in a spreadsheet.</param>
-        public TestingCell(int rowIndex, int columnIndex) : base(rowIndex, columnIndex)
+        public TestingCell(int rowIndex, int columnIndex)
+            : base(rowIndex, columnIndex)
         {
         }
 
-        public string GetText()
-        {
-            return base.text;
-        }
+        public string GetText() => this.text;
 
         public void SetText(string str)
         {
-            base.text = str;
+            this.text = str;
         }
 
         public string GetValue()
         {
-            return base.value;
+            return this.value;
         }
-
-        public void SetValue(string str)
-        {
-            base.value = str;
-        }
-
     }
 }
