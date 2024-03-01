@@ -14,7 +14,7 @@ This is layer of the UI has access to the actual logic layer of the application 
 #### Views
 These are the front of the UI. There is no contact between the Views and the logic layer of the application.
 
-## # SpreadsheetEngine
+### SpreadsheetEngine
 This contains all of the actual classes and logic for the program outside of the UI.
 
 ### SpreadsheetEngine_Tests
