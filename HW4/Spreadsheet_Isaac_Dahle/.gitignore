@@ -1,0 +1,236 @@
+### Rider template
+# Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider
+# Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
+
+# User-specific stuff
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries
+.idea/**/shelf
+
+# AWS User-specific
+.idea/**/aws.xml
+
+# Generated files
+.idea/**/contentModel.xml
+
+# Sensitive or high-churn files
+.idea/**/dataSources/
+.idea/**/dataSources.ids
+.idea/**/dataSources.local.xml
+.idea/**/sqlDataSources.xml
+.idea/**/dynamic.xml
+.idea/**/uiDesigner.xml
+.idea/**/dbnavigator.xml
+
+# Gradle
+.idea/**/gradle.xml
+.idea/**/libraries
+
+# Gradle and Maven with auto-import
+# When using Gradle or Maven with auto-import, you should exclude module files,
+# since they will be recreated, and may cause churn.  Uncomment if using
+# auto-import.
+# .idea/artifacts
+# .idea/compiler.xml
+# .idea/jarRepositories.xml
+# .idea/modules.xml
+# .idea/*.iml
+# .idea/modules
+# *.iml
+# *.ipr
+
+# CMake
+cmake-build-*/
+
+# Mongo Explorer plugin
+.idea/**/mongoSettings.xml
+
+# File-based project format
+*.iws
+
+# IntelliJ
+out/
+
+# mpeltonen/sbt-idea plugin
+.idea_modules/
+
+# JIRA plugin
+atlassian-ide-plugin.xml
+
+# Cursive Clojure plugin
+.idea/replstate.xml
+
+# SonarLint plugin
+.idea/sonarlint/
+
+# Crashlytics plugin (for Android Studio and IntelliJ)
+com_crashlytics_export_strings.xml
+crashlytics.properties
+crashlytics-build.properties
+fabric.properties
+
+# Editor-based Rest Client
+.idea/httpRequests
+
+# Android studio 3.1+ serialized cache file
+.idea/caches/build_file_checksums.ser
+
+/obj/Debug/net8.0/Avalonia/resources
+/obj/Debug/net8.0/Avalonia/Resources.Inputs.cache
+/obj/Debug/net8.0/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs
+/obj/Debug/net8.0/HW4.AssemblyInfo.cs
+/obj/Debug/net8.0/HW4.AssemblyInfoInputs.cache
+/obj/Debug/net8.0/HW4.assets.cache
+/obj/Debug/net8.0/HW4.csproj.AssemblyReference.cache
+/obj/Debug/net8.0/HW4.GeneratedMSBuildEditorConfig.editorconfig
+/obj/HW4.csproj.nuget.dgspec.json
+/obj/HW4.csproj.nuget.g.props
+/obj/HW4.csproj.nuget.g.targets
+/obj/project.assets.json
+/obj/project.nuget.cache
+/obj/project.packagespec.json
+/obj/rider.project.model.nuget.info
+/obj/rider.project.restore.info
+/Assets/avalonia-logo.ico
+/bin/Debug/net8.0/cs/Microsoft.CodeAnalysis.CSharp.resources.dll
+/bin/Debug/net8.0/cs/Microsoft.CodeAnalysis.CSharp.Scripting.resources.dll
+/bin/Debug/net8.0/cs/Microsoft.CodeAnalysis.resources.dll
+/bin/Debug/net8.0/cs/Microsoft.CodeAnalysis.Scripting.resources.dll
+/bin/Debug/net8.0/de/Microsoft.CodeAnalysis.CSharp.resources.dll
+/bin/Debug/net8.0/de/Microsoft.CodeAnalysis.CSharp.Scripting.resources.dll
+/bin/Debug/net8.0/de/Microsoft.CodeAnalysis.resources.dll
+/bin/Debug/net8.0/de/Microsoft.CodeAnalysis.Scripting.resources.dll
+/bin/Debug/net8.0/es/Microsoft.CodeAnalysis.CSharp.resources.dll
+/bin/Debug/net8.0/es/Microsoft.CodeAnalysis.CSharp.Scripting.resources.dll
+/bin/Debug/net8.0/es/Microsoft.CodeAnalysis.resources.dll
+/bin/Debug/net8.0/es/Microsoft.CodeAnalysis.Scripting.resources.dll
+/bin/Debug/net8.0/fr/Microsoft.CodeAnalysis.CSharp.resources.dll
+/bin/Debug/net8.0/fr/Microsoft.CodeAnalysis.CSharp.Scripting.resources.dll
+/bin/Debug/net8.0/fr/Microsoft.CodeAnalysis.resources.dll
+/bin/Debug/net8.0/fr/Microsoft.CodeAnalysis.Scripting.resources.dll
+/bin/Debug/net8.0/it/Microsoft.CodeAnalysis.CSharp.resources.dll
+/bin/Debug/net8.0/it/Microsoft.CodeAnalysis.CSharp.Scripting.resources.dll
+/bin/Debug/net8.0/it/Microsoft.CodeAnalysis.resources.dll
+/bin/Debug/net8.0/it/Microsoft.CodeAnalysis.Scripting.resources.dll
+/bin/Debug/net8.0/ja/Microsoft.CodeAnalysis.CSharp.resources.dll
+/bin/Debug/net8.0/ja/Microsoft.CodeAnalysis.CSharp.Scripting.resources.dll
+/bin/Debug/net8.0/ja/Microsoft.CodeAnalysis.resources.dll
+/bin/Debug/net8.0/ja/Microsoft.CodeAnalysis.Scripting.resources.dll
+/bin/Debug/net8.0/ko/Microsoft.CodeAnalysis.CSharp.resources.dll
+/bin/Debug/net8.0/ko/Microsoft.CodeAnalysis.CSharp.Scripting.resources.dll
+/bin/Debug/net8.0/ko/Microsoft.CodeAnalysis.resources.dll
+/bin/Debug/net8.0/ko/Microsoft.CodeAnalysis.Scripting.resources.dll
+/bin/Debug/net8.0/pl/Microsoft.CodeAnalysis.CSharp.resources.dll
+/bin/Debug/net8.0/pl/Microsoft.CodeAnalysis.CSharp.Scripting.resources.dll
+/bin/Debug/net8.0/pl/Microsoft.CodeAnalysis.resources.dll
+/bin/Debug/net8.0/pl/Microsoft.CodeAnalysis.Scripting.resources.dll
+/bin/Debug/net8.0/pt-BR/Microsoft.CodeAnalysis.CSharp.resources.dll
+/bin/Debug/net8.0/pt-BR/Microsoft.CodeAnalysis.CSharp.Scripting.resources.dll
+/bin/Debug/net8.0/pt-BR/Microsoft.CodeAnalysis.resources.dll
+/bin/Debug/net8.0/pt-BR/Microsoft.CodeAnalysis.Scripting.resources.dll
+/bin/Debug/net8.0/ru/Microsoft.CodeAnalysis.CSharp.resources.dll
+/bin/Debug/net8.0/ru/Microsoft.CodeAnalysis.CSharp.Scripting.resources.dll
+/bin/Debug/net8.0/ru/Microsoft.CodeAnalysis.resources.dll
+/bin/Debug/net8.0/ru/Microsoft.CodeAnalysis.Scripting.resources.dll
+/bin/Debug/net8.0/runtimes/linux-arm/native/libHarfBuzzSharp.so
+/bin/Debug/net8.0/runtimes/linux-arm/native/libSkiaSharp.so
+/bin/Debug/net8.0/runtimes/linux-arm64/native/libHarfBuzzSharp.so
+/bin/Debug/net8.0/runtimes/linux-arm64/native/libSkiaSharp.so
+/bin/Debug/net8.0/runtimes/linux-musl-x64/native/libHarfBuzzSharp.so
+/bin/Debug/net8.0/runtimes/linux-musl-x64/native/libSkiaSharp.so
+/bin/Debug/net8.0/runtimes/linux-x64/native/libHarfBuzzSharp.so
+/bin/Debug/net8.0/runtimes/linux-x64/native/libSkiaSharp.so
+/bin/Debug/net8.0/runtimes/osx/native/libAvaloniaNative.dylib
+/bin/Debug/net8.0/runtimes/osx/native/libHarfBuzzSharp.dylib
+/bin/Debug/net8.0/runtimes/osx/native/libSkiaSharp.dylib
+/bin/Debug/net8.0/runtimes/unix/lib/net6.0/System.Drawing.Common.dll
+/bin/Debug/net8.0/runtimes/win/lib/net6.0/Microsoft.Win32.SystemEvents.dll
+/bin/Debug/net8.0/runtimes/win/lib/net6.0/System.Drawing.Common.dll
+/bin/Debug/net8.0/runtimes/win-arm64/native/av_libglesv2.dll
+/bin/Debug/net8.0/runtimes/win-arm64/native/libHarfBuzzSharp.dll
+/bin/Debug/net8.0/runtimes/win-arm64/native/libSkiaSharp.dll
+/bin/Debug/net8.0/runtimes/win-x64/native/av_libglesv2.dll
+/bin/Debug/net8.0/runtimes/win-x64/native/libHarfBuzzSharp.dll
+/bin/Debug/net8.0/runtimes/win-x64/native/libSkiaSharp.dll
+/bin/Debug/net8.0/runtimes/win-x86/native/av_libglesv2.dll
+/bin/Debug/net8.0/runtimes/win-x86/native/libHarfBuzzSharp.dll
+/bin/Debug/net8.0/runtimes/win-x86/native/libSkiaSharp.dll
+/bin/Debug/net8.0/tr/Microsoft.CodeAnalysis.CSharp.resources.dll
+/bin/Debug/net8.0/tr/Microsoft.CodeAnalysis.CSharp.Scripting.resources.dll
+/bin/Debug/net8.0/tr/Microsoft.CodeAnalysis.resources.dll
+/bin/Debug/net8.0/tr/Microsoft.CodeAnalysis.Scripting.resources.dll
+/bin/Debug/net8.0/zh-Hans/Microsoft.CodeAnalysis.CSharp.resources.dll
+/bin/Debug/net8.0/zh-Hans/Microsoft.CodeAnalysis.CSharp.Scripting.resources.dll
+/bin/Debug/net8.0/zh-Hans/Microsoft.CodeAnalysis.resources.dll
+/bin/Debug/net8.0/zh-Hans/Microsoft.CodeAnalysis.Scripting.resources.dll
+/bin/Debug/net8.0/zh-Hant/Microsoft.CodeAnalysis.CSharp.resources.dll
+/bin/Debug/net8.0/zh-Hant/Microsoft.CodeAnalysis.CSharp.Scripting.resources.dll
+/bin/Debug/net8.0/zh-Hant/Microsoft.CodeAnalysis.resources.dll
+/bin/Debug/net8.0/zh-Hant/Microsoft.CodeAnalysis.Scripting.resources.dll
+/bin/Debug/net8.0/Avalonia.Base.dll
+/bin/Debug/net8.0/Avalonia.Controls.ColorPicker.dll
+/bin/Debug/net8.0/Avalonia.Controls.DataGrid.dll
+/bin/Debug/net8.0/Avalonia.Controls.dll
+/bin/Debug/net8.0/Avalonia.DesignerSupport.dll
+/bin/Debug/net8.0/Avalonia.Desktop.dll
+/bin/Debug/net8.0/Avalonia.Diagnostics.dll
+/bin/Debug/net8.0/Avalonia.Dialogs.dll
+/bin/Debug/net8.0/Avalonia.dll
+/bin/Debug/net8.0/Avalonia.Fonts.Inter.dll
+/bin/Debug/net8.0/Avalonia.FreeDesktop.dll
+/bin/Debug/net8.0/Avalonia.Markup.dll
+/bin/Debug/net8.0/Avalonia.Markup.Xaml.dll
+/bin/Debug/net8.0/Avalonia.Metal.dll
+/bin/Debug/net8.0/Avalonia.MicroCom.dll
+/bin/Debug/net8.0/Avalonia.Native.dll
+/bin/Debug/net8.0/Avalonia.OpenGL.dll
+/bin/Debug/net8.0/Avalonia.ReactiveUI.dll
+/bin/Debug/net8.0/Avalonia.Remote.Protocol.dll
+/bin/Debug/net8.0/Avalonia.Skia.dll
+/bin/Debug/net8.0/Avalonia.Themes.Fluent.dll
+/bin/Debug/net8.0/Avalonia.Themes.Simple.dll
+/bin/Debug/net8.0/Avalonia.Win32.dll
+/bin/Debug/net8.0/Avalonia.X11.dll
+/bin/Debug/net8.0/DynamicData.dll
+/bin/Debug/net8.0/HarfBuzzSharp.dll
+/bin/Debug/net8.0/MicroCom.Runtime.dll
+/bin/Debug/net8.0/Microsoft.CodeAnalysis.CSharp.dll
+/bin/Debug/net8.0/Microsoft.CodeAnalysis.CSharp.Scripting.dll
+/bin/Debug/net8.0/Microsoft.CodeAnalysis.dll
+/bin/Debug/net8.0/Microsoft.CodeAnalysis.Scripting.dll
+/bin/Debug/net8.0/Microsoft.Win32.SystemEvents.dll
+/bin/Debug/net8.0/ReactiveUI.dll
+/bin/Debug/net8.0/SkiaSharp.dll
+/bin/Debug/net8.0/Splat.dll
+/bin/Debug/net8.0/Spreadsheet_Isaac_Dahle
+/bin/Debug/net8.0/Spreadsheet_Isaac_Dahle.deps.json
+/bin/Debug/net8.0/Spreadsheet_Isaac_Dahle.dll
+/bin/Debug/net8.0/Spreadsheet_Isaac_Dahle.pdb
+/bin/Debug/net8.0/Spreadsheet_Isaac_Dahle.runtimeconfig.json
+/bin/Debug/net8.0/System.Drawing.Common.dll
+/bin/Debug/net8.0/System.IO.Pipelines.dll
+/bin/Debug/net8.0/System.Reactive.dll
+/bin/Debug/net8.0/Tmds.DBus.Protocol.dll
+/obj/Debug/net8.0/Avalonia/original.dll
+/obj/Debug/net8.0/Avalonia/original.pdb
+/obj/Debug/net8.0/Avalonia/original.ref.dll
+/obj/Debug/net8.0/Avalonia/references
+/obj/Debug/net8.0/ref/Spreadsheet_Isaac_Dahle.dll
+/obj/Debug/net8.0/refint/Spreadsheet_Isaac_Dahle.dll
+/obj/Debug/net8.0/apphost
+/obj/Debug/net8.0/Spreadsheet_Isaac_Dahle.AssemblyInfo.cs
+/obj/Debug/net8.0/Spreadsheet_Isaac_Dahle.AssemblyInfoInputs.cache
+/obj/Debug/net8.0/Spreadsheet_Isaac_Dahle.assets.cache
+/obj/Debug/net8.0/Spreadsheet_Isaac_Dahle.csproj.AssemblyReference.cache
+/obj/Debug/net8.0/Spreadsheet_Isaac_Dahle.csproj.CopyComplete
+/obj/Debug/net8.0/Spreadsheet_Isaac_Dahle.csproj.CoreCompileInputs.cache
+/obj/Debug/net8.0/Spreadsheet_Isaac_Dahle.csproj.FileListAbsolute.txt
+/obj/Debug/net8.0/Spreadsheet_Isaac_Dahle.dll
+/obj/Debug/net8.0/Spreadsheet_Isaac_Dahle.GeneratedMSBuildEditorConfig.editorconfig
+/obj/Debug/net8.0/Spreadsheet_Isaac_Dahle.genruntimeconfig.cache
+/obj/Debug/net8.0/Spreadsheet_Isaac_Dahle.pdb
+/obj/Spreadsheet_Isaac_Dahle.csproj.nuget.dgspec.json
+/obj/Spreadsheet_Isaac_Dahle.csproj.nuget.g.props
+/obj/Spreadsheet_Isaac_Dahle.csproj.nuget.g.targets
