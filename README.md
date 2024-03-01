@@ -25,9 +25,9 @@ This contains tests for classes in the SpreadsheetEngine.
 The basic speadsheet is working and can have values inputted. Additionally, the spreadsheet supports basic references.
 
 ### ExpressionTree
-Not finished. I stil need to implement the following
-- Converting from infix expression to postfix expression
-- Creating the nodes and building the expression tree from a tokenized list of the expression.
+Not finished. I still need to implement the following
+- Converting from tokenized infix expression to tokenized postfix expression
+- Creating the nodes and building the expression tree from the tokenized list of the expression.
 
 ### Integration
 The Spreadsheet and the ExpressionTree are not yet integrated.
