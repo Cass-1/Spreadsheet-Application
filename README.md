@@ -31,3 +31,6 @@ Not finished. I still need to implement the following
 
 ### Integration
 The Spreadsheet and the ExpressionTree are not yet integrated.
+
+## Development 
+This project was devloped using net8 and avalonia 11 on JetBrains Rider.
