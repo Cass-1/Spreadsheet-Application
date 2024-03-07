@@ -16,7 +16,7 @@ public class ExpressionTree
     /// </summary>
     private List<string> TokenizedExpression = new List<string>();
 
-    private List<string> PostFixTokenizedExpression = new List<string>();
+    // private List<string> PostFixTokenizedExpression = new List<string>();
 
     /// <summary>
     /// The actual expression tree.
@@ -199,6 +199,34 @@ public class ExpressionTree
     {
         // TODO: Recursively evaluate the expression tree.
         throw new NotImplementedException();
+    }
+
+    private List<Node> TokensToNodes(List<string> postfixTokens)
+    {
+        List<Node> nodeList = new List<Node>();
+        OperatorNodeFactory factory = new OperatorNodeFactory();
+        foreach (var token in postfixTokens)
+        {
+            var charToken = token.ToCharArray();
+            if (factory.IsOperator(charToken[0]))
+            {
+                nodeList.Add(factory.CreateOperatorNode(charToken[0]));
+            }
+            else
+            {
+                var isNumber = double.TryParse(token, out double number);
+                if (isNumber)
+                {
+                    nodeList.Add(new ConstantNode(number));
+                }
+                else
+                {
+                    nodeList.Add(new VariableNode(token, ref this.variableDatabase));
+                }
+            }
+        }
+
+        return nodeList;
     }
 
     /// <summary>
