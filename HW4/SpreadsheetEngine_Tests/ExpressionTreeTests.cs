@@ -288,7 +288,143 @@ public class ExpressionTreeTests
       
       Assert.IsTrue(postfix != null && CheckTokenizedExpression(postfix, new List<string>(["1", "2", "3", "/", "3", "*", "-", "4", "+"])));
     }
+
+    [Test]
+    public void SimpleConvertExpressionToPostfixTest3()
+    {
+        MethodInfo methodInfo = this.GetMethod("ConvertExpressionToPostfix");
+        
+        List<string> infixTokens = new List<string> { "(", "1", "+", "2", ")", "/", "3" };
+        List<string> expectedPostfix = new List<string> { "1", "2", "+", "3", "/" };
+        object[] parameters = new object[] { infixTokens };
+        
+        List<string> postfix = (List<string>)methodInfo.Invoke(this.objectUnderTest, parameters);
+      
+        Assert.IsTrue(postfix != null && CheckTokenizedExpression(postfix, expectedPostfix));
+    }
     
+    [Test]
+    public void ComplexConvertExpressionToPostfixTest()
+    {
+        MethodInfo methodInfo = this.GetMethod("ConvertExpressionToPostfix");
+        
+        List<string> infixTokens = new List<string> { "(", "2", "*", "3", "+", "4", ")", "/", "(", "2", "+", "5", ")" };
+        List<string> expectedPostfix = new List<string> { "2", "3", "*", "4", "+", "2", "5", "+", "/" };
+        object[] parameters = new object[] { infixTokens };
+        
+        List<string> postfix = (List<string>)methodInfo.Invoke(this.objectUnderTest, parameters);
+      
+        Assert.IsTrue(postfix != null && CheckTokenizedExpression(postfix, expectedPostfix));
+    }
+    
+    [Test]
+    public void WithAssosiativityConvertExpressionToPostfixTest()
+    {
+        MethodInfo methodInfo = this.GetMethod("ConvertExpressionToPostfix");
+        
+        List<string> infixTokens = new List<string> { "2", "+", "3", "*", "4" };
+        List<string> expectedPostfix = new List<string> { "2", "3", "4", "*", "+" };
+        object[] parameters = new object[] { infixTokens };
+        
+        List<string> postfix = (List<string>)methodInfo.Invoke(this.objectUnderTest, parameters);
+      
+        Assert.IsTrue(postfix != null && CheckTokenizedExpression(postfix, expectedPostfix));
+    }
+    
+    [Test]
+    public void SingleOperandConvertExpressionToPostfixTest()
+    {
+        MethodInfo methodInfo = this.GetMethod("ConvertExpressionToPostfix");
+        
+        List<string> infixTokens = new List<string> { "10" };
+        List<string> expectedPostfix = new List<string> { "10" };
+        object[] parameters = new object[] { infixTokens };
+        
+        List<string> postfix = (List<string>)methodInfo.Invoke(this.objectUnderTest, parameters);
+      
+        Assert.IsTrue(postfix != null && CheckTokenizedExpression(postfix, expectedPostfix));
+    }
+
+    [Test]
+    public void NestedParenthesisOperandConvertExpressionToPostfixTest()
+    {
+        MethodInfo methodInfo = this.GetMethod("ConvertExpressionToPostfix");
+
+        List<string> infixTokens = new List<string> { "(", "(", "1", "+", "2", ")", "*", "3", ")", "-", "4" };
+        List<string> expectedPostfix = new List<string> { "1", "2", "+", "3", "*", "4", "-" };
+        object[] parameters = new object[] { infixTokens };
+
+        List<string> postfix = (List<string>)methodInfo.Invoke(this.objectUnderTest, parameters);
+
+        Assert.IsTrue(postfix != null && CheckTokenizedExpression(postfix, expectedPostfix));
+    }
+    
+    [Test]
+    public void TokensToNodesSimpleTest()
+    {
+        MethodInfo methodInfo = this.GetMethod("TokensToNodes");
+
+        List<string> postfixTokens = new List<string> { "1", "2", "+", "3", "*" };
+        List<Node> expectedNodes = new List<Node> { new ConstantNode(1), new ConstantNode(2), new AdditionOperatorNode(), new ConstantNode(3), new MultiplicationOperatorNode() };
+        object[] parameters = new object[] { postfixTokens };
+
+        List<Node> nodes = (List<Node>)methodInfo.Invoke(this.objectUnderTest, parameters);
+
+        Assert.IsTrue(nodes != null && CheckNodeList(nodes, expectedNodes));
+    }
+    
+    [Test]
+    public void TokensToNodesMultipleOperatorsTest()
+    {
+        MethodInfo methodInfo = this.GetMethod("TokensToNodes");
+
+        List<string> postfixTokens = new List<string> { "1", "2", "+", "3", "-", "4", "*", "5", "/" };
+        List<Node> expectedNodes = new List<Node> { new ConstantNode(1), new ConstantNode(2), new AdditionOperatorNode(), new ConstantNode(3), new SubtractionOperatorNode(), new ConstantNode(4), new MultiplicationOperatorNode(), new ConstantNode(5), new DivisionOperatorNode() };
+        object[] parameters = new object[] { postfixTokens };
+
+        List<Node> nodes = (List<Node>)methodInfo.Invoke(this.objectUnderTest, parameters);
+
+        Assert.IsTrue(nodes != null && CheckNodeList(nodes, expectedNodes));
+    }
+    
+    
+    [Test]
+    public void TokensToNodesWithVariablesTest()
+    {
+        MethodInfo methodInfo = this.GetMethod("TokensToNodes");
+
+        List<string> postfixTokens = new List<string> { "x2", "2", "*", "3", "var3", "*", "+", "5" };
+        List<Node> expectedNodes = new List<Node> { new VariableNode("x2"), new ConstantNode(2), new MultiplicationOperatorNode(), new ConstantNode(3), new VariableNode("var3"), new MultiplicationOperatorNode(), new AdditionOperatorNode(), new ConstantNode(5) };
+        object[] parameters = new object[] { postfixTokens };
+
+        List<Node> nodes = (List<Node>)methodInfo.Invoke(this.objectUnderTest, parameters);
+
+        Assert.IsTrue(nodes != null && CheckNodeList(nodes, expectedNodes));
+    }
+
+    private static bool CheckNodeList(List<Node> nodes, List<Node> answerKey)
+    {
+        if (nodes.Count != answerKey.Count)
+        {
+            return false;
+        }
+        
+        for (int i = 0; i < nodes.Count; i++)
+        {
+            var testNode = nodes.ElementAt(i);
+            var answerNode = answerKey.ElementAt(i);
+            if ( testNode.Equals(answerNode))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+
+
+
     /// <summary>
     /// Helper function to check if TokenizedExpression works.
     /// </summary>
@@ -312,8 +448,6 @@ public class ExpressionTreeTests
 
         return true;
     }
-
-    
     
     private ExpressionTree objectUnderTest = new ExpressionTree("");
     
