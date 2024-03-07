@@ -142,10 +142,11 @@ public class ExpressionTreeTests
     {
         ExpressionTree expressionTree = new ExpressionTree("5+1+9");
 
-        expressionTree.TokenizeExpression();
+        MethodInfo methodInfo = this.GetMethod("TokenizeExpression");
+        var tokens = (List<string>)methodInfo.Invoke(this.objectUnderTest, new object?[]{ "5+1+9" });
 
         var correct = CheckTokenizedExpression(
-            expressionTree.TokenizedExpression,
+            tokens,
             ["5", "+", "1", "+", "9"]);
 
         Assert.IsTrue(correct);
@@ -159,10 +160,11 @@ public class ExpressionTreeTests
     {
         ExpressionTree expressionTree = new ExpressionTree("533+123+9222222");
 
-        expressionTree.TokenizeExpression();
+        MethodInfo methodInfo = this.GetMethod("TokenizeExpression");
+        var tokens = (List<string>)methodInfo.Invoke(this.objectUnderTest, new object?[]{ "533+123+9222222" });
 
         var correct = CheckTokenizedExpression(
-            expressionTree.TokenizedExpression,
+            tokens,
             ["533", "+", "123", "+", "9222222"]);
 
         Assert.IsTrue(correct);
@@ -176,13 +178,11 @@ public class ExpressionTreeTests
     {
         ExpressionTree expressionTree = new ExpressionTree("A22222+1-A1");
 
-        expressionTree.SetVariable("A22222", 5);
-        expressionTree.SetVariable("A1", 1);
-
-        expressionTree.TokenizeExpression();
+        MethodInfo methodInfo = this.GetMethod("TokenizeExpression");
+        var tokens = (List<string>)methodInfo.Invoke(this.objectUnderTest, new object?[]{ "A22222+1-A1" });
 
         var correct = CheckTokenizedExpression(
-            expressionTree.TokenizedExpression,
+            tokens,
             ["A22222", "+", "1", "-", "A1"]);
 
         Assert.IsTrue(correct);
@@ -196,10 +196,11 @@ public class ExpressionTreeTests
     {
         ExpressionTree expressionTree = new ExpressionTree("1");
 
-        expressionTree.TokenizeExpression();
+        MethodInfo methodInfo = this.GetMethod("TokenizeExpression");
+        var tokens = (List<string>)methodInfo.Invoke(this.objectUnderTest, new object?[]{ "1" });
 
         var correct = CheckTokenizedExpression(
-            expressionTree.TokenizedExpression,
+            tokens,
             ["1"]);
 
         Assert.IsTrue(correct);
@@ -214,10 +215,11 @@ public class ExpressionTreeTests
     {
         ExpressionTree expressionTree = new ExpressionTree("(+-*)");
 
-        expressionTree.TokenizeExpression();
+        MethodInfo methodInfo = this.GetMethod("TokenizeExpression");
+        var tokens = (List<string>)methodInfo.Invoke(this.objectUnderTest, new object?[]{ "(+-*)" });
 
         var correct = CheckTokenizedExpression(
-            expressionTree.TokenizedExpression,
+            tokens,
             ["(", "+", "-", "*", ")"]);
 
         Assert.IsTrue(correct);
@@ -230,11 +232,11 @@ public class ExpressionTreeTests
     public void TokenizeExpressionInvalidExpressionTest2()
     {
         ExpressionTree expressionTree = new ExpressionTree("*");
-
-        expressionTree.TokenizeExpression();
+        MethodInfo methodInfo = this.GetMethod("TokenizeExpression");
+        var tokens = (List<string>)methodInfo.Invoke(this.objectUnderTest, new object?[]{ "*" });
 
         var correct = CheckTokenizedExpression(
-            expressionTree.TokenizedExpression,
+            tokens,
             ["*"]);
 
         Assert.IsTrue(correct);
@@ -247,11 +249,11 @@ public class ExpressionTreeTests
     public void TokenizeExpressionInvalidExpressionTest3()
     {
         ExpressionTree expressionTree = new ExpressionTree("1+A2+5-3*/");
-
-        expressionTree.TokenizeExpression();
+        MethodInfo methodInfo = this.GetMethod("TokenizeExpression");
+        var tokens = (List<string>)methodInfo.Invoke(this.objectUnderTest, new object?[]{ "1+A2+5-3*/"});
 
         var correct = CheckTokenizedExpression(
-            expressionTree.TokenizedExpression,
+            tokens,
             ["1", "+", "A2", "+", "5", "-", "3", "*", "/"]);
 
         Assert.IsTrue(correct);
