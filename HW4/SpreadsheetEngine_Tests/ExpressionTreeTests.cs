@@ -266,8 +266,9 @@ public class ExpressionTreeTests
     public void SimpleConvertExpressionToPostfixTest()
     {
       MethodInfo methodInfo = this.GetMethod("ConvertExpressionToPostfix");
-
-      List<string> postfix = (List<string>)methodInfo.Invoke(this.objectUnderTest, new object?[] {"(", "1", "+", "2", ")", "/", "3" });
+      List<string> infixTokens = new List<string> { "(", "1", "+", "2", ")", "/", "3" };
+      object[] parameters = new object[] { infixTokens };
+      List<string> postfix = (List<string>)methodInfo.Invoke(this.objectUnderTest, parameters);
       
       Assert.IsTrue(CheckTokenizedExpression(postfix, new List<string>(["1", "2", "+", "3", "/"])));
     }
@@ -281,7 +282,9 @@ public class ExpressionTreeTests
     {
       MethodInfo methodInfo = this.GetMethod("ConvertExpressionToPostfix");
 
-      List<string> postfix = (List<string>)methodInfo.Invoke(this.objectUnderTest, new object?[] { "1", "-", "2", "/", "3", "*", "3" + "4" });
+      List<string> infixTokens = new List<string> { "1", "-", "2", "/", "3", "*", "3", "+", "4" };
+      object[] parameters = new object[] { infixTokens };
+      List<string> postfix = (List<string>)methodInfo.Invoke(this.objectUnderTest, parameters);
       
       Assert.IsTrue(postfix != null && CheckTokenizedExpression(postfix, new List<string>(["1", "2", "3", "/", "3", "*", "-", "4", "+"])));
     }
