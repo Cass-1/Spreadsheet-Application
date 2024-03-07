@@ -254,7 +254,34 @@ public class ExpressionTreeTests
 
         Assert.IsTrue(correct);
     }
+    
+    /// <summary>
+    /// Tests ConvertExpressionToPostfix
+    /// </summary>
+    [Test]
+    public void SimpleConvertExpressionToPostfixTest()
+    {
+      MethodInfo methodInfo = this.GetMethod("ConvertExpressionToPostfix");
 
+      List<string> postfix = (List<string>)methodInfo.Invoke(this.objectUnderTest, new object?[] {"(", "1", "+", "2", ")", "/", "3" });
+      
+      Assert.IsTrue(CheckTokenizedExpression(postfix, new List<string>(["1", "2", "+", "3", "/"])));
+    }
+    
+    
+    /// <summary>
+    /// Tests ConvertExpressionToPostfix
+    /// </summary>
+    [Test]
+    public void SimpleConvertExpressionToPostfixTest2()
+    {
+      MethodInfo methodInfo = this.GetMethod("ConvertExpressionToPostfix");
+
+      List<string> postfix = (List<string>)methodInfo.Invoke(this.objectUnderTest, new object?[] { "1", "-", "2", "/", "3", "*", "3" + "4" });
+      
+      Assert.IsTrue(postfix != null && CheckTokenizedExpression(postfix, new List<string>(["1", "2", "3", "/", "3", "*", "-", "4", "+"])));
+    }
+    
     /// <summary>
     /// Helper function to check if TokenizedExpression works.
     /// </summary>
@@ -277,5 +304,32 @@ public class ExpressionTreeTests
         }
 
         return true;
+    }
+
+    
+    
+    private ExpressionTree objectUnderTest = new ExpressionTree("");
+    
+    /// <summary>
+    /// Gets a private method of the ExpressionTree class.
+    /// </summary>
+    /// <param name="methodName">The name of the method.</param>
+    /// <returns>The method.</returns>
+    private MethodInfo GetMethod(string methodName)
+    {
+        if (string.IsNullOrWhiteSpace(methodName))
+        {
+            Assert.Fail("methodName is null or whitespace");
+        }
+
+        var method = this.objectUnderTest.GetType().GetMethod(methodName, BindingFlags.NonPublic |
+            BindingFlags.Static | BindingFlags.Instance);
+
+        if (method == null)
+        {
+            Assert.Fail(methodName + " method not found");
+        }
+
+        return method;
     }
 }
