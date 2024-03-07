@@ -30,4 +30,20 @@ public class ConstantNode : Node
     {
         return this.value;
     }
+    
+    public override bool Equals(object? obj)
+    {
+        var other = obj as ConstantNode;
+        if (other == null)
+        {
+            return false;
+        }
+        
+        return base.Equals(obj);
+    }
+
+    public bool Equals(ConstantNode other)
+    {
+        return (this.value == other.value);
+    }
 }

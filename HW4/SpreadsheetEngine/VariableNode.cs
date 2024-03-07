@@ -23,10 +23,15 @@ public class VariableNode : Node
     /// </summary>
     /// <param name="name">The name of the variable.</param>
     /// <param name="dictionary">A reference to the variable dictionary in the spreadsheet class.</param>
-    public VariableNode(string name, ref Dictionary<string, double> dictionary)
+    public VariableNode(string name, ref Dictionary<string, double>? dictionary)
     {
         this.name = name;
         this.dictionary = dictionary;
+    }
+
+    public VariableNode(string name)
+    {
+        this.name = name;
     }
 
     /// <summary>
@@ -36,5 +41,21 @@ public class VariableNode : Node
     public override double Evaluate()
     {
         return this.dictionary[this.name];
+    }
+    
+    public override bool Equals(object? obj)
+    {
+        var other = obj as VariableNode;
+        if (other == null)
+        {
+            return false;
+        }
+        
+        return base.Equals(obj);
+    }
+
+    public bool Equals(VariableNode other)
+    {
+        return this.name == other.name;
     }
 }
