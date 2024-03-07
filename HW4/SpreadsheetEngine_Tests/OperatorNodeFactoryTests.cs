@@ -115,4 +115,76 @@ public class OperatorNodeFactoryTests
         
         Assert.Fail();
     }
+    
+    /// <summary>
+    /// Tests the GetOperator function for addition.
+    /// </summary>
+    [Test]
+    public void GetAssosiativityAdditionTest()
+    {
+        OperatorNodeFactory factory = new OperatorNodeFactory();
+
+        string precedence = factory.GetOperatorAssosiativity('+');
+        
+        Assert.AreEqual("Left", precedence);
+    }
+    
+    /// <summary>
+    /// Tests the GetOperator function for subtraction.
+    /// </summary>
+    [Test]
+    public void GetAssosiativitySubtractionTest()
+    {
+        OperatorNodeFactory factory = new OperatorNodeFactory();
+
+        string precedence = factory.GetOperatorAssosiativity('-');
+        
+        Assert.AreEqual("Left", precedence);
+    }
+    
+    /// <summary>
+    /// Tests the GetOperator function for multiplication.
+    /// </summary>
+    [Test]
+    public void GetAssosiativityMultiplicationTest()
+    {
+        OperatorNodeFactory factory = new OperatorNodeFactory();
+
+        string precedence = factory.GetOperatorAssosiativity('*');
+        
+        Assert.AreEqual("Left", precedence);
+    }
+    
+    /// <summary>
+    /// Tests the GetOperator function for division.
+    /// </summary>
+    [Test]
+    public void GetAssosiativityDivisionTest()
+    {
+        OperatorNodeFactory factory = new OperatorNodeFactory();
+
+        string precedence = factory.GetOperatorAssosiativity('/');
+        
+        Assert.AreEqual("Left", precedence);
+    }
+    
+    /// <summary>
+    /// Tests the GetOperator function for an invalid operation.
+    /// </summary>
+    [Test]
+    public void GetAssosiativityInvalidOperatorTest()
+    {
+        OperatorNodeFactory factory = new OperatorNodeFactory();
+        try
+        {
+            string precedence = factory.GetOperatorAssosiativity('a');
+        }
+        catch (Exception e)
+        {
+            Assert.IsTrue(e is InvalidOperationException);
+            return;
+        }
+        
+        Assert.Fail();
+    }
 }
