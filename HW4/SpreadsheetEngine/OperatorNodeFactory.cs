@@ -87,4 +87,58 @@ public class OperatorNodeFactory
 
         throw new InvalidOperationException();
     }
+    
+    
+    public int GetOperatorPrecedence(string op)
+    {
+        if (this.IsOperator(op))
+        {
+            object field = this.operatorTypes[op.ToCharArray()[0]]?.GetField("Precedence")?.GetValue(null);
+            if (field != null && field is int) {
+                return (int)field;
+            }
+        }
+
+        throw new InvalidOperationException();
+    }
+    
+    /// <summary>
+    /// Gets the assosiativity of an operator.
+    /// </summary>
+    /// <param name="op">The operator.</param>
+    /// <returns>The assosiativity of the operator.</returns>
+    /// <exception cref="InvalidOperationException">Thrown when an invalid operator is given.</exception>
+    public string GetOperatorAssosiativity(char op)
+    {
+        if (this.IsOperator(op))
+        {
+            object field = this.operatorTypes[op]?.GetField("Assosiativity")?.GetValue(null);
+            if (field != null && field is string) {
+                return (string)field;
+            }
+        }
+
+        throw new InvalidOperationException();
+    }
+    
+    /// <summary>
+    /// Gets the assosiativity of an operator.
+    /// </summary>
+    /// <param name="op">The operator.</param>
+    /// <returns>The assosiativity of the operator.</returns>
+    /// <exception cref="InvalidOperationException">Thrown when an invalid operator is given.</exception>
+    public string GetOperatorAssosiativity(string op)
+    {
+        if (this.IsOperator(op))
+        {
+            object field = this.operatorTypes[op.ToCharArray()[0]]?.GetField("Assosiativity")?.GetValue(null);
+            if (field != null && field is string) {
+                return (string)field;
+            }
+        }
+
+        throw new InvalidOperationException();
+    }
+    
+    // TODO: change .ToCharArray()[0] to a function with error checking
 }
