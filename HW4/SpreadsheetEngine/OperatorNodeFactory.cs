@@ -36,6 +36,12 @@ public class OperatorNodeFactory
     {
         return this.operatorTypes.ContainsKey(op);
     }
+    
+    // TODO: need better error checking here
+    public bool IsOperator(string op)
+    {
+        return this.operatorTypes.ContainsKey(op.ToCharArray()[0]);
+    }
 
     /// <summary>
     /// Returns an OperatorNode based on the operator token.
@@ -51,6 +57,16 @@ public class OperatorNodeFactory
         }
 
         return (OperatorNode)Activator.CreateInstance(this.operatorTypes[op])!;
+    }
+    
+    public OperatorNode CreateOperatorNode(string op)
+    {
+        if (!this.IsOperator(op))
+        {
+            throw new InvalidOperationException();
+        }
+
+        return (OperatorNode)Activator.CreateInstance(this.operatorTypes[op.ToCharArray()[0]])!;
     }
 
     /// <summary>
