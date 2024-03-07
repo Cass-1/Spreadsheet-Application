@@ -8,8 +8,4 @@ namespace SpreadsheetEngine;
 /// </summary>
 public abstract class OperatorNode : Node
 {
-    /// <summary>
-    /// The character representation of the operator.
-    /// </summary>
-    protected char op;
 }
