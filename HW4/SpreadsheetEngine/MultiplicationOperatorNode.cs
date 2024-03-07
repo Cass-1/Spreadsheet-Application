@@ -8,6 +8,12 @@ namespace SpreadsheetEngine;
 /// </summary>
 public class MultiplicationOperatorNode : OperatorNode
 {
+    public static char Character = '*';
+
+    public static int Precedence = 2;
+
+    public static string Assosiativity = "Left";
+    
     /// <summary>
     /// The left child node.
     /// </summary>

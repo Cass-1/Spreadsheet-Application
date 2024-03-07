@@ -2,6 +2,13 @@ namespace SpreadsheetEngine;
 
 public class AdditionOperatorNode : OperatorNode
 {
+    
+    public static char Character = '+';
+    
+    public static int Precedence = 1;
+
+    public static string Assosiativity = "Left";
+    
      /// <summary>
     /// The left child node.
     /// </summary>
