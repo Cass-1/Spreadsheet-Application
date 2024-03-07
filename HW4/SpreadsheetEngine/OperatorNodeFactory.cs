@@ -1,6 +1,8 @@
 // Copyright (c) Cass Dahle 11775278.
 // Licensed under the GPL v3.0 License. See LICENSE in the project root for license information.
 
+using System.Reflection;
+
 namespace SpreadsheetEngine;
 
 /// <summary>
@@ -22,6 +24,7 @@ public class OperatorNodeFactory
         this.operatorTypes.Add('*', typeof(MultiplicationOperatorNode));
         this.operatorTypes.Add('+', typeof(AdditionOperatorNode));
         this.operatorTypes.Add('-', typeof(SubtractionOperatorNode));
+        this.operatorTypes.Add('/', typeof(DivisionOperatorNode));
     }
 
     /// <summary>
@@ -48,5 +51,24 @@ public class OperatorNodeFactory
         }
 
         return (OperatorNode)Activator.CreateInstance(this.operatorTypes[op])!;
+    }
+
+    /// <summary>
+    /// Gets the precedence of an operator
+    /// </summary>
+    /// <param name="op">A character representing the operation</param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException">Is thrown in the inputted operation is not valid</exception>
+    public int GetOperatorPrecedence(char op)
+    {
+        if (this.IsOperator(op))
+        {
+            object field = this.operatorTypes[op]?.GetField("Precedence")?.GetValue(null);
+            if (field != null && field is int) {
+                return (int)field;
+            }
+        }
+
+        throw new InvalidOperationException();
     }
 }
