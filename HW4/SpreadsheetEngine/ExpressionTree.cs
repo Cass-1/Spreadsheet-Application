@@ -255,7 +255,21 @@ public class ExpressionTree
         // than the operator on the top of the stack, or has the same precedence as
         // the operator on the top of the stack and is left associative
         string a;
-        return stack.TryPeek(out a) && factory.IsOperator(token) && (
+        if (token == "(" || token == ")")
+        {
+            return false;
+        }
+
+        if (stack.Count == 0)
+        {
+            return false;
+        }
+
+        if (stack.Peek() == "(" || stack.Peek() == ")")
+        {
+            return false;
+        }
+        return factory.IsOperator(token) && (
                     (factory.GetOperatorPrecedence(token) < factory.GetOperatorPrecedence(stack.Peek())) ||
                     (factory.GetOperatorPrecedence(token) == factory.GetOperatorPrecedence(stack.Peek()) &&
                      factory.GetOperatorAssosiativity(token) == "Left"));
