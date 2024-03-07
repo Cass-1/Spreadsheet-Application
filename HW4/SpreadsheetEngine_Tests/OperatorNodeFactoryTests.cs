@@ -56,6 +56,27 @@ public class OperatorNodeFactoryTests
 
         Assert.Fail();
     }
+     
+    /// <summary>
+    /// Tests what happens when we pass in a invalid operator
+    /// </summary>
+    [Test]
+    public void CreateOperatorNotAnOperatorTest()
+    {
+        OperatorNodeFactory factory = new OperatorNodeFactory();
+
+        try
+        {
+            factory.CreateOperatorNode("sssss");
+        }
+        catch (Exception e)
+        {
+            Assert.IsTrue(e is InvalidOperationException);
+            return;
+        }
+
+        Assert.Fail();
+    }
 
     [Test]
     public void GetPrecedenceAdditionTest()
@@ -93,7 +114,7 @@ public class OperatorNodeFactoryTests
     {
         OperatorNodeFactory factory = new OperatorNodeFactory();
 
-        int precedence = factory.GetOperatorPrecedence('*');
+        int precedence = factory.GetOperatorPrecedence('/');
         
         Assert.AreEqual(2, precedence);
     }
