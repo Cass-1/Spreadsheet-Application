@@ -56,4 +56,63 @@ public class OperatorNodeFactoryTests
 
         Assert.Fail();
     }
+
+    [Test]
+    public void GetPrecedenceAdditionTest()
+    {
+        OperatorNodeFactory factory = new OperatorNodeFactory();
+
+        int precedence = factory.GetOperatorPrecedence('+');
+        
+        Assert.AreEqual(1, precedence);
+    }
+    
+    [Test]
+    public void GetPrecedenceSubtractionTest()
+    {
+        OperatorNodeFactory factory = new OperatorNodeFactory();
+
+        int precedence = factory.GetOperatorPrecedence('-');
+        
+        Assert.AreEqual(1, precedence);
+    }
+    
+    
+    [Test]
+    public void GetPrecedenceMultiplicationTest()
+    {
+        OperatorNodeFactory factory = new OperatorNodeFactory();
+
+        int precedence = factory.GetOperatorPrecedence('*');
+        
+        Assert.AreEqual(2, precedence);
+    }
+    
+    [Test]
+    public void GetPrecedenceDivisionTest()
+    {
+        OperatorNodeFactory factory = new OperatorNodeFactory();
+
+        int precedence = factory.GetOperatorPrecedence('*');
+        
+        Assert.AreEqual(2, precedence);
+    }
+    
+    
+    [Test]
+    public void GetPrecedenceInvalidOperatorTest()
+    {
+        OperatorNodeFactory factory = new OperatorNodeFactory();
+        try
+        {
+            int precedence = factory.GetOperatorPrecedence('a');
+        }
+        catch (Exception e)
+        {
+            Assert.IsTrue(e is InvalidOperationException);
+            return;
+        }
+        
+        Assert.Fail();
+    }
 }
