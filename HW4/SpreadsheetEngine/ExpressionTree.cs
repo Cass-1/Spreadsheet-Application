@@ -49,9 +49,89 @@ public class ExpressionTree
     /// <summary>
     /// Converts a list of tokens from infix to postfix.
     /// </summary>
-    private void ConvertExpressionToPostfix()
+    private List<string> ConvertExpressionToPostfix(List<string> infixTokens)
     {
-        // TODO: implement shunting yard algorithm
+        Stack<string> stack = new Stack<string>();
+        List<string> postfixTokens = new List<string>();
+        OperatorNodeFactory factory = new OperatorNodeFactory();
+
+        foreach (var token in infixTokens)
+        {
+            // TODO: support operators with string symbols like nPr
+            // step 1: If the incoming symbols is an operand, output it.
+            if (!factory.IsOperator(token) && token != "(" && token != ")")
+            {
+                postfixTokens.Add(token);
+            }
+            
+            // step 2: If the incoming symbol is a left parenthesis, push it on the stack.
+            else if (token == "(")
+            {
+                stack.Push(token);
+            }
+            
+            // step 3: If the incoming symbol is a right parenthesis...
+            else if (token == ")")
+            {
+                // pop and output symbols until a left parenthsis is encountered 
+                while (stack.Peek() != "(")
+                {
+                    postfixTokens.Add(stack.Pop());
+                }
+
+                stack.Pop();
+            }
+            
+            // step 4: If the incoming symbol is an operator and the stack is empty or contains
+            // a left parenthesis on top, push the incoming operator onto the stack.
+            else if (factory.IsOperator(token) && (stack.Count == 0 || stack.Peek() == "("))
+            {
+                stack.Push(token);
+            }
+            
+            // step 5.1: If the incoming symbol is an operator and has higher precedence
+            // than the operator on the top of the stack -- push it on the stack.
+            else if (factory.IsOperator(token) && (factory.GetOperatorPrecedence(token) >
+                                                   factory.GetOperatorPrecedence(stack.Peek())))
+            {
+                stack.Push(token);
+            }
+            
+            // step 5.2: If the incoming symbol is an operator and has the same precedence as
+            // the operator on the top of the stack and is right associative -- push it on
+            // the stack.
+            else if(factory.IsOperator(token) && 
+                    factory.GetOperatorPrecedence(token) == factory.GetOperatorPrecedence(stack.Peek()) &&
+                    factory.GetOperatorAssosiativity(token) == "Right")
+
+            {
+                stack.Push(token);
+            }
+            
+            /* step 6: 
+               If the incoming symbol is an operator and has either lower precedence
+               than the operator on the top of the stack, or has the same precedence as
+               the operator on the top of the stack and is left associative -- continue to
+               pop the stack until this is not true. Then, push the incoming operator.
+            */ 
+            else if (this.ShuntingYardStepSixCondition(ref stack, ref factory, token)){
+                while (this.ShuntingYardStepSixCondition(ref stack, ref factory, token))
+                {
+                    postfixTokens.Add(stack.Pop());
+                }
+                stack.Push(token);
+            }
+
+        }
+        
+        // step 7: At the end of the expression, pop and print all operators on the stack.
+        // (No parentheses should remain.)
+        while (stack.Count != 0)
+        {
+            postfixTokens.Add(stack.Pop());
+        }
+
+        return postfixTokens;
     }
 
     // TODO: make this private. It is currently public for testing but i should use refelction to test it
@@ -151,14 +231,33 @@ public class ExpressionTree
         // evaluate the expression
         double result;
 
-        this.TokenizeExpression();
+        this.TokenizedExpression = this.TokenizeExpression(this.expression);
 
-        this.ConvertExpressionToPostfix();
+        var infixTokens = this.ConvertExpressionToPostfix(this.TokenizedExpression);
 
         this.root = this.GenerateExpressionTree();
 
         result = this.EvaluateExpressionTree();
 
         return result;
+    }
+
+    /// <summary>
+    /// Checks the condition for step six in the shunting yard algorithm.
+    /// </summary>
+    /// <param name="stack">The shunting yard algorithm stack.</param>
+    /// <param name="factory">The shunting yard OperatorNodeFactory.</param>
+    /// <param name="token">The shunting yard current token.</param>
+    /// <returns>Whether the conidition is true or not</returns>
+    private bool ShuntingYardStepSixCondition(ref Stack<string> stack, ref OperatorNodeFactory factory, string token)
+    {
+        // If the incoming symbol is an operator and has either lower precedence
+        // than the operator on the top of the stack, or has the same precedence as
+        // the operator on the top of the stack and is left associative
+        string a;
+        return stack.TryPeek(out a) && factory.IsOperator(token) && (
+                    (factory.GetOperatorPrecedence(token) < factory.GetOperatorPrecedence(stack.Peek())) ||
+                    (factory.GetOperatorPrecedence(token) == factory.GetOperatorPrecedence(stack.Peek()) &&
+                     factory.GetOperatorAssosiativity(token) == "Left"));
     }
 }
