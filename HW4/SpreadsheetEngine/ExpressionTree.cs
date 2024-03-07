@@ -56,15 +56,16 @@ public class ExpressionTree
     /// <summary>
     /// Takes this.expression and populates this.tokenizedExpression.
     /// </summary>
-    public void TokenizeExpression()
+    private List<string> TokenizeExpression(string expr)
     {
         OperatorNodeFactory operatorNodeFactory = new OperatorNodeFactory();
+        List<string> tokens = new List<string>();
 
         // keeps track of any multicharacter token
         var buffer = string.Empty;
 
         // loop through the expressoin and tokenize it
-        foreach (char c in this.expression)
+        foreach (char c in expr)
         {
             // first check the one character tokens
             if (c == '(' || c == ')' || operatorNodeFactory.IsOperator(c))
@@ -72,11 +73,11 @@ public class ExpressionTree
                 // check if there is a multiCharacterToken that needs to be added
                 if (buffer != string.Empty)
                 {
-                    this.TokenizedExpression.Add(buffer);
+                    tokens.Add(buffer);
                     buffer = string.Empty;
                 }
 
-                this.TokenizedExpression.Add(c.ToString());
+                tokens.Add(c.ToString());
             }
 
             // either a constant or a variable
@@ -90,8 +91,10 @@ public class ExpressionTree
         // check if there is a multiCharacterToken that needs to be added
         if (buffer != string.Empty)
         {
-            this.TokenizedExpression.Add(buffer);
+            tokens.Add(buffer);
         }
+
+        return tokens;
     }
 
     /// <summary>
