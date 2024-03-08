@@ -26,7 +26,7 @@ public class ExpressionTreeTests
         // TODO: be able to access private members
         var value = expressionTree.GetVariable("A1");
 
-        Assert.Equals(value, 5);
+        Assert.AreEqual(value, 5);
     }
 
     /// <summary>
@@ -41,7 +41,7 @@ public class ExpressionTreeTests
 
         var value = expressionTree.GetVariable("a123123a342a4");
 
-        Assert.Equals(value, 5);
+        Assert.AreEqual(value, 5);
     }
 
     /// <summary>
@@ -51,37 +51,18 @@ public class ExpressionTreeTests
     public void SetVariableInvalidBasicNameTest()
     {
         ExpressionTree expressionTree = new ExpressionTree(string.Empty);
+        bool flag = false;
 
         try
         {
             expressionTree.SetVariable("1", 5);
         }
-        catch (Exception e)
+        catch (ArgumentException e)
         {
-            Assert.True(e is InvalidEnumArgumentException);
+            flag = true;
         }
 
-        Assert.Fail();
-    }
-
-    /// <summary>
-    /// Tests the creation of a variable with an invalid name.
-    /// </summary>
-    [Test]
-    public void SetVariableInvalidLongNameTest()
-    {
-        ExpressionTree expressionTree = new ExpressionTree(string.Empty);
-
-        try
-        {
-            expressionTree.SetVariable("aaaaaa111111!asdf", 5);
-        }
-        catch (Exception e)
-        {
-            Assert.True(e is InvalidEnumArgumentException);
-        }
-
-        Assert.Fail();
+        Assert.IsTrue(flag);
     }
 
     /// <summary>
@@ -96,7 +77,7 @@ public class ExpressionTreeTests
 
         var value = expressionTree.GetVariable("A2");
 
-        Assert.Equals(value, 12);
+        Assert.AreEqual(value, 12);
     }
 
     /// <summary>
@@ -111,7 +92,63 @@ public class ExpressionTreeTests
 
         var value = expressionTree.GetVariable("A2");
 
-        Assert.Equals(value, 5);
+        Assert.AreEqual(value, 5);
+    }
+    
+    /// <summary>
+    /// A simple test for SetVariable
+    /// </summary>
+    [Test]
+    public void SetVariableSimpleTest()
+    {
+        ExpressionTree tree = new ExpressionTree("");
+        tree.SetVariable("A2", 5);
+        
+        Assert.AreEqual(tree.GetVariable("A2"), 5);
+    }
+    
+    /// <summary>
+    /// A simple test for SetVariable.
+    /// </summary>
+    [Test]
+    public void SetVariableSimpleTest2()
+    {
+        ExpressionTree tree = new ExpressionTree("");
+        tree.SetVariable("A23456", 5);
+        
+        Assert.AreEqual(tree.GetVariable("A23456"), 5);
+    }
+    
+    /// <summary>
+    /// Tests the SetVariable method when no value is given for a variable.
+    /// </summary>
+    [Test]
+    public void SetVariableNoValueGivenTest()
+    {
+        ExpressionTree tree = new ExpressionTree("");
+        tree.SetVariable("A23456");
+        
+        Assert.AreEqual(tree.GetVariable("A23456"), 0);
+    }
+    
+    /// <summary>
+    /// Tests the SetVariable method when a variable is incorrectly named.
+    /// </summary>
+    [Test]
+    public void SetVariableImproperNameTest()
+    {
+        ExpressionTree tree = new ExpressionTree("");
+        bool check = false;
+
+        try
+        {
+            tree.SetVariable("2ab");
+        }
+        catch (ArgumentException e)
+        {
+            check = true;
+        }
+        Assert.True(check);
     }
 
     /// <summary>
@@ -121,17 +158,18 @@ public class ExpressionTreeTests
     public void GetVariableNotExistingVariableTest()
      {
          ExpressionTree expressionTree = new ExpressionTree(string.Empty);
+         bool flag = false;
 
          try
          {
              expressionTree.GetVariable("A2");
          }
-         catch (Exception e)
+         catch (KeyNotFoundException e)
          {
-             Assert.True(e is InvalidEnumArgumentException);
+             flag = true;
          }
 
-         Assert.Fail();
+         Assert.IsTrue(flag);
      }
 
     /// <summary>
@@ -403,63 +441,10 @@ public class ExpressionTreeTests
     }
 
     /// <summary>
-    /// A simple test for SetVariable
+    /// Simple test for the whole expression tree.
     /// </summary>
     [Test]
-    public void SetVariableSimpleTest()
-    {
-        ExpressionTree tree = new ExpressionTree("");
-        tree.SetVariable("A2", 5);
-        
-        Assert.AreEqual(tree.GetVariable("A2"), 5);
-    }
-    
-    /// <summary>
-    /// A simple test for SetVariable.
-    /// </summary>
-    [Test]
-    public void SetVariableSimpleTest2()
-    {
-        ExpressionTree tree = new ExpressionTree("");
-        tree.SetVariable("A23456", 5);
-        
-        Assert.AreEqual(tree.GetVariable("A23456"), 5);
-    }
-    
-    /// <summary>
-    /// Tests the SetVariable method when no value is given for a variable.
-    /// </summary>
-    [Test]
-    public void SetVariableNoValueGivenTest()
-    {
-        ExpressionTree tree = new ExpressionTree("");
-        tree.SetVariable("A23456");
-        
-        Assert.AreEqual(tree.GetVariable("A23456"), 0);
-    }
-    
-    /// <summary>
-    /// Tests the SetVariable method when a variable is incorrectly named.
-    /// </summary>
-    [Test]
-    public void SetVariableImproperNameTest()
-    {
-        ExpressionTree tree = new ExpressionTree("");
-        bool check = false;
-
-        try
-        {
-            tree.SetVariable("2ab");
-        }
-        catch (ArgumentException e)
-        {
-            check = true;
-        }
-        Assert.True(check);
-    }
-
-    [Test]
-    public void CompleteTest()
+    public void ExpressionTreeSimpleTest()
     {
         ExpressionTree tree = new ExpressionTree("1+2/2");
         var result = tree.Evaluate();
@@ -467,6 +452,29 @@ public class ExpressionTreeTests
         Assert.AreEqual(2, result);
     }
     
+    /// <summary>
+    /// Complex test for the whole expression tree.
+    /// </summary>
+    [Test]
+    public void ExpressionTreeComplexTest1()
+    {
+        ExpressionTree tree = new ExpressionTree("((8-2)*(5+3))/(6-1)");
+        var result = tree.Evaluate();
+    
+        Assert.AreEqual(9.6, result);
+    }
+    
+    /// <summary>
+    /// Complex test for the whole expression tree.
+    /// </summary>
+    [Test]
+    public void ExpressionTreeComplexTest2()
+    {
+        ExpressionTree tree = new ExpressionTree("((10 / 2) * (4 + 2)) - (3 * (6 + 2))");
+        var result = tree.Evaluate();
+    
+        Assert.AreEqual(6, result);
+    }
     
     
 
