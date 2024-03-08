@@ -3,6 +3,7 @@
 
 namespace SpreadsheetEngine;
 
+// ReSharper disable once RedundantNameQualifier
 using NotImplementedException = System.NotImplementedException;
 
 /// <summary>
@@ -11,29 +12,23 @@ using NotImplementedException = System.NotImplementedException;
 public class ExpressionTree
 {
     // TODO: make this private. It is currently public for testing but i should use refelction to test it
+
     /// <summary>
     /// A list of all the tokens in an expression.
     /// </summary>
-    private List<string> TokenizedExpression = new List<string>();
+    private List<string> tokenizedExpression = new List<string>();
 
     // private List<string> PostFixTokenizedExpression = new List<string>();
 
     /// <summary>
     /// The actual expression tree.
     /// </summary>
-    private Node root;
-
-    /// <summary>
-    /// The expression as a string.
-    /// </summary>
-    public string Expression { get; }
+    private Node root = null!;
 
     /// <summary>
     /// A dictionary of all the variables.
     /// </summary>
     private Dictionary<string, double> variableDatabase;
-
-    public List<string> Variables = new List<string>();
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ExpressionTree"/> class.
@@ -46,6 +41,76 @@ public class ExpressionTree
 
         // allocate variable database
         this.variableDatabase = new Dictionary<string, double>();
+    }
+
+    /// <summary>
+    /// Gets the expression as a string.
+    /// </summary>
+    public string Expression { get; }
+
+     /// <summary>
+    /// Sets of value of a variable. Creates a variable if it doesn't already exist.
+    /// </summary>
+    /// <param name="variableName">The name of the variable to create/update.</param>
+    /// <param name="variableValue">The value to set the variable to.</param>
+    /// <exception cref="ArgumentException">Thrown if an invalid variable name is provided.</exception>
+    public void SetVariable(string variableName, double variableValue)
+    {
+        // check if the variable starts with an ascii value
+        if (char.IsDigit(variableName.ToCharArray()[0]))
+        {
+            throw new ArgumentException();
+        }
+
+        this.variableDatabase[variableName] = variableValue;
+    }
+
+    /// <summary>
+    /// Sets of value of a variable. Creates a variable if it doesn't already exist.
+    /// </summary>
+    /// <param name="variableName">The name of the variable to create/update.</param>
+    /// <exception cref="ArgumentException">Thrown if an invalid variable name is provided.</exception>
+    public void SetVariable(string variableName)
+    {
+        // check if the variable starts with an ascii value
+        if (char.IsDigit(variableName.ToCharArray()[0]))
+        {
+            throw new ArgumentException();
+        }
+
+        this.variableDatabase[variableName] = 0;
+    }
+
+    /// <summary>
+    /// Gets the value of a specified variable.
+    /// </summary>
+    /// <param name="varName">The name of the variable to get.</param>
+    /// <returns>The value of the variable.</returns>
+    public double GetVariable(string varName)
+    {
+        return this.variableDatabase[varName];
+    }
+
+    /// <summary>
+    /// Evaluates the expression tree.
+    /// </summary>
+    /// <returns>The result of the evaluated tree.</returns>
+    public double Evaluate()
+    {
+        // evaluate the expression
+        double result;
+
+        this.tokenizedExpression = this.TokenizeExpression(this.Expression);
+
+        var postfixTokens = this.ConvertExpressionToPostfix(this.tokenizedExpression);
+
+        var postfixNodes = this.TokensToNodes(postfixTokens);
+
+        this.root = this.GenerateExpressionTree(postfixNodes);
+
+        result = this.EvaluateExpressionTree();
+
+        return result;
     }
 
     /// <summary>
@@ -65,17 +130,17 @@ public class ExpressionTree
             {
                 postfixTokens.Add(token);
             }
-            
+
             // step 2: If the incoming symbol is a left parenthesis, push it on the stack.
             else if (token == "(")
             {
                 stack.Push(token);
             }
-            
+
             // step 3: If the incoming symbol is a right parenthesis...
             else if (token == ")")
             {
-                // pop and output symbols until a left parenthsis is encountered 
+                // pop and output symbols until a left parenthsis is encountered
                 while (stack.Peek() != "(")
                 {
                     postfixTokens.Add(stack.Pop());
@@ -83,49 +148,49 @@ public class ExpressionTree
 
                 stack.Pop();
             }
-            
+
             // step 4: If the incoming symbol is an operator and the stack is empty or contains
             // a left parenthesis on top, push the incoming operator onto the stack.
             else if (factory.IsOperator(token) && (stack.Count == 0 || stack.Peek() == "("))
             {
                 stack.Push(token);
             }
-            
+
             // step 5.1: If the incoming symbol is an operator and has higher precedence
             // than the operator on the top of the stack -- push it on the stack.
-            else if (factory.IsOperator(token) && (factory.GetOperatorPrecedence(token) >
-                                                   factory.GetOperatorPrecedence(stack.Peek())))
+            else if (factory.IsOperator(token) && factory.GetOperatorPrecedence(token) >
+                     factory.GetOperatorPrecedence(stack.Peek()))
             {
                 stack.Push(token);
             }
-            
+
             // step 5.2: If the incoming symbol is an operator and has the same precedence as
             // the operator on the top of the stack and is right associative -- push it on
             // the stack.
-            else if(factory.IsOperator(token) && 
+            else if (factory.IsOperator(token) &&
                     factory.GetOperatorPrecedence(token) == factory.GetOperatorPrecedence(stack.Peek()) &&
                     factory.GetOperatorAssosiativity(token) == "Right")
-
             {
                 stack.Push(token);
             }
-            
-            /* step 6: 
+
+            /* step 6:
                If the incoming symbol is an operator and has either lower precedence
                than the operator on the top of the stack, or has the same precedence as
                the operator on the top of the stack and is left associative -- continue to
                pop the stack until this is not true. Then, push the incoming operator.
-            */ 
-            else if (this.ShuntingYardStepSixCondition(ref stack, ref factory, token)){
+            */
+            else if (this.ShuntingYardStepSixCondition(ref stack, ref factory, token))
+            {
                 while (this.ShuntingYardStepSixCondition(ref stack, ref factory, token))
                 {
                     postfixTokens.Add(stack.Pop());
                 }
+
                 stack.Push(token);
             }
-
         }
-        
+
         // step 7: At the end of the expression, pop and print all operators on the stack.
         // (No parentheses should remain.)
         while (stack.Count != 0)
@@ -137,6 +202,7 @@ public class ExpressionTree
     }
 
     // TODO: make this private. It is currently public for testing but i should use refelction to test it
+
     /// <summary>
     /// Takes this.expression and populates this.tokenizedExpression.
     /// </summary>
@@ -193,7 +259,7 @@ public class ExpressionTree
     {
         // TODO: Loop through postfix tokenized expression and generate nodes.
         Stack<Node> nodeStack = new Stack<Node>();
-        Node root = null;
+        Node localRoot;
 
         foreach (var node in postfixNodes)
         {
@@ -206,23 +272,13 @@ public class ExpressionTree
                 OperatorNode opNode = (OperatorNode)node;
                 opNode.RightChild = nodeStack.Pop();
                 opNode.LeftChild = nodeStack.Pop();
-                
+
                 nodeStack.Push(node);
             }
         }
 
-        root = nodeStack.Pop();
-        return root;
-    }
-
-    /// <summary>
-    /// Evaluates a postfix expression tree.
-    /// </summary>
-    /// <returns>The value of the evaluated expression tree.</returns>
-    /// <exception cref="NotImplementedException">Not implemented.</exception>
-    private double EvaluateExpressionTree()
-    {
-        return this.root.Evaluate();
+        localRoot = nodeStack.Pop();
+        return localRoot;
     }
 
     private List<Node> TokensToNodes(List<string> postfixTokens)
@@ -245,7 +301,8 @@ public class ExpressionTree
                 }
                 else
                 {
-                    nodeList.Add(new VariableNode(token, ref this.variableDatabase));
+                    var dictionary = this.variableDatabase;
+                    nodeList.Add(new VariableNode(token, ref dictionary));
                 }
             }
         }
@@ -254,77 +311,13 @@ public class ExpressionTree
     }
 
     /// <summary>
-    /// Sets of value of a variable. Creates a variable if it doesn't already exist.
+    /// Evaluates a postfix expression tree.
     /// </summary>
-    /// <param name="variableName">The name of the variable to create/update.</param>
-    /// <param name="variableValue">The value to set the variable to.</param>
-    /// <exception cref="ArgumentException">Thrown if an invalid variable name is provided.</exception>
-    public void SetVariable(string variableName, double variableValue)
+    /// <returns>The value of the evaluated expression tree.</returns>
+    /// <exception cref="NotImplementedException">Not implemented.</exception>
+    private double EvaluateExpressionTree()
     {
-        
-        // check if the variable starts with an ascii value
-        if (char.IsDigit(variableName.ToCharArray()[0]))
-        {
-            throw new ArgumentException();
-        }
-        
-        else
-        {
-            this.variableDatabase[variableName] = variableValue;
-            this.Variables = this.variableDatabase.Keys.ToList();
-        }
-    }
-    
-    /// <summary>
-    /// Sets of value of a variable. Creates a variable if it doesn't already exist.
-    /// </summary>
-    /// <param name="variableName">The name of the variable to create/update.</param>
-    /// <exception cref="ArgumentException">Thrown if an invalid variable name is provided.</exception>
-    public void SetVariable(string variableName)
-    {
-        
-        // check if the variable starts with an ascii value
-        if (char.IsDigit(variableName.ToCharArray()[0]))
-        {
-            throw new ArgumentException();
-        }
-        
-        else
-        {
-            this.variableDatabase[variableName] = 0;
-        }
-    }
-
-    /// <summary>
-    /// Gets the value of a specified variable.
-    /// </summary>
-    /// <param name="varName">The name of the variable to get.</param>
-    /// <returns>The value of the variable.</returns>
-    public double GetVariable(string varName)
-    {
-        return this.variableDatabase[varName];
-    }
-
-    /// <summary>
-    /// Evaluates the expression tree.
-    /// </summary>
-    /// <returns>The result of the evaluated tree.</returns>
-    public double Evaluate()
-    {
-        // evaluate the expression
-        double result;
-
-        this.TokenizedExpression = this.TokenizeExpression(this.Expression);
-
-        var postfixTokens = this.ConvertExpressionToPostfix(this.TokenizedExpression);
-
-        var postfixNodes = this.TokensToNodes(postfixTokens);
-
-        this.root = this.GenerateExpressionTree(postfixNodes);
-
-        result = this.EvaluateExpressionTree();
-
-        return result;
+        return this.root.Evaluate();
     }
 
     /// <summary>
@@ -333,13 +326,12 @@ public class ExpressionTree
     /// <param name="stack">The shunting yard algorithm stack.</param>
     /// <param name="factory">The shunting yard OperatorNodeFactory.</param>
     /// <param name="token">The shunting yard current token.</param>
-    /// <returns>Whether the conidition is true or not</returns>
+    /// <returns>Whether the conidition is true or not.</returns>
     private bool ShuntingYardStepSixCondition(ref Stack<string> stack, ref OperatorNodeFactory factory, string token)
     {
         // If the incoming symbol is an operator and has either lower precedence
         // than the operator on the top of the stack, or has the same precedence as
         // the operator on the top of the stack and is left associative
-        string a;
         if (token == "(" || token == ")")
         {
             return false;
@@ -354,8 +346,9 @@ public class ExpressionTree
         {
             return false;
         }
+
         return factory.IsOperator(token) && (
-                    (factory.GetOperatorPrecedence(token) < factory.GetOperatorPrecedence(stack.Peek())) ||
+                    factory.GetOperatorPrecedence(token) < factory.GetOperatorPrecedence(stack.Peek()) ||
                     (factory.GetOperatorPrecedence(token) == factory.GetOperatorPrecedence(stack.Peek()) &&
                      factory.GetOperatorAssosiativity(token) == "Left"));
     }
