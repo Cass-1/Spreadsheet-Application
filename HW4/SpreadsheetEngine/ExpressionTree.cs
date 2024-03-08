@@ -149,24 +149,27 @@ public class ExpressionTree
         // loop through the expressoin and tokenize it
         foreach (char c in expr)
         {
-            // first check the one character tokens
-            if (c == '(' || c == ')' || operatorNodeFactory.IsOperator(c))
+            if (c != ' ')
             {
-                // check if there is a multiCharacterToken that needs to be added
-                if (buffer != string.Empty)
+                // first check the one character tokens
+                if (c == '(' || c == ')' || operatorNodeFactory.IsOperator(c))
                 {
-                    tokens.Add(buffer);
-                    buffer = string.Empty;
+                    // check if there is a multiCharacterToken that needs to be added
+                    if (buffer != string.Empty)
+                    {
+                        tokens.Add(buffer);
+                        buffer = string.Empty;
+                    }
+
+                    tokens.Add(c.ToString());
                 }
 
-                tokens.Add(c.ToString());
-            }
-
-            // either a constant or a variable
-            else
-            {
-                // add the character onto the multicharacter token
-                buffer += c;
+                // either a constant or a variable
+                else
+                {
+                    // add the character onto the multicharacter token
+                    buffer += c;
+                }
             }
         }
 
