@@ -184,10 +184,30 @@ public class ExpressionTree
     /// </summary>
     /// <returns>The root of the generated expression tree.</returns>
     /// <exception cref="NotImplementedException">Not implemented.</exception>
-    private Node GenerateExpressionTree()
+    private Node GenerateExpressionTree(List<Node> postfixNodes)
     {
         // TODO: Loop through postfix tokenized expression and generate nodes.
-        throw new NotImplementedException();
+        Stack<Node> nodeStack = new Stack<Node>();
+        Node root = null;
+
+        foreach (var node in postfixNodes)
+        {
+            if (node is not OperatorNode)
+            {
+                nodeStack.Push(node);
+            }
+            else
+            {
+                OperatorNode opNode = (OperatorNode)node;
+                opNode.RightChild = nodeStack.Pop();
+                opNode.LeftChild = nodeStack.Pop();
+                
+                nodeStack.Push(node);
+            }
+        }
+
+        root = nodeStack.Pop();
+        return root;
     }
 
     /// <summary>
