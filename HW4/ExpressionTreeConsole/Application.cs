@@ -1,54 +1,95 @@
-using SpreadsheetEngine;
+// Copyright (c) Cass Dahle 11775278.
+// Licensed under the GPL v3.0 License. See LICENSE in the project root for license information.
 
 namespace ExpressionTreeConsole;
+
+using SpreadsheetEngine;
 
 /// <summary>
 /// The class that reads and responds to input from the user.
 /// </summary>
 public class Application
 {
-    private ExpressionTree expressionTree = null;
+    /// <summary>
+    /// A private expression tree.
+    /// </summary>
+    private ExpressionTree expressionTree = new ExpressionTree("A1+B1+C1");
 
+    /// <summary>
+    /// The screen for the main menu. Displays the text and reads user input.
+    /// </summary>
     public void MainMenuScreen()
     {
+        // clear the console
+        Console.Clear();
+
+        // print the expression
+        Console.WriteLine("Expression: " + this.expressionTree.Expression);
+
+        // print the txt
         MenuText.PrintMainMenu();
 
-        this.mainMenu(MenuText.MainMenuOptions);
+        // get user input
+        this.MainMenu(MenuText.MainMenuOptions);
     }
 
+    /// <summary>
+    /// The screen used for entering expressions.
+    /// </summary>
     public void ExpressionScreen()
     {
+        // print out the menu text
         MenuText.PrintExpressionMenu();
 
-        this.expressionMenu();
-        
-        MainMenuScreen();
+        // read user input
+        this.ExpressionMenu();
+
+        // return to the main menu screen
+        this.MainMenuScreen();
     }
 
+    /// <summary>
+    /// The screen used for entering variables.
+    /// </summary>
     public void VariableScreen()
     {
+        // print out the menu text
         MenuText.PrintVariableMenu();
 
-        this.variableMenu();
-        
-        MainMenuScreen();
+        // get user input
+        this.VariableMenu();
+
+        // return to the main menu screen
+        this.MainMenuScreen();
     }
 
+    /// <summary>
+    /// The screen used for evaluating the tree.
+    /// </summary>
     public void EvaluateScreen()
     {
+        // print out the menu text
         MenuText.PrintEvaluateMenu();
 
-        this.evaluateMenu();
-        
-        MainMenuScreen();
+        // evaluate the tree
+        this.EvaluateMenu();
+
+        // return to main menu
+        this.MainMenuScreen();
     }
 
+    /// <summary>
+    /// The screen used for quitting.
+    /// </summary>
     public void QuitScreen()
     {
+        // print the quitting menu
         MenuText.PrintQuitMenu();
-        return;
     }
-    
+
+    /// <summary>
+    /// Run the applciation.
+    /// </summary>
     public void RunApp()
     {
         this.MainMenuScreen();
@@ -59,15 +100,15 @@ public class Application
     /// </summary>
     /// <param name="rawInput">The string input.</param>
     /// <param name="validInputs">The valid inputs.</param>
-    /// <param name="result">The input the user selected. Null if the input is not valid</param>
+    /// <param name="result">The input the user selected. Null if the input is not valid.</param>
     /// <returns>Whether the input was valid.</returns>
-    private bool checkInput(string rawInput, List<int> validInputs, out int? result)
+    private bool CheckInput(string rawInput, List<int> validInputs, out int? result)
     {
-        int cleanedInput = 0;
+        int cleanedInput;
 
-        bool sucsessfulClean = Int32.TryParse(rawInput, out cleanedInput);
+        bool sucsessfulClean = int.TryParse(rawInput, out cleanedInput);
 
-        if (validInputs.Contains(cleanedInput))
+        if (sucsessfulClean && validInputs.Contains(cleanedInput))
         {
             result = cleanedInput;
             return true;
@@ -80,19 +121,20 @@ public class Application
     }
 
     /// <summary>
-    /// Changes menu based on user input.
+    /// Changes screen based on user input.
     /// </summary>
-    private void mainMenu(List<int> validInputs)
+    private void MainMenu(List<int> validInputs)
     {
-        string? rawInput = "";
+        string? rawInput;
         int? usersChoice = 0;
-        bool validChoice = false;
+        bool validChoice;
         do
         {
             rawInput = Console.ReadLine();
-            
-            validChoice = rawInput != null && checkInput(rawInput, validInputs, out usersChoice);
-        } while (!validChoice);
+
+            validChoice = rawInput != null && this.CheckInput(rawInput, validInputs, out usersChoice);
+        }
+        while (!validChoice);
 
         switch (usersChoice)
         {
@@ -111,43 +153,40 @@ public class Application
         }
     }
 
-    private void expressionMenu()
+    /// <summary>
+    /// Asks the user for an expression for the expression tree and creates a new expression tree.
+    /// </summary>
+    private void ExpressionMenu()
     {
-        string expression = Console.ReadLine();
+        string expression = Console.ReadLine() ?? string.Empty;
 
         this.expressionTree = new ExpressionTree(expression);
     }
-    
-    private void variableMenu()
+
+    /// <summary>
+    /// Asks the user for a variable and a value for that variable.
+    /// </summary>
+    private void VariableMenu()
     {
-        if (this.expressionTree != null)
         {
-            string variableName = string.Empty;
-            double variableValue = 0.0;
-            
+            string variableName;
+            double variableValue;
+
             Console.WriteLine("Enter a variable name: ");
-            variableName = Console.ReadLine(); 
-            
+            variableName = Console.ReadLine() ?? string.Empty;
+
             Console.WriteLine("Enter the variable's value: ");
-            variableValue = double.Parse(Console.ReadLine());
+            variableValue = double.Parse(Console.ReadLine() ?? string.Empty);
 
             this.expressionTree.SetVariable(variableName, variableValue);
         }
-        else
-        {
-            Console.WriteLine("Please enter expression first.");
-        }
     }
 
-    private void evaluateMenu()
+    /// <summary>
+    /// Evaluates the expression tree.
+    /// </summary>
+    private void EvaluateMenu()
     {
-        if (this.expressionTree != null)
-        {
-            Console.WriteLine(this.expressionTree.Evaluate());
-        }
-        else
-        {
-            Console.WriteLine("Please enter expression first.");
-        }
+        Console.WriteLine(this.expressionTree.Evaluate());
     }
 }
