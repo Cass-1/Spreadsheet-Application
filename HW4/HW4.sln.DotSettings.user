@@ -1,61 +1,56 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=048ea25b_002Df0e0_002D41b1_002Dbdb7_002D90521b14ab91/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="OperatorNodeFactoryTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;Or&gt;
-    &lt;TestAncestor&gt;
-      &lt;TestId&gt;NUnit3x::5F3B02CA-E88F-48CF-B769-0E1732120157::net8.0::SpreadsheetEngine_Tests.OperatorNodeFactoryTests&lt;/TestId&gt;
-    &lt;/TestAncestor&gt;
-    &lt;ProjectFile&gt;5F3B02CA-E88F-48CF-B769-0E1732120157/f:ExpressionTreeTests.cs&lt;/ProjectFile&gt;
-  &lt;/Or&gt;
-&lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=22651bf6_002Daa1f_002D47d8_002Db142_002D99a57348530c/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ComplexConvertExpressionToPostfixTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;ProjectFile&gt;5F3B02CA-E88F-48CF-B769-0E1732120157/f:ExpressionTreeTests.cs&lt;/ProjectFile&gt;
-&lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=3046788d_002D75f7_002D4653_002Da5e3_002D7f9567cbf656/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="SimpleConvertExpressionToPostfixTest #5" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+	<s:String x:Key="/Default/CodeInspection/PencilsConfiguration/ActualSeverity/@EntryValue">INFO</s:String>
+	<s:String x:Key="/Default/CodeInspection/PencilsConfiguration/FiltersState/=CodeStyle/@EntryIndexedValue">On</s:String>
+	<s:String x:Key="/Default/CodeInspection/PencilsConfiguration/FiltersState/=NamingFilter/@EntryIndexedValue">On</s:String>
+	<s:String x:Key="/Default/CodeInspection/PencilsConfiguration/FiltersState/=SpellingFilter/@EntryIndexedValue">On</s:String>
+	<s:String x:Key="/Default/Environment/Highlighting/HighlightingSourceSnapshotLocation/@EntryValue">/home/dahle/.var/app/com.jetbrains.Rider/cache/JetBrains/Rider2023.3/resharper-host/temp/Rider/vAny/CoverageData/_HW4.632183375/Snapshot/snapshot.utdcvr</s:String>
+	<s:Boolean x:Key="/Default/Environment/InlayHints/GeneralInlayHintsOptions/EnableInlayHints/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/Environment/UnitTesting/CreateUnitTestDialog/TestProjectMapping/=5F3B02CA_002DE88F_002D48CF_002DB769_002D0E1732120157/@EntryIndexedValue">5F3B02CA-E88F-48CF-B769-0E1732120157</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/CreateUnitTestDialog/TestTemplateMapping/=NUnit3x/@EntryIndexedValue">db4927dd-2e12-48a7-9a84-2b7e3e31b9c8</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=02b34e7f_002D106b_002D4d9b_002D9953_002D4f341d96f98d/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="TokenizeExpressionShortConstantsTest #4" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;
-    &lt;TestId&gt;NUnit3x::5F3B02CA-E88F-48CF-B769-0E1732120157::net8.0::SpreadsheetEngine_Tests.ExpressionTreeTests.SimpleConvertExpressionToPostfixTest&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::5F3B02CA-E88F-48CF-B769-0E1732120157::net8.0::SpreadsheetEngine_Tests.ExpressionTreeTests.SimpleConvertExpressionToPostfixTest2&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::5F3B02CA-E88F-48CF-B769-0E1732120157::net8.0::SpreadsheetEngine_Tests.ExpressionTreeTests.TokenizeExpressionShortConstantsTest&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=305c8b10_002Daa1f_002D4e2f_002Dbd21_002D8d7129f1b230/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="SimpleConvertExpressionToPostfixTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=14e4a885_002D4e51_002D4dbc_002Dbfb3_002D8077dd53a5e7/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="TokenizeExpressionShortConstantsTest #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;
-    &lt;TestId&gt;NUnit3x::5F3B02CA-E88F-48CF-B769-0E1732120157::net8.0::SpreadsheetEngine_Tests.ExpressionTreeTests.SimpleConvertExpressionToPostfixTest&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::5F3B02CA-E88F-48CF-B769-0E1732120157::net8.0::SpreadsheetEngine_Tests.ExpressionTreeTests.TokenizeExpressionShortConstantsTest&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=37fcd1a5_002D2ff5_002D4ae7_002Da0b1_002Db12e89309456/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="CompleteTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=18ecc3d9_002D2ffe_002D43ea_002Db52b_002D2b499c1eac79/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="TokenizeExpressionLongConstantsTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;
-    &lt;TestId&gt;NUnit3x::5F3B02CA-E88F-48CF-B769-0E1732120157::net8.0::SpreadsheetEngine_Tests.ExpressionTreeTests.CompleteTest&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::5F3B02CA-E88F-48CF-B769-0E1732120157::net8.0::SpreadsheetEngine_Tests.ExpressionTreeTests.SetVariableSimpleTest&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::5F3B02CA-E88F-48CF-B769-0E1732120157::net8.0::SpreadsheetEngine_Tests.ExpressionTreeTests.SetVariableImproperNameTest&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::5F3B02CA-E88F-48CF-B769-0E1732120157::net8.0::SpreadsheetEngine_Tests.ExpressionTreeTests.TokenizeExpressionLongConstantsTest&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::5F3B02CA-E88F-48CF-B769-0E1732120157::net8.0::SpreadsheetEngine_Tests.ExpressionTreeTests.TokenizeExpressionShortConstantsTest&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=6bb69c77_002D443c_002D4eb4_002D8b0a_002Db5e3d867ce0d/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="SimpleConvertExpressionToPostfixTest #4" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=442ff21d_002Db9e4_002D4f1e_002Da2ea_002D4013eb1bc7d5/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from Solution #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;Solution /&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=87d35c8f_002Dc4f6_002D4085_002D9bad_002D8a7d84f92e98/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from Solution" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;Solution /&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=8a932955_002Dbaf2_002D454b_002Db6b8_002D09376fae50ed/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="TokenizeExpressionShortConstantsTest #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;
-    &lt;TestId&gt;NUnit3x::5F3B02CA-E88F-48CF-B769-0E1732120157::net8.0::SpreadsheetEngine_Tests.ExpressionTreeTests.SimpleConvertExpressionToPostfixTest&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::5F3B02CA-E88F-48CF-B769-0E1732120157::net8.0::SpreadsheetEngine_Tests.ExpressionTreeTests.TokenizeExpressionShortConstantsTest&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=78833365_002Dae7d_002D4270_002Da146_002D93926817426e/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="SetVariableImproperNameTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;Project Location="/home/dahle/Documents/Spring2024/CS 321/testing/cpts321-hws/HW4/SpreadsheetEngine_Tests" Presentation="&amp;lt;SpreadsheetEngine_Tests&amp;gt;" /&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=b3e13c21_002D84de_002D4dcb_002D9290_002D46e27d983b45/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from Solution #4" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;Solution /&gt;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=84735292_002Df97c_002D4efe_002D86dd_002De9926483de4b/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="SimpleConvertExpressionToPostfixTest2 #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=b9c41940_002D213c_002D460e_002Db078_002Dab5dafb2b727/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from Solution #5" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;Solution /&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=eb5e148a_002Dcde5_002D434d_002D8046_002D75dfb8e292ca/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="TokenizeExpressionShortConstantsTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;
-    &lt;TestId&gt;NUnit3x::5F3B02CA-E88F-48CF-B769-0E1732120157::net8.0::SpreadsheetEngine_Tests.ExpressionTreeTests.SimpleConvertExpressionToPostfixTest2&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::5F3B02CA-E88F-48CF-B769-0E1732120157::net8.0::SpreadsheetEngine_Tests.ExpressionTreeTests.SimpleConvertExpressionToPostfixTest3&lt;/TestId&gt;
-    &lt;TestId&gt;NUnit3x::5F3B02CA-E88F-48CF-B769-0E1732120157::net8.0::SpreadsheetEngine_Tests.ExpressionTreeTests.ComplexConvertExpressionToPostfixTest&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::5F3B02CA-E88F-48CF-B769-0E1732120157::net8.0::SpreadsheetEngine_Tests.ExpressionTreeTests.TokenizeExpressionShortConstantsTest&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=a684736c_002D3045_002D4b03_002D8078_002Dcfc8732020da/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="SimpleConvertExpressionToPostfixTest #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;TestAncestor&gt;
-    &lt;TestId&gt;NUnit3x::5F3B02CA-E88F-48CF-B769-0E1732120157::net8.0::SpreadsheetEngine_Tests.ExpressionTreeTests.SimpleConvertExpressionToPostfixTest&lt;/TestId&gt;
-  &lt;/TestAncestor&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f4e7cc64_002D5db1_002D4504_002Db0a1_002D073b049788ce/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from Solution #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;Solution /&gt;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=d9a15a14_002D2032_002D4db8_002Db5e4_002Dc9b6082c36ee/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="SetVariableUpdateExistingVariableTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;Project Location="/home/dahle/Documents/Spring2024/CS 321/testing/cpts321-hws/HW4/SpreadsheetEngine_Tests" Presentation="&amp;lt;SpreadsheetEngine_Tests&amp;gt;" /&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f6cc7c57_002Dca0c_002D4b4f_002D8629_002Dc2d7aa940a9c/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="TokenizeExpressionShortConstantsTest #5" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;Project Location="/home/dahle/Documents/Spring2024/CS 321/cpts321-hws/HW4/SpreadsheetEngine_Tests" Presentation="&amp;lt;SpreadsheetEngine_Tests&amp;gt;" /&gt;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=e367dca8_002D8655_002D40a0_002D824b_002D703b8b906127/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="SimpleConvertExpressionToPostfixTest #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;TestAncestor&gt;
-    &lt;TestId&gt;NUnit3x::5F3B02CA-E88F-48CF-B769-0E1732120157::net8.0::SpreadsheetEngine_Tests.ExpressionTreeTests.SimpleConvertExpressionToPostfixTest&lt;/TestId&gt;
-  &lt;/TestAncestor&gt;
-&lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f75c27b3_002Dedb2_002D4449_002D9a02_002D9207ba5e2b67/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="SimpleConvertExpressionToPostfixTest2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;Project Location="/home/dahle/Documents/Spring2024/CS 321/testing/cpts321-hws/HW4/SpreadsheetEngine_Tests" Presentation="&amp;lt;SpreadsheetEngine_Tests&amp;gt;" /&gt;
-&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
+	
+	
+	</wpf:ResourceDictionary>
