@@ -8,4 +8,13 @@ namespace SpreadsheetEngine;
 /// </summary>
 public abstract class OperatorNode : Node
 {
+    /// <summary>
+    /// The left child node.
+    /// </summary>
+    public Node LeftChild { get; set; }
+
+    /// <summary>
+    /// The right child node.
+    /// </summary>
+    public Node RightChild { get; set; }
 }

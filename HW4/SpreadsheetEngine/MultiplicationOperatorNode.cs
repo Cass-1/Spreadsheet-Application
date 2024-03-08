@@ -13,16 +13,6 @@ public class MultiplicationOperatorNode : OperatorNode
     public static int Precedence = 2;
 
     public static string Assosiativity = "Left";
-    
-    /// <summary>
-    /// The left child node.
-    /// </summary>
-    private Node leftChild;
-
-    /// <summary>
-    /// The right child node.
-    /// </summary>
-    private Node rightChild;
 
     /// <summary>
     /// Evaluates the product of the two child nodes.
@@ -30,6 +20,6 @@ public class MultiplicationOperatorNode : OperatorNode
     /// <returns>The product of the two child nodes.</returns>
     public override double Evaluate()
     {
-        return this.leftChild.Evaluate() * this.rightChild.Evaluate();
+        return this.LeftChild.Evaluate() * this.RightChild.Evaluate();
     }
 }
