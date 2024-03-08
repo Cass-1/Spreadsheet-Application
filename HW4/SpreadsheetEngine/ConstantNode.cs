@@ -50,7 +50,7 @@ public class ConstantNode : Node
     }
 
     /// <summary>
-    /// Compares to VariableNode's and determines if they are equal.
+    /// Compares two ConstantNode's and determines if they are equal.
     /// </summary>
     /// <param name="other">The other object being compated to.</param>
     /// <returns>Whether the two objects are equal.</returns>

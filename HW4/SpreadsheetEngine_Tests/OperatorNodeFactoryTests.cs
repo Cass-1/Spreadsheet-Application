@@ -56,9 +56,9 @@ public class OperatorNodeFactoryTests
 
         Assert.Fail();
     }
-     
+
     /// <summary>
-    /// Tests what happens when we pass in a invalid operator
+    /// Tests what happens when we pass in a invalid operator.
     /// </summary>
     [Test]
     public void CreateOperatorNotAnOperatorTest()
@@ -78,65 +78,78 @@ public class OperatorNodeFactoryTests
         Assert.Fail();
     }
 
+    /// <summary>
+    /// Tests GetOperatorPrecedence for addition.
+    /// </summary>
     [Test]
     public void GetPrecedenceAdditionTest()
     {
         OperatorNodeFactory factory = new OperatorNodeFactory();
 
         int precedence = factory.GetOperatorPrecedence('+');
-        
-        Assert.AreEqual(1, precedence);
+
+        Assert.That(precedence, Is.EqualTo(1));
     }
-    
+
+    /// <summary>
+    /// Tests GetOperatorPrecedence for subtraction.
+    /// </summary>
     [Test]
     public void GetPrecedenceSubtractionTest()
     {
         OperatorNodeFactory factory = new OperatorNodeFactory();
 
         int precedence = factory.GetOperatorPrecedence('-');
-        
-        Assert.AreEqual(1, precedence);
+
+        Assert.That(precedence, Is.EqualTo(1));
     }
-    
-    
+
+    /// <summary>
+    /// Tests GetOperatorPrecedence for multiplication.
+    /// </summary>
     [Test]
     public void GetPrecedenceMultiplicationTest()
     {
         OperatorNodeFactory factory = new OperatorNodeFactory();
 
         int precedence = factory.GetOperatorPrecedence('*');
-        
-        Assert.AreEqual(2, precedence);
+
+        Assert.That(precedence, Is.EqualTo(2));
     }
-    
+
+    /// <summary>
+    /// Tests GetOperatorPrecedence for division.
+    /// </summary>
     [Test]
     public void GetPrecedenceDivisionTest()
     {
         OperatorNodeFactory factory = new OperatorNodeFactory();
 
         int precedence = factory.GetOperatorPrecedence('/');
-        
-        Assert.AreEqual(2, precedence);
+
+        Assert.That(precedence, Is.EqualTo(2));
     }
-    
-    
+
+    /// <summary>
+    /// Tests GetOperatorPrecedence with an invalid operator.
+    /// </summary>
     [Test]
     public void GetPrecedenceInvalidOperatorTest()
     {
         OperatorNodeFactory factory = new OperatorNodeFactory();
         try
         {
-            int precedence = factory.GetOperatorPrecedence('a');
+            factory.GetOperatorPrecedence('a');
         }
         catch (Exception e)
         {
             Assert.IsTrue(e is InvalidOperationException);
             return;
         }
-        
+
         Assert.Fail();
     }
-    
+
     /// <summary>
     /// Tests the GetOperator function for addition.
     /// </summary>
@@ -146,10 +159,10 @@ public class OperatorNodeFactoryTests
         OperatorNodeFactory factory = new OperatorNodeFactory();
 
         string precedence = factory.GetOperatorAssosiativity('+');
-        
-        Assert.AreEqual("Left", precedence);
+
+        Assert.That(precedence, Is.EqualTo("Left"));
     }
-    
+
     /// <summary>
     /// Tests the GetOperator function for subtraction.
     /// </summary>
@@ -159,10 +172,10 @@ public class OperatorNodeFactoryTests
         OperatorNodeFactory factory = new OperatorNodeFactory();
 
         string precedence = factory.GetOperatorAssosiativity('-');
-        
-        Assert.AreEqual("Left", precedence);
+
+        Assert.That(precedence, Is.EqualTo("Left"));
     }
-    
+
     /// <summary>
     /// Tests the GetOperator function for multiplication.
     /// </summary>
@@ -172,10 +185,10 @@ public class OperatorNodeFactoryTests
         OperatorNodeFactory factory = new OperatorNodeFactory();
 
         string precedence = factory.GetOperatorAssosiativity('*');
-        
-        Assert.AreEqual("Left", precedence);
+
+        Assert.That(precedence, Is.EqualTo("Left"));
     }
-    
+
     /// <summary>
     /// Tests the GetOperator function for division.
     /// </summary>
@@ -185,10 +198,10 @@ public class OperatorNodeFactoryTests
         OperatorNodeFactory factory = new OperatorNodeFactory();
 
         string precedence = factory.GetOperatorAssosiativity('/');
-        
-        Assert.AreEqual("Left", precedence);
+
+        Assert.That(precedence, Is.EqualTo("Left"));
     }
-    
+
     /// <summary>
     /// Tests the GetOperator function for an invalid operation.
     /// </summary>
@@ -198,14 +211,14 @@ public class OperatorNodeFactoryTests
         OperatorNodeFactory factory = new OperatorNodeFactory();
         try
         {
-            string precedence = factory.GetOperatorAssosiativity('a');
+            factory.GetOperatorAssosiativity('a');
         }
         catch (Exception e)
         {
             Assert.IsTrue(e is InvalidOperationException);
             return;
         }
-        
+
         Assert.Fail();
     }
 }

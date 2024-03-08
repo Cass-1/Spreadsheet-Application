@@ -1,11 +1,9 @@
 // Copyright (c) Cass Dahle 11775278.
 // Licensed under the GPL v3.0 License. See LICENSE in the project root for license information.
 
-using System.Reflection;
-
 namespace SpreadsheetEngine_Tests;
 
-using System.ComponentModel;
+using System.Reflection;
 using SpreadsheetEngine;
 
 /// <summary>
@@ -13,6 +11,11 @@ using SpreadsheetEngine;
 /// </summary>
 public class ExpressionTreeTests
 {
+    /// <summary>
+    /// The object to be tested.
+    /// </summary>
+    private ExpressionTree objectUnderTest = new ExpressionTree(string.Empty);
+
     /// <summary>
     /// Tests a basic creation of a variable.
     /// </summary>
@@ -26,7 +29,7 @@ public class ExpressionTreeTests
         // TODO: be able to access private members
         var value = expressionTree.GetVariable("A1");
 
-        Assert.AreEqual(value, 5);
+        Assert.That(value, Is.EqualTo(5));
     }
 
     /// <summary>
@@ -41,7 +44,7 @@ public class ExpressionTreeTests
 
         var value = expressionTree.GetVariable("a123123a342a4");
 
-        Assert.AreEqual(value, 5);
+        Assert.That(value, Is.EqualTo(5));
     }
 
     /// <summary>
@@ -57,7 +60,7 @@ public class ExpressionTreeTests
         {
             expressionTree.SetVariable("1", 5);
         }
-        catch (ArgumentException e)
+        catch (ArgumentException)
         {
             flag = true;
         }
@@ -77,7 +80,7 @@ public class ExpressionTreeTests
 
         var value = expressionTree.GetVariable("A2");
 
-        Assert.AreEqual(value, 12);
+        Assert.That(value, Is.EqualTo(12));
     }
 
     /// <summary>
@@ -92,62 +95,63 @@ public class ExpressionTreeTests
 
         var value = expressionTree.GetVariable("A2");
 
-        Assert.AreEqual(value, 5);
+        Assert.That(value, Is.EqualTo(5));
     }
-    
+
     /// <summary>
-    /// A simple test for SetVariable
+    /// A simple test for SetVariable.
     /// </summary>
     [Test]
     public void SetVariableSimpleTest()
     {
-        ExpressionTree tree = new ExpressionTree("");
+        ExpressionTree tree = new ExpressionTree(string.Empty);
         tree.SetVariable("A2", 5);
-        
-        Assert.AreEqual(tree.GetVariable("A2"), 5);
+
+        Assert.That(tree.GetVariable("A2"), Is.EqualTo(5));
     }
-    
+
     /// <summary>
     /// A simple test for SetVariable.
     /// </summary>
     [Test]
     public void SetVariableSimpleTest2()
     {
-        ExpressionTree tree = new ExpressionTree("");
+        ExpressionTree tree = new ExpressionTree(string.Empty);
         tree.SetVariable("A23456", 5);
-        
-        Assert.AreEqual(tree.GetVariable("A23456"), 5);
+
+        Assert.That(tree.GetVariable("A23456"), Is.EqualTo(5));
     }
-    
+
     /// <summary>
     /// Tests the SetVariable method when no value is given for a variable.
     /// </summary>
     [Test]
     public void SetVariableNoValueGivenTest()
     {
-        ExpressionTree tree = new ExpressionTree("");
+        ExpressionTree tree = new ExpressionTree(string.Empty);
         tree.SetVariable("A23456");
-        
-        Assert.AreEqual(tree.GetVariable("A23456"), 0);
+
+        Assert.That(tree.GetVariable("A23456"), Is.EqualTo(0));
     }
-    
+
     /// <summary>
     /// Tests the SetVariable method when a variable is incorrectly named.
     /// </summary>
     [Test]
     public void SetVariableImproperNameTest()
     {
-        ExpressionTree tree = new ExpressionTree("");
+        ExpressionTree tree = new ExpressionTree(string.Empty);
         bool check = false;
 
         try
         {
             tree.SetVariable("2ab");
         }
-        catch (ArgumentException e)
+        catch (ArgumentException)
         {
             check = true;
         }
+
         Assert.True(check);
     }
 
@@ -164,7 +168,7 @@ public class ExpressionTreeTests
          {
              expressionTree.GetVariable("A2");
          }
-         catch (KeyNotFoundException e)
+         catch (KeyNotFoundException)
          {
              flag = true;
          }
@@ -178,13 +182,11 @@ public class ExpressionTreeTests
     [Test]
     public void TokenizeExpressionShortConstantsTest()
     {
-        ExpressionTree expressionTree = new ExpressionTree("5+1+9");
-
         MethodInfo methodInfo = this.GetMethod("TokenizeExpression");
-        var tokens = (List<string>)methodInfo.Invoke(this.objectUnderTest, new object?[]{ "5+1+9" });
+        var tokens = (List<string>)methodInfo.Invoke(this.objectUnderTest, new object?[] { "5+1+9" })!;
 
         var correct = CheckTokenizedExpression(
-            tokens,
+            tokens: tokens,
             ["5", "+", "1", "+", "9"]);
 
         Assert.IsTrue(correct);
@@ -196,10 +198,8 @@ public class ExpressionTreeTests
     [Test]
     public void TokenizeExpressionLongConstantsTest()
     {
-        ExpressionTree expressionTree = new ExpressionTree("533+123+9222222");
-
         MethodInfo methodInfo = this.GetMethod("TokenizeExpression");
-        var tokens = (List<string>)methodInfo.Invoke(this.objectUnderTest, new object?[]{ "533+123+9222222" });
+        var tokens = (List<string>)methodInfo.Invoke(this.objectUnderTest, new object?[] { "533+123+9222222" })!;
 
         var correct = CheckTokenizedExpression(
             tokens,
@@ -214,10 +214,8 @@ public class ExpressionTreeTests
     [Test]
     public void TokenizeExpressionVariablesTest()
     {
-        ExpressionTree expressionTree = new ExpressionTree("A22222+1-A1");
-
         MethodInfo methodInfo = this.GetMethod("TokenizeExpression");
-        var tokens = (List<string>)methodInfo.Invoke(this.objectUnderTest, new object?[]{ "A22222+1-A1" });
+        var tokens = (List<string>)methodInfo.Invoke(this.objectUnderTest, new object?[] { "A22222+1-A1" })!;
 
         var correct = CheckTokenizedExpression(
             tokens,
@@ -232,10 +230,8 @@ public class ExpressionTreeTests
     [Test]
     public void TokenizeExpressionOneValueTest()
     {
-        ExpressionTree expressionTree = new ExpressionTree("1");
-
         MethodInfo methodInfo = this.GetMethod("TokenizeExpression");
-        var tokens = (List<string>)methodInfo.Invoke(this.objectUnderTest, new object?[]{ "1" });
+        var tokens = (List<string>)methodInfo.Invoke(this.objectUnderTest, new object?[] { "1" })!;
 
         var correct = CheckTokenizedExpression(
             tokens,
@@ -251,10 +247,8 @@ public class ExpressionTreeTests
     [Test]
     public void TokenizeExpressionInvalidExpressionTest1()
     {
-        ExpressionTree expressionTree = new ExpressionTree("(+-*)");
-
         MethodInfo methodInfo = this.GetMethod("TokenizeExpression");
-        var tokens = (List<string>)methodInfo.Invoke(this.objectUnderTest, new object?[]{ "(+-*)" });
+        var tokens = (List<string>)methodInfo.Invoke(this.objectUnderTest, new object?[] { "(+-*)" })!;
 
         var correct = CheckTokenizedExpression(
             tokens,
@@ -269,9 +263,8 @@ public class ExpressionTreeTests
     [Test]
     public void TokenizeExpressionInvalidExpressionTest2()
     {
-        ExpressionTree expressionTree = new ExpressionTree("*");
         MethodInfo methodInfo = this.GetMethod("TokenizeExpression");
-        var tokens = (List<string>)methodInfo.Invoke(this.objectUnderTest, new object?[]{ "*" });
+        var tokens = (List<string>)methodInfo.Invoke(this.objectUnderTest, new object?[] { "*" })!;
 
         var correct = CheckTokenizedExpression(
             tokens,
@@ -286,9 +279,8 @@ public class ExpressionTreeTests
     [Test]
     public void TokenizeExpressionInvalidExpressionTest3()
     {
-        ExpressionTree expressionTree = new ExpressionTree("1+A2+5-3*/");
         MethodInfo methodInfo = this.GetMethod("TokenizeExpression");
-        var tokens = (List<string>)methodInfo.Invoke(this.objectUnderTest, new object?[]{ "1+A2+5-3*/"});
+        var tokens = (List<string>)methodInfo.Invoke(this.objectUnderTest, new object?[] { "1+A2+5-3*/" })!;
 
         var correct = CheckTokenizedExpression(
             tokens,
@@ -296,9 +288,9 @@ public class ExpressionTreeTests
 
         Assert.IsTrue(correct);
     }
-    
+
     /// <summary>
-    /// Tests ConvertExpressionToPostfix
+    /// Tests ConvertExpressionToPostfix.
     /// </summary>
     [Test]
     public void SimpleConvertExpressionToPostfixTest()
@@ -306,14 +298,13 @@ public class ExpressionTreeTests
       MethodInfo methodInfo = this.GetMethod("ConvertExpressionToPostfix");
       List<string> infixTokens = new List<string> { "(", "1", "+", "2", ")", "/", "3" };
       object[] parameters = new object[] { infixTokens };
-      List<string> postfix = (List<string>)methodInfo.Invoke(this.objectUnderTest, parameters);
-      
+      List<string> postfix = (List<string>)methodInfo.Invoke(this.objectUnderTest, parameters)!;
+
       Assert.IsTrue(CheckTokenizedExpression(postfix, new List<string>(["1", "2", "+", "3", "/"])));
     }
-    
-    
+
     /// <summary>
-    /// Tests ConvertExpressionToPostfix
+    /// Tests ConvertExpressionToPostfix.
     /// </summary>
     [Test]
     public void SimpleConvertExpressionToPostfixTest2()
@@ -322,69 +313,84 @@ public class ExpressionTreeTests
 
       List<string> infixTokens = new List<string> { "1", "-", "2", "/", "3", "*", "3", "+", "4" };
       object[] parameters = new object[] { infixTokens };
-      List<string> postfix = (List<string>)methodInfo.Invoke(this.objectUnderTest, parameters);
-      
-      Assert.IsTrue(postfix != null && CheckTokenizedExpression(postfix, new List<string>(["1", "2", "3", "/", "3", "*", "-", "4", "+"])));
+      List<string> postfix = (List<string>)methodInfo.Invoke(this.objectUnderTest, parameters)!;
+
+      Assert.IsTrue(CheckTokenizedExpression(postfix, new List<string>(["1", "2", "3", "/", "3", "*", "-", "4", "+"])));
     }
 
+    /// <summary>
+    /// Tests ConvertExpressionToPostfix.
+    /// </summary>
     [Test]
     public void SimpleConvertExpressionToPostfixTest3()
     {
         MethodInfo methodInfo = this.GetMethod("ConvertExpressionToPostfix");
-        
+
         List<string> infixTokens = new List<string> { "(", "1", "+", "2", ")", "/", "3" };
         List<string> expectedPostfix = new List<string> { "1", "2", "+", "3", "/" };
         object[] parameters = new object[] { infixTokens };
-        
-        List<string> postfix = (List<string>)methodInfo.Invoke(this.objectUnderTest, parameters);
-      
-        Assert.IsTrue(postfix != null && CheckTokenizedExpression(postfix, expectedPostfix));
+
+        List<string> postfix = (List<string>)methodInfo.Invoke(this.objectUnderTest, parameters)!;
+
+        Assert.IsTrue(CheckTokenizedExpression(postfix, expectedPostfix));
     }
-    
+
+    /// <summary>
+    /// Tests ConvertExpressionToPostfix.
+    /// </summary>
     [Test]
     public void ComplexConvertExpressionToPostfixTest()
     {
         MethodInfo methodInfo = this.GetMethod("ConvertExpressionToPostfix");
-        
+
         List<string> infixTokens = new List<string> { "(", "2", "*", "3", "+", "4", ")", "/", "(", "2", "+", "5", ")" };
         List<string> expectedPostfix = new List<string> { "2", "3", "*", "4", "+", "2", "5", "+", "/" };
         object[] parameters = new object[] { infixTokens };
-        
-        List<string> postfix = (List<string>)methodInfo.Invoke(this.objectUnderTest, parameters);
-      
-        Assert.IsTrue(postfix != null && CheckTokenizedExpression(postfix, expectedPostfix));
+
+        List<string> postfix = (List<string>)methodInfo.Invoke(this.objectUnderTest, parameters)!;
+
+        Assert.IsTrue(CheckTokenizedExpression(postfix, expectedPostfix));
     }
-    
+
+    /// <summary>
+    /// Tests ConvertExpressionToPostfix with assosiativity.
+    /// </summary>
     [Test]
     public void WithAssosiativityConvertExpressionToPostfixTest()
     {
         MethodInfo methodInfo = this.GetMethod("ConvertExpressionToPostfix");
-        
+
         List<string> infixTokens = new List<string> { "2", "+", "3", "*", "4" };
         List<string> expectedPostfix = new List<string> { "2", "3", "4", "*", "+" };
         object[] parameters = new object[] { infixTokens };
-        
-        List<string> postfix = (List<string>)methodInfo.Invoke(this.objectUnderTest, parameters);
-      
-        Assert.IsTrue(postfix != null && CheckTokenizedExpression(postfix, expectedPostfix));
+
+        List<string> postfix = (List<string>)methodInfo.Invoke(this.objectUnderTest, parameters)!;
+
+        Assert.IsTrue(CheckTokenizedExpression(postfix, expectedPostfix));
     }
-    
+
+    /// <summary>
+    /// Tests ConvertExpressionToPostfix with a single operator.
+    /// </summary>
     [Test]
     public void SingleOperandConvertExpressionToPostfixTest()
     {
         MethodInfo methodInfo = this.GetMethod("ConvertExpressionToPostfix");
-        
+
         List<string> infixTokens = new List<string> { "10" };
         List<string> expectedPostfix = new List<string> { "10" };
         object[] parameters = new object[] { infixTokens };
-        
-        List<string> postfix = (List<string>)methodInfo.Invoke(this.objectUnderTest, parameters);
-      
-        Assert.IsTrue(postfix != null && CheckTokenizedExpression(postfix, expectedPostfix));
+
+        List<string> postfix = (List<string>)methodInfo.Invoke(this.objectUnderTest, parameters)!;
+
+        Assert.IsTrue(CheckTokenizedExpression(postfix, expectedPostfix));
     }
 
+    /// <summary>
+    /// Tests ConvertExpressionToPostfix with nested parenthesis.
+    /// </summary>
     [Test]
-    public void NestedParenthesisOperandConvertExpressionToPostfixTest()
+    public void NestedParenthesisConvertExpressionToPostfixTest()
     {
         MethodInfo methodInfo = this.GetMethod("ConvertExpressionToPostfix");
 
@@ -392,11 +398,14 @@ public class ExpressionTreeTests
         List<string> expectedPostfix = new List<string> { "1", "2", "+", "3", "*", "4", "-" };
         object[] parameters = new object[] { infixTokens };
 
-        List<string> postfix = (List<string>)methodInfo.Invoke(this.objectUnderTest, parameters);
+        List<string> postfix = (List<string>)methodInfo.Invoke(this.objectUnderTest, parameters)!;
 
-        Assert.IsTrue(postfix != null && CheckTokenizedExpression(postfix, expectedPostfix));
+        Assert.IsTrue(CheckTokenizedExpression(postfix, expectedPostfix));
     }
-    
+
+    /// <summary>
+    /// Tests TokensToNodes with a simple test.
+    /// </summary>
     [Test]
     public void TokensToNodesSimpleTest()
     {
@@ -406,11 +415,14 @@ public class ExpressionTreeTests
         List<Node> expectedNodes = new List<Node> { new ConstantNode(1), new ConstantNode(2), new AdditionOperatorNode(), new ConstantNode(3), new MultiplicationOperatorNode() };
         object[] parameters = new object[] { postfixTokens };
 
-        List<Node> nodes = (List<Node>)methodInfo.Invoke(this.objectUnderTest, parameters);
+        List<Node> nodes = (List<Node>)methodInfo.Invoke(this.objectUnderTest, parameters)!;
 
-        Assert.IsTrue(nodes != null && CheckNodeList(nodes, expectedNodes));
+        Assert.IsTrue(CheckNodeList(nodes, expectedNodes));
     }
-    
+
+    /// <summary>
+    /// Tests TokensToNodes with a test using multiple operators.
+    /// </summary>
     [Test]
     public void TokensToNodesMultipleOperatorsTest()
     {
@@ -420,24 +432,27 @@ public class ExpressionTreeTests
         List<Node> expectedNodes = new List<Node> { new ConstantNode(1), new ConstantNode(2), new AdditionOperatorNode(), new ConstantNode(3), new SubtractionOperatorNode(), new ConstantNode(4), new MultiplicationOperatorNode(), new ConstantNode(5), new DivisionOperatorNode() };
         object[] parameters = new object[] { postfixTokens };
 
-        List<Node> nodes = (List<Node>)methodInfo.Invoke(this.objectUnderTest, parameters);
+        List<Node> nodes = (List<Node>)methodInfo.Invoke(this.objectUnderTest, parameters)!;
 
-        Assert.IsTrue(nodes != null && CheckNodeList(nodes, expectedNodes));
+        Assert.IsTrue(CheckNodeList(nodes, expectedNodes));
     }
-    
-    
+
+    /// <summary>
+    /// Tests TokensToNodes with an expression that includes variables.
+    /// </summary>
     [Test]
     public void TokensToNodesWithVariablesTest()
     {
         MethodInfo methodInfo = this.GetMethod("TokensToNodes");
+        Dictionary<string, double>? dictionary = new Dictionary<string, double>();
 
         List<string> postfixTokens = new List<string> { "x2", "2", "*", "3", "var3", "*", "+", "5" };
-        List<Node> expectedNodes = new List<Node> { new VariableNode("x2"), new ConstantNode(2), new MultiplicationOperatorNode(), new ConstantNode(3), new VariableNode("var3"), new MultiplicationOperatorNode(), new AdditionOperatorNode(), new ConstantNode(5) };
+        List<Node> expectedNodes = new List<Node> { new VariableNode("x2", ref dictionary), new ConstantNode(2), new MultiplicationOperatorNode(), new ConstantNode(3), new VariableNode("var3", ref dictionary), new MultiplicationOperatorNode(), new AdditionOperatorNode(), new ConstantNode(5) };
         object[] parameters = new object[] { postfixTokens };
 
-        List<Node> nodes = (List<Node>)methodInfo.Invoke(this.objectUnderTest, parameters);
+        List<Node> nodes = (List<Node>)methodInfo.Invoke(this.objectUnderTest, parameters)!;
 
-        Assert.IsTrue(nodes != null && CheckNodeList(nodes, expectedNodes));
+        Assert.IsTrue(CheckNodeList(nodes, expectedNodes));
     }
 
     /// <summary>
@@ -448,10 +463,10 @@ public class ExpressionTreeTests
     {
         ExpressionTree tree = new ExpressionTree("1+2/2");
         var result = tree.Evaluate();
-        
-        Assert.AreEqual(2, result);
+
+        Assert.That(result, Is.EqualTo(2));
     }
-    
+
     /// <summary>
     /// Complex test for the whole expression tree.
     /// </summary>
@@ -460,10 +475,10 @@ public class ExpressionTreeTests
     {
         ExpressionTree tree = new ExpressionTree("((8-2)*(5+3))/(6-1)");
         var result = tree.Evaluate();
-    
-        Assert.AreEqual(9.6, result);
+
+        Assert.That(result, Is.EqualTo(9.6));
     }
-    
+
     /// <summary>
     /// Complex test for the whole expression tree.
     /// </summary>
@@ -472,11 +487,9 @@ public class ExpressionTreeTests
     {
         ExpressionTree tree = new ExpressionTree("((10 / 2) * (4 + 2)) - (3 * (6 + 2))");
         var result = tree.Evaluate();
-    
-        Assert.AreEqual(6, result);
+
+        Assert.That(result, Is.EqualTo(6));
     }
-    
-    
 
     private static bool CheckNodeList(List<Node> nodes, List<Node> answerKey)
     {
@@ -484,12 +497,12 @@ public class ExpressionTreeTests
         {
             return false;
         }
-        
+
         for (int i = 0; i < nodes.Count; i++)
         {
             var testNode = nodes.ElementAt(i);
             var answerNode = answerKey.ElementAt(i);
-            if ( testNode.Equals(answerNode))
+            if (testNode.Equals(answerNode))
             {
                 return false;
             }
@@ -497,9 +510,6 @@ public class ExpressionTreeTests
 
         return true;
     }
-
-
-
 
     /// <summary>
     /// Helper function to check if TokenizedExpression works.
@@ -524,9 +534,7 @@ public class ExpressionTreeTests
 
         return true;
     }
-    
-    private ExpressionTree objectUnderTest = new ExpressionTree("");
-    
+
     /// <summary>
     /// Gets a private method of the ExpressionTree class.
     /// </summary>
@@ -539,14 +547,13 @@ public class ExpressionTreeTests
             Assert.Fail("methodName is null or whitespace");
         }
 
-        var method = this.objectUnderTest.GetType().GetMethod(methodName, BindingFlags.NonPublic |
-            BindingFlags.Static | BindingFlags.Instance);
+        var method = this.objectUnderTest.GetType().GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance);
 
         if (method == null)
         {
             Assert.Fail(methodName + " method not found");
         }
 
-        return method;
+        return method!;
     }
 }
