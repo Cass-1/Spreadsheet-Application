@@ -40,7 +40,7 @@ public class VariableNode : Node
     /// <returns>A double representing the variable's value.</returns>
     public override double Evaluate()
     {
-        return this.dictionary[this.name];
+        return this.dictionary.ContainsKey(this.name) ? this.dictionary[this.name] : 0;
     }
     
     public override bool Equals(object? obj)
