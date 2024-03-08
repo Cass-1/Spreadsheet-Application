@@ -11,6 +11,7 @@ using System.Runtime.CompilerServices;
 /// Represents a cell in a spreadsheet.
 /// </summary>
 [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:Fields should be private", Justification = "<both the value and text property need to be protected and not private to comply with assignment requirements.>")]
+[SuppressMessage("ReSharper", "InconsistentNaming", Justification = "<both the value and text property need to be protected and not private to comply with assignment requirements.>")]
 public abstract class Cell : INotifyPropertyChanged
 {
     /// <summary>
