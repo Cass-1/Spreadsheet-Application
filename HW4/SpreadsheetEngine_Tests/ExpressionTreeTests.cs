@@ -402,6 +402,74 @@ public class ExpressionTreeTests
         Assert.IsTrue(nodes != null && CheckNodeList(nodes, expectedNodes));
     }
 
+    /// <summary>
+    /// A simple test for SetVariable
+    /// </summary>
+    [Test]
+    public void SetVariableSimpleTest()
+    {
+        ExpressionTree tree = new ExpressionTree("");
+        tree.SetVariable("A2", 5);
+        
+        Assert.AreEqual(tree.GetVariable("A2"), 5);
+    }
+    
+    /// <summary>
+    /// A simple test for SetVariable.
+    /// </summary>
+    [Test]
+    public void SetVariableSimpleTest2()
+    {
+        ExpressionTree tree = new ExpressionTree("");
+        tree.SetVariable("A23456", 5);
+        
+        Assert.AreEqual(tree.GetVariable("A23456"), 5);
+    }
+    
+    /// <summary>
+    /// Tests the SetVariable method when no value is given for a variable.
+    /// </summary>
+    [Test]
+    public void SetVariableNoValueGivenTest()
+    {
+        ExpressionTree tree = new ExpressionTree("");
+        tree.SetVariable("A23456");
+        
+        Assert.AreEqual(tree.GetVariable("A23456"), 0);
+    }
+    
+    /// <summary>
+    /// Tests the SetVariable method when a variable is incorrectly named.
+    /// </summary>
+    [Test]
+    public void SetVariableImproperNameTest()
+    {
+        ExpressionTree tree = new ExpressionTree("");
+        bool check = false;
+
+        try
+        {
+            tree.SetVariable("2ab");
+        }
+        catch (ArgumentException e)
+        {
+            check = true;
+        }
+        Assert.True(check);
+    }
+
+    [Test]
+    public void CompleteTest()
+    {
+        ExpressionTree tree = new ExpressionTree("1+2/2");
+        var result = tree.Evaluate();
+        
+        Assert.AreEqual(2, result);
+    }
+    
+    
+    
+
     private static bool CheckNodeList(List<Node> nodes, List<Node> answerKey)
     {
         if (nodes.Count != answerKey.Count)
