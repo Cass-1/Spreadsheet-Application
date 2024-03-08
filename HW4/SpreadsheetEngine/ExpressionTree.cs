@@ -253,7 +253,8 @@ public class ExpressionTree
     /// </summary>
     /// <param name="variableName">The name of the variable to create/update.</param>
     /// <param name="variableValue">The value to set the variable to.</param>
-    public void SetVariable(string variableName, double variableValue = 0)
+    /// <exception cref="ArgumentException">Thrown if an invalid variable name is provided.</exception>
+    public void SetVariable(string variableName, double variableValue)
     {
         
         // check if the variable starts with an ascii value
@@ -262,7 +263,30 @@ public class ExpressionTree
             throw new ArgumentException();
         }
         
-        this.variableDatabase.Add(variableName, variableValue);
+        else
+        {
+            this.variableDatabase[variableName] = variableValue;
+        }
+    }
+    
+    /// <summary>
+    /// Sets of value of a variable. Creates a variable if it doesn't already exist.
+    /// </summary>
+    /// <param name="variableName">The name of the variable to create/update.</param>
+    /// <exception cref="ArgumentException">Thrown if an invalid variable name is provided.</exception>
+    public void SetVariable(string variableName)
+    {
+        
+        // check if the variable starts with an ascii value
+        if (char.IsDigit(variableName.ToCharArray()[0]))
+        {
+            throw new ArgumentException();
+        }
+        
+        else
+        {
+            this.variableDatabase[variableName] = 0;
+        }
     }
 
     /// <summary>
