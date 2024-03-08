@@ -3,15 +3,30 @@
 
 namespace SpreadsheetEngine;
 
+using System.Diagnostics.CodeAnalysis;
+
 /// <summary>
 /// Represents the multiplication operator.
 /// </summary>
+[SuppressMessage(
+    "StyleCop.CSharp.MaintainabilityRules",
+    "SA1401:Fields should be private",
+    Justification = "<The static variables need to be public so they can be accessed by other classes>")]
 public class MultiplicationOperatorNode : OperatorNode
 {
+    /// <summary>
+    /// The character representation of the operation.
+    /// </summary>
     public static char Character = '*';
 
+    /// <summary>
+    /// The operator's precedence.
+    /// </summary>
     public static int Precedence = 2;
 
+    /// <summary>
+    /// The oporator's assosiativity.
+    /// </summary>
     public static string Assosiativity = "Left";
 
     /// <summary>
