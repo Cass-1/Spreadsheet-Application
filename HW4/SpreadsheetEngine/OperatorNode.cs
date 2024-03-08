@@ -9,12 +9,12 @@ namespace SpreadsheetEngine;
 public abstract class OperatorNode : Node
 {
     /// <summary>
-    /// The left child node.
+    /// Gets or sets the left child node.
     /// </summary>
-    public Node LeftChild { get; set; }
+    public Node LeftChild { get; set; } = null!;
 
     /// <summary>
-    /// The right child node.
+    /// Gets or sets the right child node.
     /// </summary>
-    public Node RightChild { get; set; }
+    public Node RightChild { get; set; } = null!;
 }
