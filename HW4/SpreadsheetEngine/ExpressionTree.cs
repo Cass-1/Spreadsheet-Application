@@ -253,10 +253,16 @@ public class ExpressionTree
     /// </summary>
     /// <param name="variableName">The name of the variable to create/update.</param>
     /// <param name="variableValue">The value to set the variable to.</param>
-    public void SetVariable(string variableName, double variableValue)
+    public void SetVariable(string variableName, double variableValue = 0)
     {
-        // TODO: Implement
-        throw new NotImplementedException();
+        
+        // check if the variable starts with an ascii value
+        if (char.IsDigit(variableName.ToCharArray()[0]))
+        {
+            throw new ArgumentException();
+        }
+        
+        this.variableDatabase.Add(variableName, variableValue);
     }
 
     /// <summary>
