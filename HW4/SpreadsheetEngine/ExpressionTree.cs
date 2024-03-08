@@ -26,12 +26,14 @@ public class ExpressionTree
     /// <summary>
     /// The expression as a string.
     /// </summary>
-    private string expression;
+    public string Expression { get; }
 
     /// <summary>
     /// A dictionary of all the variables.
     /// </summary>
     private Dictionary<string, double> variableDatabase;
+
+    public List<string> Variables = new List<string>();
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ExpressionTree"/> class.
@@ -40,7 +42,7 @@ public class ExpressionTree
     public ExpressionTree(string expression)
     {
         // set the _expression
-        this.expression = expression;
+        this.Expression = expression;
 
         // allocate variable database
         this.variableDatabase = new Dictionary<string, double>();
@@ -269,6 +271,7 @@ public class ExpressionTree
         else
         {
             this.variableDatabase[variableName] = variableValue;
+            this.Variables = this.variableDatabase.Keys.ToList();
         }
     }
     
@@ -311,7 +314,7 @@ public class ExpressionTree
         // evaluate the expression
         double result;
 
-        this.TokenizedExpression = this.TokenizeExpression(this.expression);
+        this.TokenizedExpression = this.TokenizeExpression(this.Expression);
 
         var postfixTokens = this.ConvertExpressionToPostfix(this.TokenizedExpression);
 
