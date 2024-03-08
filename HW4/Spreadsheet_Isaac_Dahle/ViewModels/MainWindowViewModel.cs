@@ -41,7 +41,8 @@ public class MainWindowViewModel : ViewModelBase
 
         // initalize the rows
         this.Rows = Enumerable.Range(0, this.rowCount)
-            .Select(row => Enumerable.Range(0, this.columnCount)
+            .Select(
+                row => Enumerable.Range(0, this.columnCount)
                 .Select(column => this.spreadsheet?.GetCell(row, column)).ToArray())
             .ToArray();
     }
@@ -72,7 +73,8 @@ public class MainWindowViewModel : ViewModelBase
             var columnTemplate = new DataGridTemplateColumn
             {
                 Header = columnHeader,
-                CellTemplate = new FuncDataTemplate<IEnumerable<Cell>>((_, _) =>
+                CellTemplate = new FuncDataTemplate<IEnumerable<Cell>>(
+                    (_, _) =>
                     new TextBlock
                     {
                         [!TextBlock.TextProperty] = new Binding($"[{columnIndex}].Value"),
@@ -80,7 +82,8 @@ public class MainWindowViewModel : ViewModelBase
                         VerticalAlignment = VerticalAlignment.Center,
                         Padding = Thickness.Parse("5,0,5,0"),
                     }),
-                CellEditingTemplate = new FuncDataTemplate<IEnumerable<Cell>>((_, _) =>
+                CellEditingTemplate = new FuncDataTemplate<IEnumerable<Cell>>(
+                    (_, _) =>
                     new TextBox
                     {
                         [!TextBox.TextProperty] = new Binding($"[{columnIndex}].Text"),
