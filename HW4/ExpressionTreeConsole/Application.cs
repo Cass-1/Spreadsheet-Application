@@ -20,9 +20,6 @@ public class Application
     /// </summary>
     public void MainMenuScreen()
     {
-        // clear the console
-        Console.Clear();
-
         // print the expression
         Console.WriteLine("Expression: " + this.expressionTree.Expression);
 
