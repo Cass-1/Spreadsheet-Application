@@ -197,8 +197,7 @@ public class ExpressionTree
     /// <exception cref="NotImplementedException">Not implemented.</exception>
     private double EvaluateExpressionTree()
     {
-        // TODO: Recursively evaluate the expression tree.
-        throw new NotImplementedException();
+        return this.root.Evaluate();
     }
 
     private List<Node> TokensToNodes(List<string> postfixTokens)
@@ -261,9 +260,11 @@ public class ExpressionTree
 
         this.TokenizedExpression = this.TokenizeExpression(this.expression);
 
-        var infixTokens = this.ConvertExpressionToPostfix(this.TokenizedExpression);
+        var postfixTokens = this.ConvertExpressionToPostfix(this.TokenizedExpression);
 
-        this.root = this.GenerateExpressionTree();
+        var postfixNodes = this.TokensToNodes(postfixTokens);
+
+        this.root = this.GenerateExpressionTree(postfixNodes);
 
         result = this.EvaluateExpressionTree();
 
