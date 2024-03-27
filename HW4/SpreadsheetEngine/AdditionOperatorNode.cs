@@ -17,7 +17,7 @@ public class AdditionOperatorNode : OperatorNode
     /// <summary>
     /// The character representation of the operation.
     /// </summary>
-    public static char Character = '+';
+    public static char Operator = '+';
 
     /// <summary>
     /// The operator's precedence.

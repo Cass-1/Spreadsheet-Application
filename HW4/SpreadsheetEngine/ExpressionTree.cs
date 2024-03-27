@@ -92,6 +92,21 @@ public class ExpressionTree
     }
 
     /// <summary>
+    /// Gets all the names of the variables in the VariableDatabase.
+    /// </summary>
+    /// <returns>A list of all the names of variables in the VariableDatabase. </returns>
+    public List<string> GetVariableNames()
+    {
+        List<string> variableNames = new List<string>();
+        foreach (var item in this.variableDatabase)
+        {
+            variableNames.Add(item.Key);
+        }
+
+        return variableNames;
+    }
+
+    /// <summary>
     /// Evaluates the expression tree.
     /// </summary>
     /// <returns>The result of the evaluated tree.</returns>
