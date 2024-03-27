@@ -1,6 +1,8 @@
 // Copyright (c) Cass Dahle 11775278.
 // Licensed under the GPL v3.0 License. See LICENSE in the project root for license information.
 
+using System.Runtime.CompilerServices;
+
 namespace SpreadsheetEngine;
 
 using System.ComponentModel;
@@ -126,20 +128,39 @@ public class Spreadsheet
             // The location of the cell to get the value from.
             var expression = cell.Text.TrimStart('=');
 
-            // this try catch block prevents errors from happening in the spreadsheet when we are still typing
-            // and before we have finished entering a value.
-            try
-            {
-                var rowCharacter = expression.Substring(1, expression.Length - 1);
-                var columnCharacter = expression[0];
+            ExpressionTree expressionTree = new ExpressionTree(expression);
 
-                // set the value in the reference cell
-                cell.Value = this.GetCell(int.Parse(rowCharacter) - 1, columnCharacter - 'A').Text;
-            }
-            catch (Exception)
+            List<string> variables = expressionTree.GetVariableNames();
+
+            foreach (var variable in variables)
             {
-                // ignored
+                // this try catch block prevents errors from happening in the spreadsheet when we are still typing
+                // and before we have finished entering a value.
+                try
+                {
+                    var rowCharacter = variable.Substring(1, variable.Length - 1);
+                    var columnCharacter = variable[0];
+
+                    // get the reference cell
+                    Cell referencedCell = this.GetCell(int.Parse(rowCharacter) - 1, columnCharacter - 'A');
+
+                    // subscribe to this cell's event
+                    //TODO: doesn't work
+                    //TODO: also need to unsubscribe
+                    referencedCell.PropertyChanged += cell.CellPropertyChanged;
+
+                    // get the value of the reference cell
+                    var value = referencedCell.Text;
+                    expressionTree.SetVariable(variable, Double.Parse(value));
+
+                }
+                catch (Exception)
+                {
+                    // ignored
+                }
             }
+
+            cell.Value = expressionTree.Evaluate().ToString();
         }
 
         // if the cell's text is not an expression
@@ -167,7 +188,14 @@ public class Spreadsheet
         public override string Value
         {
             get => this.value;
-            protected internal set => this.SetandNotifyIfChanged(ref this.value, value);
+            protected internal set
+            {
+
+
+                this.SetandNotifyIfChanged(ref this.value, value);
+
+
+            }
         }
     }
 }
