@@ -197,5 +197,59 @@ public class Spreadsheet
 
             }
         }
+        public void EvaluateExpression()
+        {
+            this.expressionTree = new ExpressionTree(this.expression);
+
+            // TODO: set the reference variables
+            foreach (var cell in this.referencedCells)
+            {
+                if (cell.Value != string.Empty)
+                {
+                    this.expressionTree.SetVariable(cell.name, double.Parse(cell.Value));
+                }
+
+            }
+
+            this.Value = this.expressionTree.Evaluate().ToString();
+            // SetandNotifyIfChanged(ref this.value, this.expressionTree.Evaluate().ToString());
+            // this.Value = this.expressionTree.Evaluate().ToString();
+        }
+
+        protected void OnReferenceChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            this.EvaluateExpression();
+        }
+
+        protected void UnsubscribeFromReferencedCells()
+        {
+            if (this.referencedCells.Count > 0)
+            {
+                foreach (Cell cell in this.referencedCells)
+                {
+                    cell.PropertyChanged -= this.OnReferenceChanged;
+                }
+
+                this.referencedCells.Clear();
+            }
+        }
+
+        public void SetExpression(string expression)
+        {
+            this.UnsubscribeFromReferencedCells();
+            this.expression = expression;
+            this.EvaluateExpression();
+        }
+
+        public List<string> GetReferencedCellNames()
+        {
+            return this.expressionTree.GetVariableNames();
+        }
+
+        public void AddReferenceCell(Cell cell)
+        {
+            this.referencedCells.Add(cell);
+            cell.PropertyChanged += this.OnReferenceChanged;
+        }
     }
 }
