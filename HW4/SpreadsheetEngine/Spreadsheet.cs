@@ -127,40 +127,39 @@ public class Spreadsheet
         {
             // The location of the cell to get the value from.
             var expression = cell.Text.TrimStart('=');
+            if (expression == cell.expression)
+            {
+                cell.EvaluateExpression();
+                return;
+            }
 
-            ExpressionTree expressionTree = new ExpressionTree(expression);
+            cell.SetExpression(expression);
 
-            List<string> variables = expressionTree.GetVariableNames();
+            List<string> variables = cell.GetReferencedCellNames();
 
             foreach (var variable in variables)
             {
                 // this try catch block prevents errors from happening in the spreadsheet when we are still typing
                 // and before we have finished entering a value.
+                var rowCharacter = variable.Substring(1, variable.Length - 1);
+                var columnCharacter = variable[0];
+                if (rowCharacter == columnCharacter.ToString())
+                {
+                    return;
+                }
                 try
                 {
-                    var rowCharacter = variable.Substring(1, variable.Length - 1);
-                    var columnCharacter = variable[0];
-
                     // get the reference cell
                     Cell referencedCell = this.GetCell(int.Parse(rowCharacter) - 1, columnCharacter - 'A');
 
-                    // subscribe to this cell's event
-                    //TODO: doesn't work
-                    //TODO: also need to unsubscribe
-                    referencedCell.PropertyChanged += cell.CellPropertyChanged;
-
-                    // get the value of the reference cell
-                    var value = referencedCell.Text;
-                    expressionTree.SetVariable(variable, Double.Parse(value));
-
+                    cell.AddReferenceCell(referencedCell);
                 }
-                catch (Exception)
+                catch (Exception exception)
                 {
-                    // ignored
+                    return;
                 }
             }
-
-            cell.Value = expressionTree.Evaluate().ToString();
+            cell.EvaluateExpression();
         }
 
         // if the cell's text is not an expression
@@ -170,7 +169,7 @@ public class Spreadsheet
         }
 
         // invoke the property changed event to update the UI
-        this.CellPropertyChangedEvent.Invoke(sender, e);
+        // this.CellPropertyChangedEvent.Invoke(sender, e);
     }
 
     private class SpreadsheetCell : Cell
