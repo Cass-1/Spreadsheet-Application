@@ -319,6 +319,7 @@ public class ExpressionTree
             var charToken = token.ToCharArray();
             if (factory.IsOperator(charToken[0]))
             {
+                // new operator node
                 nodeList.Add(factory.CreateOperatorNode(charToken[0]));
             }
             else
@@ -326,6 +327,7 @@ public class ExpressionTree
                 var isNumber = double.TryParse(token, out double number);
                 if (isNumber)
                 {
+                    // new constant node
                     nodeList.Add(new ConstantNode(number));
                 }
                 else
