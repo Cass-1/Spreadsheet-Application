@@ -332,8 +332,11 @@ public class ExpressionTree
                 }
                 else
                 {
-                    var dictionary = this.variableDatabase;
-                    nodeList.Add(new VariableNode(token, ref dictionary));
+                    // add variable to the variable dictionary
+                    this.SetVariable(token, 0);
+
+                    // new variable node
+                    nodeList.Add(new VariableNode(token, ref this.variableDatabase));
                 }
             }
         }
