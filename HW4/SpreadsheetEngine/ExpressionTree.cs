@@ -16,7 +16,7 @@ public class ExpressionTree
     /// <summary>
     /// A list of all the tokens in an expression.
     /// </summary>
-    private List<string> tokenizedExpression = new List<string>();
+    private List<string> tokenizedExpression;
 
     // private List<string> PostFixTokenizedExpression = new List<string>();
 
