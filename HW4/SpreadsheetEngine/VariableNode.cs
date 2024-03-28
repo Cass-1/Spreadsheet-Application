@@ -46,7 +46,12 @@ public class VariableNode : Node
             throw new ArgumentNullException();
         }
 
-        return this.dictionary.ContainsKey(this.name) ? this.dictionary[this.name] : 0;
+        if(!this.dictionary.ContainsKey(this.name))
+        {
+            throw new Exception();
+
+        }
+        return this.dictionary[this.name];
     }
 
     /// <inheritdoc/>
