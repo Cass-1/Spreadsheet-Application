@@ -14,6 +14,18 @@ using System.Runtime.CompilerServices;
 [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "<both the value and text property need to be protected and not private to comply with assignment requirements.>")]
 public abstract class Cell : INotifyPropertyChanged
 {
+    public string expression;
+
+    /// <summary>
+    /// The cell's expression tree.
+    /// </summary>
+    protected ExpressionTree expressionTree;
+
+    /// <summary>
+    /// A list of the referenced cells in the expressionTree.
+    /// </summary>
+    protected List<Cell> referencedCells = new List<Cell>();
+
     /// <summary>
     /// Represents the actual text put into the cell.
     /// </summary>
@@ -23,6 +35,8 @@ public abstract class Cell : INotifyPropertyChanged
     /// Represents the evaluated result of a cell.
     /// </summary>
     protected string value;
+
+    public string name;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Cell"/> class.
@@ -35,6 +49,13 @@ public abstract class Cell : INotifyPropertyChanged
         this.ColumnIndex = columnIndex;
         this.text = string.Empty;
         this.value = string.Empty;
+
+        string str = "";
+        char col = (char)this.ColumnIndex;
+        col += 'A';
+        str += col;
+        str += (this.RowIndex + 1).ToString();
+        this.name = str;
     }
 
     /// <inheritdoc/>
