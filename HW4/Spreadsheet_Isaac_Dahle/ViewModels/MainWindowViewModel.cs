@@ -99,38 +99,6 @@ public class MainWindowViewModel : ViewModelBase
     }
 
     /// <summary>
-    /// Runs the demo for presenting the spreadsheets to TA's.
-    /// </summary>
-    public void Demo()
-    {
-        int rowIndex;
-
-        // add text to 50 random cells
-        for (int i = 0; i < 50; i++)
-        {
-            rowIndex = Random.Shared.Next(0, 50);
-            var columnIndex = Random.Shared.Next(0, 26);
-            var o = this.spreadsheet;
-            if (o != null)
-            {
-                o.GetCell(rowIndex, columnIndex).Text = "Hell0";
-            }
-        }
-
-        for (int i = 0; i < 50; i++)
-        {
-            var strA = "=B" + (i + 1);
-            var strB = "This is cell B" + (i + 1);
-            var o = this.spreadsheet;
-            if (o != null)
-            {
-                o.GetCell(i, 1).Text = strB;
-                o.GetCell(i, 0).Text = strA;
-            }
-        }
-    }
-
-    /// <summary>
     /// Initializes the spreadsheet.
     /// </summary>
     /// <param name="row">The number of rows the spreadsheet should have.</param>

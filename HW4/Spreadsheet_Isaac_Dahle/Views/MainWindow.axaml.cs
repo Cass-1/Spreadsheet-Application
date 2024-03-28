@@ -42,14 +42,4 @@ public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
             args.Row.Header = args.Row.GetIndex() + 1;
         };
     }
-
-    /// <summary>
-    /// The function called by the UI to start the demo. A wrapper for the Demo() function.
-    /// </summary>
-    /// <param name="sender">The object calling the event.</param>
-    /// <param name="routedEventArgs">The event arguments.</param>
-    public void StartDemo(object? sender, RoutedEventArgs routedEventArgs)
-    {
-        this.ViewModel?.Demo();
-    }
 }
