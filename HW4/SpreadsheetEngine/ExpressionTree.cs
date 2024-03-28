@@ -351,7 +351,7 @@ public class ExpressionTree
     /// <exception cref="NotImplementedException">Not implemented.</exception>
     private double EvaluateExpressionTree()
     {
-        return this.root.Evaluate();
+        return root != null ? this.root.Evaluate() : 0;
     }
 
     /// <summary>
