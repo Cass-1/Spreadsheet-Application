@@ -41,6 +41,21 @@ public class ExpressionTree
 
         // allocate variable database
         this.variableDatabase = new Dictionary<string, double>();
+
+        // allocate tokenize expression space
+        tokenizedExpression = new List<string>();
+
+        // tokenize the expression
+        this.tokenizedExpression = this.TokenizeExpression(this.Expression);
+
+        // convert to postfix tokens
+        var postfixTokens = this.ConvertExpressionToPostfix(this.tokenizedExpression);
+
+        // convert tokens to nodes
+        var postfixNodes = this.TokensToNodes(postfixTokens);
+
+        // build the expression tree
+        this.root = this.GenerateExpressionTree(postfixNodes);
     }
 
     /// <summary>
