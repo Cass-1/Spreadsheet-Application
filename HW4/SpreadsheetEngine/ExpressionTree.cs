@@ -127,20 +127,7 @@ public class ExpressionTree
     /// <returns>The result of the evaluated tree.</returns>
     public double Evaluate()
     {
-        // evaluate the expression
-        double result;
-
-        this.tokenizedExpression = this.TokenizeExpression(this.Expression);
-
-        var postfixTokens = this.ConvertExpressionToPostfix(this.tokenizedExpression);
-
-        var postfixNodes = this.TokensToNodes(postfixTokens);
-
-        this.root = this.GenerateExpressionTree(postfixNodes);
-
-        result = this.EvaluateExpressionTree();
-
-        return result;
+        return this.EvaluateExpressionTree();
     }
 
     /// <summary>
