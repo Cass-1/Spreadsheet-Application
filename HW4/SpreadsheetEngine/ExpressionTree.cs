@@ -278,6 +278,11 @@ public class ExpressionTree
         Stack<Node> nodeStack = new Stack<Node>();
         Node localRoot;
 
+        if (postfixNodes.Count == 0)
+        {
+            return null;
+        }
+
         foreach (var node in postfixNodes)
         {
             if (node is not OperatorNode)
@@ -287,8 +292,15 @@ public class ExpressionTree
             else
             {
                 OperatorNode opNode = (OperatorNode)node;
-                opNode.RightChild = nodeStack.Pop();
-                opNode.LeftChild = nodeStack.Pop();
+                // prevent crashing when writing in two cells in an expression
+                try
+                {
+                    opNode.RightChild = nodeStack.Pop();
+                    opNode.LeftChild = nodeStack.Pop();
+                }
+                catch
+                {
+                }
 
                 nodeStack.Push(node);
             }
