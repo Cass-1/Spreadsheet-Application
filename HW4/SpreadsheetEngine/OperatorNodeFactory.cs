@@ -1,6 +1,8 @@
 // Copyright (c) Cass Dahle 11775278.
 // Licensed under the GPL v3.0 License. See LICENSE in the project root for license information.
 
+using System.Reflection;
+
 namespace SpreadsheetEngine;
 
 /// <summary>
@@ -11,18 +13,56 @@ public class OperatorNodeFactory
     /// <summary>
     /// A dictionary that keeps track of the supported operations and the class types that represent them.
     /// </summary>
-    private readonly Dictionary<char, Type> operatorTypes = new Dictionary<char, Type>();
+    private Dictionary<char, Type> operators = new Dictionary<char, Type>();
+
+    private delegate void OnOperator(char op, Type type);
 
     /// <summary>
     /// Initializes a new instance of the <see cref="OperatorNodeFactory"/> class.
     /// </summary>
     public OperatorNodeFactory()
     {
-        // TODO: add more types
-        this.operatorTypes.Add('*', typeof(MultiplicationOperatorNode));
-        this.operatorTypes.Add('+', typeof(AdditionOperatorNode));
-        this.operatorTypes.Add('-', typeof(SubtractionOperatorNode));
-        this.operatorTypes.Add('/', typeof(DivisionOperatorNode));
+        TraverseAvailableOperators((op, type) => operators.Add(op, type));
+    }
+
+    private void TraverseAvailableOperators(OnOperator onOperator)
+    {
+
+        // get the type declaration of OperatorNode
+        var operatorNodeType = typeof(OperatorNode);
+        var two = typeof(MultiplicationOperatorNode);
+        // Iterate over all loaded assemblies:
+        foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+        {
+            // Get all types that inherit from our OperatorNode class using LINQ
+            var operatorTypes =
+                assembly.GetTypes().Where(type => type.IsSubclassOf(operatorNodeType));
+
+            // Iterate over those subclasses of OperatorNode
+            foreach (var type in operatorTypes)
+            {
+                // for each subclass, retrieve the Operator property
+                var operatorField = type.GetProperty("Operator");
+                if (operatorField != null)
+                {
+                    // Get the character of the Operator
+                    var value = operatorField.GetValue(type);
+
+                    // If “Operator” property is not static, you will need to create
+                    // an instance first and use the following code instead (or similar):
+                    // object value = operatorField.GetValue(Activator.CreateInstance(type,
+                    // new ConstantNode(0)));
+                    if (value is char)
+                    {
+                        var operatorSymbol = (char)value;
+
+                        // And invoke the function passed as parameter
+                        // with the operator symbol and the operator class
+                        onOperator(operatorSymbol, type);
+                    }
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -32,7 +72,7 @@ public class OperatorNodeFactory
     /// <returns>True or false.</returns>
     public bool IsOperator(char op)
     {
-        return this.operatorTypes.ContainsKey(op);
+        return this.operators.ContainsKey(op);
     }
 
     /// <summary>
@@ -42,7 +82,7 @@ public class OperatorNodeFactory
     /// <returns>True or false.</returns>
     public bool IsOperator(string op)
     {
-        return this.operatorTypes.ContainsKey(op.ToCharArray()[0]);
+        return this.operators.ContainsKey(op.ToCharArray()[0]);
     }
 
     /// <summary>
@@ -58,7 +98,7 @@ public class OperatorNodeFactory
             throw new InvalidOperationException();
         }
 
-        return (OperatorNode)Activator.CreateInstance(this.operatorTypes[op])!;
+        return (OperatorNode)Activator.CreateInstance(this.operators[op])!;
     }
 
     /// <summary>
@@ -74,7 +114,7 @@ public class OperatorNodeFactory
             throw new InvalidOperationException();
         }
 
-        return (OperatorNode)Activator.CreateInstance(this.operatorTypes[op.ToCharArray()[0]])!;
+        return (OperatorNode)Activator.CreateInstance(this.operators[op.ToCharArray()[0]])!;
     }
 
     /// <summary>
@@ -87,7 +127,7 @@ public class OperatorNodeFactory
     {
         if (this.IsOperator(op))
         {
-            object? field = this.operatorTypes[op].GetField("Precedence")?.GetValue(null);
+            object? field = this.operators[op].GetField("Precedence")?.GetValue(null);
             if (field != null && field is int)
             {
                 return (int)field;
@@ -100,14 +140,16 @@ public class OperatorNodeFactory
     /// <summary>
     /// Gets the precedence of an operator.
     /// </summary>
-    /// <param name="op">A string representing the operation.</param>
+    /// <param name="inputOp">A string representing the operation.</param>
     /// <returns>The operator's precedence.</returns>
     /// <exception cref="InvalidOperationException">Is thrown in the inputted operation is not valid.</exception>
-    public int GetOperatorPrecedence(string op)
+    public int GetOperatorPrecedence(string inputOp)
     {
+        char op = inputOp.ToCharArray()[0];
         if (this.IsOperator(op))
         {
-            object? field = this.operatorTypes[op.ToCharArray()[0]].GetField("Precedence")?.GetValue(null);
+            // var test = this.operators[op].GetFields();
+            object? field = this.operators[op].GetField("Precedence")?.GetValue(null);
             if (field != null && field is int)
             {
                 return (int)field;
@@ -127,7 +169,7 @@ public class OperatorNodeFactory
     {
         if (this.IsOperator(op))
         {
-            object? field = this.operatorTypes[op].GetField("Assosiativity")?.GetValue(null);
+            object? field = this.operators[op].GetField("Assosiativity")?.GetValue(null);
             if (field != null && field is string)
             {
                 return (string)field;
@@ -145,9 +187,9 @@ public class OperatorNodeFactory
     /// <exception cref="InvalidOperationException">Thrown when an invalid operator is given.</exception>
     public string GetOperatorAssosiativity(string op)
     {
-        if (this.IsOperator(op))
+        if (this.IsOperator(op.ToCharArray()[0]))
         {
-            object? field = this.operatorTypes[op.ToCharArray()[0]].GetField("Assosiativity")?.GetValue(null);
+            object? field = this.operators[op.ToCharArray()[0]].GetField("Assosiativity")?.GetValue(null);
             if (field != null && field is string)
             {
                 return (string)field;
