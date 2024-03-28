@@ -97,7 +97,7 @@ public class SpreadsheetTests
         var referenceCell = spreadsheet.GetCell(1, 1);
         var testCell = spreadsheet.GetCell(2, 2);
 
-        referenceCell.Text = "testing";
+        referenceCell.Text = "78";
         testCell.Text = "=B2";
 
         Assert.That(referenceCell.Value, Is.EqualTo(testCell.Value));
@@ -113,7 +113,7 @@ public class SpreadsheetTests
         var referenceCell = spreadsheet.GetCell(9, 1);
         var testCell = spreadsheet.GetCell(2, 2);
 
-        referenceCell.Text = "testing";
+        referenceCell.Text = "56";
         testCell.Text = "=B10";
 
         Assert.That(referenceCell.Value, Is.EqualTo(testCell.Value));
@@ -135,5 +135,79 @@ public class SpreadsheetTests
         {
             Assert.True(e is ArgumentOutOfRangeException);
         }
+    }
+
+    [Test]
+    public void ExpressionDependentOnTwoCellsBasicTest()
+    {
+        Spreadsheet spreadsheet = new Spreadsheet(20, 20);
+        var referenceCell = spreadsheet.GetCell(9, 1);
+        var referenceCellTwo = spreadsheet.GetCell(8, 1);
+        var testCell = spreadsheet.GetCell(2, 2);
+
+        referenceCell.Text = "5";
+        referenceCellTwo.Text = "11";
+        testCell.Text = "=B10+B9";
+
+        Assert.AreEqual(testCell.Value, "16");
+    }
+
+    [Test]
+    public void ExpressionDependentOnTwoCellsTest()
+    {
+        Spreadsheet spreadsheet = new Spreadsheet(20, 20);
+        var b10 = spreadsheet.GetCell(9, 1);
+        var b9 = spreadsheet.GetCell(8, 1);
+        var testCell = spreadsheet.GetCell(2, 2);
+
+        b10.Text = "5";
+        b9.Text = "11";
+        testCell.Text = "=B10+B9/B9*(22/B9)";
+
+        Assert.AreEqual(testCell.Value, "7");
+    }
+
+    [Test]
+    public void ReferenceCellChangedBasicTest()
+    {
+        Spreadsheet spreadsheet = new Spreadsheet(20, 20);
+        var b10 = spreadsheet.GetCell(9, 1);
+        var b9 = spreadsheet.GetCell(8, 1);
+        var testCell = spreadsheet.GetCell(2, 2);
+
+        b10.Text = "5";
+        b9.Text = "10";
+        testCell.Text = "=B10+B9";
+        b10.Text = "6";
+
+        Assert.AreEqual(testCell.Value, "16");
+    }
+
+    [Test]
+    public void ReferenceCellChangedTwoCellsTest()
+    {
+        Spreadsheet spreadsheet = new Spreadsheet(20, 20);
+        var b10 = spreadsheet.GetCell(9, 1);
+        var testCell = spreadsheet.GetCell(2, 2);
+
+        b10.Text = "5";
+        testCell.Text = "=B10";
+        b10.Text = "6";
+
+        Assert.AreEqual(b10.Value, testCell.Value);
+    }
+
+    [Test]
+    public void ReferenceCellChangedTwoCellsComplexTest()
+    {
+        Spreadsheet spreadsheet = new Spreadsheet(20, 20);
+        var b10 = spreadsheet.GetCell(9, 1);
+        var testCell = spreadsheet.GetCell(2, 2);
+
+        b10.Text = "=5+7";
+        testCell.Text = "=B10";
+        b10.Text = "=12+1";
+
+        Assert.AreEqual(b10.Value, testCell.Value);
     }
 }
