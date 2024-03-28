@@ -17,7 +17,7 @@ public class SubtractionOperatorNode : OperatorNode
     /// <summary>
     /// The character representation of the operation.
     /// </summary>
-    public static char Operator = '-';
+    public static char Operator { get; } = '-';
 
     /// <summary>
     /// The operator's precedence.
