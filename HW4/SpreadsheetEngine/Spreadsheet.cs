@@ -127,7 +127,7 @@ public class Spreadsheet
         {
             // The location of the cell to get the value from.
             var expression = cell.Text.TrimStart('=');
-            if (expression == cell.expression)
+            if (expression == cell.Expression)
             {
                 cell.EvaluateExpression();
                 return;
@@ -152,7 +152,7 @@ public class Spreadsheet
                     // get the reference cell
                     Cell referencedCell = this.GetCell(int.Parse(rowCharacter) - 1, columnCharacter - 'A');
 
-                    cell.AddReferenceCell(referencedCell);
+                    cell. AddReferenceCell(referencedCell);
                 }
                 catch (Exception exception)
                 {
@@ -198,14 +198,14 @@ public class Spreadsheet
         }
         public void EvaluateExpression()
         {
-            this.expressionTree = new ExpressionTree(this.expression);
+            this.expressionTree = new ExpressionTree(this.Expression);
 
             // TODO: set the reference variables
             foreach (var cell in this.referencedCells)
             {
                 if (cell.Value != string.Empty)
                 {
-                    this.expressionTree.SetVariable(cell.name, double.Parse(cell.Value));
+                    this.expressionTree.SetVariable(cell.Name, double.Parse(cell.Value));
                 }
 
             }
@@ -236,7 +236,7 @@ public class Spreadsheet
         public void SetExpression(string expression)
         {
             this.UnsubscribeFromReferencedCells();
-            this.expression = expression;
+            this.Expression = expression;
             this.EvaluateExpression();
         }
 

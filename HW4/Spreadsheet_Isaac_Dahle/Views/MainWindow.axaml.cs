@@ -4,7 +4,6 @@
 namespace HW4.Views;
 
 using Avalonia.Controls;
-using Avalonia.Interactivity;
 using Avalonia.ReactiveUI;
 
 // ReSharper disable once RedundantNameQualifier
