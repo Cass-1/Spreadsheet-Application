@@ -1,12 +1,10 @@
 // Copyright (c) Cass Dahle 11775278.
 // Licensed under the GPL v3.0 License. See LICENSE in the project root for license information.
 
-using System.Runtime.CompilerServices;
-
 namespace SpreadsheetEngine;
 
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 
 /// <summary>
 /// A class that represents a spreadsheet.
@@ -49,12 +47,6 @@ public class Spreadsheet
             }
         }
     }
-
-    /// <summary>
-    /// An event that occurs whenever a cell's property is changed. Used to tell the UI to update.
-    /// </summary>
-    [SuppressMessage("ReSharper", "EventNeverSubscribedTo.Global", Justification = "<This event is needed>")]
-    public event PropertyChangedEventHandler CellPropertyChangedEvent = (_, _) => { };
 
     /// <summary>
     /// Gets the number of rows.
@@ -147,18 +139,20 @@ public class Spreadsheet
                 {
                     return;
                 }
+
                 try
                 {
                     // get the reference cell
                     Cell referencedCell = this.GetCell(int.Parse(rowCharacter) - 1, columnCharacter - 'A');
 
-                    cell. AddReferenceCell(referencedCell);
+                    cell.AddReferenceCell(referencedCell);
                 }
-                catch (Exception exception)
+                catch (Exception)
                 {
                     return;
                 }
             }
+
             cell.EvaluateExpression();
         }
 
@@ -184,18 +178,18 @@ public class Spreadsheet
         {
         }
 
+        /// <summary>
+        /// Gets or sets the value of Value.
+        /// </summary>
         public override string Value
         {
             get => this.value;
-            protected internal set
-            {
-
-
-                this.SetandNotifyIfChanged(ref this.value, value);
-
-
-            }
+            protected internal set => this.SetandNotifyIfChanged(ref this.value, value);
         }
+
+        /// <summary>
+        /// Evaluates the cell's expression.
+        /// </summary>
         public void EvaluateExpression()
         {
             this.expressionTree = new ExpressionTree(this.Expression);
@@ -207,20 +201,55 @@ public class Spreadsheet
                 {
                     this.expressionTree.SetVariable(cell.Name, double.Parse(cell.Value));
                 }
-
             }
 
-            this.Value = this.expressionTree.Evaluate().ToString();
-            // SetandNotifyIfChanged(ref this.value, this.expressionTree.Evaluate().ToString());
-            // this.Value = this.expressionTree.Evaluate().ToString();
+            this.Value = this.expressionTree.Evaluate().ToString(CultureInfo.InvariantCulture);
         }
 
-        protected void OnReferenceChanged(object? sender, PropertyChangedEventArgs e)
+        /// <summary>
+        /// Sets the cell's expression.
+        /// </summary>
+        /// <param name="expression">The new expression.</param>
+        public void SetExpression(string expression)
+        {
+            this.UnsubscribeFromReferencedCells();
+            this.Expression = expression;
+            this.EvaluateExpression();
+        }
+
+        /// <summary>
+        /// Gets the names of all the cells this cell's expression references.
+        /// </summary>
+        /// <returns>A list of all the cells that this cell's expression references.</returns>
+        public List<string> GetReferencedCellNames()
+        {
+            return this.expressionTree.GetVariableNames();
+        }
+
+        /// <summary>
+        /// Adds a reference to a cell that this cell's expression references.
+        /// </summary>
+        /// <param name="cell">The new cell to reference.</param>
+        public void AddReferenceCell(Cell cell)
+        {
+            this.referencedCells.Add(cell);
+            cell.PropertyChanged += this.OnReferenceChanged;
+        }
+
+        /// <summary>
+        /// Called when a reference cell changes.
+        /// </summary>
+        /// <param name="sender">The sender of the event.</param>
+        /// <param name="e">The event arguments.</param>
+        private void OnReferenceChanged(object? sender, PropertyChangedEventArgs e)
         {
             this.EvaluateExpression();
         }
 
-        protected void UnsubscribeFromReferencedCells()
+        /// <summary>
+        /// Unsubscribe from all reference cells.
+        /// </summary>
+        private void UnsubscribeFromReferencedCells()
         {
             if (this.referencedCells.Count > 0)
             {
@@ -231,24 +260,6 @@ public class Spreadsheet
 
                 this.referencedCells.Clear();
             }
-        }
-
-        public void SetExpression(string expression)
-        {
-            this.UnsubscribeFromReferencedCells();
-            this.Expression = expression;
-            this.EvaluateExpression();
-        }
-
-        public List<string> GetReferencedCellNames()
-        {
-            return this.expressionTree.GetVariableNames();
-        }
-
-        public void AddReferenceCell(Cell cell)
-        {
-            this.referencedCells.Add(cell);
-            cell.PropertyChanged += this.OnReferenceChanged;
         }
     }
 }
