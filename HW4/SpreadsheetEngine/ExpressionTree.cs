@@ -11,8 +11,6 @@ using NotImplementedException = System.NotImplementedException;
 /// </summary>
 public class ExpressionTree
 {
-    // TODO: make this private. It is currently public for testing but i should use refelction to test it
-
     /// <summary>
     /// A list of all the tokens in an expression.
     /// </summary>
@@ -23,7 +21,7 @@ public class ExpressionTree
     /// <summary>
     /// The actual expression tree.
     /// </summary>
-    private Node root = null!;
+    private Node root;
 
     /// <summary>
     /// A dictionary of all the variables.
@@ -41,9 +39,6 @@ public class ExpressionTree
 
         // allocate variable database
         this.variableDatabase = new Dictionary<string, double>();
-
-        // allocate tokenize expression space
-        tokenizedExpression = new List<string>();
 
         // tokenize the expression
         this.tokenizedExpression = this.TokenizeExpression(this.Expression);
@@ -280,7 +275,7 @@ public class ExpressionTree
 
         if (postfixNodes.Count == 0)
         {
-            return null;
+            return null!;
         }
 
         foreach (var node in postfixNodes)
@@ -292,14 +287,16 @@ public class ExpressionTree
             else
             {
                 OperatorNode opNode = (OperatorNode)node;
+
                 // prevent crashing when writing in two cells in an expression
                 try
                 {
                     opNode.RightChild = nodeStack.Pop();
                     opNode.LeftChild = nodeStack.Pop();
                 }
-                catch
+                catch (Exception)
                 {
+                    // ignored
                 }
 
                 nodeStack.Push(node);
@@ -336,7 +333,7 @@ public class ExpressionTree
                     this.SetVariable(token, 0);
 
                     // new variable node
-                    nodeList.Add(new VariableNode(token, ref this.variableDatabase));
+                    nodeList.Add(new VariableNode(token, ref this.variableDatabase!));
                 }
             }
         }
@@ -351,7 +348,7 @@ public class ExpressionTree
     /// <exception cref="NotImplementedException">Not implemented.</exception>
     private double EvaluateExpressionTree()
     {
-        return root != null ? this.root.Evaluate() : 0;
+        return this.root.Evaluate();
     }
 
     /// <summary>
