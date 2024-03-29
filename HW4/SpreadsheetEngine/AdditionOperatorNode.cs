@@ -15,11 +15,6 @@ using System.Diagnostics.CodeAnalysis;
 public class AdditionOperatorNode : OperatorNode
 {
     /// <summary>
-    /// The character representation of the operation.
-    /// </summary>
-    public static char Character = '+';
-
-    /// <summary>
     /// The operator's precedence.
     /// </summary>
     public static int Precedence = 1;
@@ -28,6 +23,11 @@ public class AdditionOperatorNode : OperatorNode
     /// The oporator's assosiativity.
     /// </summary>
     public static string Assosiativity = "Left";
+
+    /// <summary>
+    /// Gets the character representation of the operation.
+    /// </summary>
+    public static char Operator { get; } = '+';
 
     /// <summary>
     /// Evaluates the sum of the two child nodes.

@@ -17,12 +17,12 @@ public class VariableNode : Node
     /// <summary>
     /// The variable's name.
     /// </summary>
-    private string name;
+    private readonly string name;
 
     /// <summary>
     /// A reference to the ExpressionTree's dictionary of all the variables.
     /// </summary>
-    private Dictionary<string, double>? dictionary;
+    private readonly Dictionary<string, double>? dictionary;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="VariableNode"/> class.
@@ -46,7 +46,14 @@ public class VariableNode : Node
             throw new ArgumentNullException();
         }
 
-        return this.dictionary.ContainsKey(this.name) ? this.dictionary[this.name] : 0;
+        if (!this.dictionary.ContainsKey(this.name))
+        {
+            throw new Exception();
+        }
+        else
+        {
+            return this.dictionary[this.name];
+        }
     }
 
     /// <inheritdoc/>
@@ -64,7 +71,7 @@ public class VariableNode : Node
     /// <summary>
     /// Compares two VariableNode's and determines if they are equal.
     /// </summary>
-    /// <param name="other">The other object being compated to.</param>
+    /// <param name="other">The other object being computed to.</param>
     /// <returns>Whether the two objects are equal.</returns>
     public bool Equals(VariableNode other)
     {

@@ -4,7 +4,7 @@
 namespace SpreadsheetEngine;
 
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 
 /// <summary>
 /// A class that represents a spreadsheet.
@@ -47,12 +47,6 @@ public class Spreadsheet
             }
         }
     }
-
-    /// <summary>
-    /// An event that occurs whenever a cell's property is changed. Used to tell the UI to update.
-    /// </summary>
-    [SuppressMessage("ReSharper", "EventNeverSubscribedTo.Global", Justification = "<This event is needed>")]
-    public event PropertyChangedEventHandler CellPropertyChangedEvent = (_, _) => { };
 
     /// <summary>
     /// Gets the number of rows.
@@ -125,21 +119,41 @@ public class Spreadsheet
         {
             // The location of the cell to get the value from.
             var expression = cell.Text.TrimStart('=');
-
-            // this try catch block prevents errors from happening in the spreadsheet when we are still typing
-            // and before we have finished entering a value.
-            try
+            if (expression == cell.Expression)
             {
-                var rowCharacter = expression.Substring(1, expression.Length - 1);
-                var columnCharacter = expression[0];
+                cell.EvaluateExpression();
+                return;
+            }
 
-                // set the value in the reference cell
-                cell.Value = this.GetCell(int.Parse(rowCharacter) - 1, columnCharacter - 'A').Text;
-            }
-            catch (Exception)
+            cell.SetExpression(expression);
+
+            List<string> variables = cell.GetReferencedCellNames();
+
+            foreach (var variable in variables)
             {
-                // ignored
+                // this try catch block prevents errors from happening in the spreadsheet when we are still typing
+                // and before we have finished entering a value.
+                var rowCharacter = variable.Substring(1, variable.Length - 1);
+                var columnCharacter = variable[0];
+                if (rowCharacter == columnCharacter.ToString())
+                {
+                    return;
+                }
+
+                try
+                {
+                    // get the reference cell
+                    Cell referencedCell = this.GetCell(int.Parse(rowCharacter) - 1, columnCharacter - 'A');
+
+                    cell.AddReferenceCell(referencedCell);
+                }
+                catch (Exception)
+                {
+                    return;
+                }
             }
+
+            cell.EvaluateExpression();
         }
 
         // if the cell's text is not an expression
@@ -149,7 +163,7 @@ public class Spreadsheet
         }
 
         // invoke the property changed event to update the UI
-        this.CellPropertyChangedEvent.Invoke(sender, e);
+        // this.CellPropertyChangedEvent.Invoke(sender, e);
     }
 
     private class SpreadsheetCell : Cell
@@ -164,10 +178,88 @@ public class Spreadsheet
         {
         }
 
+        /// <summary>
+        /// Gets or sets the value of Value.
+        /// </summary>
         public override string Value
         {
             get => this.value;
             protected internal set => this.SetandNotifyIfChanged(ref this.value, value);
+        }
+
+        /// <summary>
+        /// Evaluates the cell's expression.
+        /// </summary>
+        public void EvaluateExpression()
+        {
+            this.expressionTree = new ExpressionTree(this.Expression);
+
+            // TODO: set the reference variables
+            foreach (var cell in this.referencedCells)
+            {
+                if (cell.Value != string.Empty)
+                {
+                    this.expressionTree.SetVariable(cell.Name, double.Parse(cell.Value));
+                }
+            }
+
+            this.Value = this.expressionTree.Evaluate().ToString(CultureInfo.InvariantCulture);
+        }
+
+        /// <summary>
+        /// Sets the cell's expression.
+        /// </summary>
+        /// <param name="expression">The new expression.</param>
+        public void SetExpression(string expression)
+        {
+            this.UnsubscribeFromReferencedCells();
+            this.Expression = expression;
+            this.EvaluateExpression();
+        }
+
+        /// <summary>
+        /// Gets the names of all the cells this cell's expression references.
+        /// </summary>
+        /// <returns>A list of all the cells that this cell's expression references.</returns>
+        public List<string> GetReferencedCellNames()
+        {
+            return this.expressionTree.GetVariableNames();
+        }
+
+        /// <summary>
+        /// Adds a reference to a cell that this cell's expression references.
+        /// </summary>
+        /// <param name="cell">The new cell to reference.</param>
+        public void AddReferenceCell(Cell cell)
+        {
+            this.referencedCells.Add(cell);
+            cell.PropertyChanged += this.OnReferenceChanged;
+        }
+
+        /// <summary>
+        /// Called when a reference cell changes.
+        /// </summary>
+        /// <param name="sender">The sender of the event.</param>
+        /// <param name="e">The event arguments.</param>
+        private void OnReferenceChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            this.EvaluateExpression();
+        }
+
+        /// <summary>
+        /// Unsubscribe from all reference cells.
+        /// </summary>
+        private void UnsubscribeFromReferencedCells()
+        {
+            if (this.referencedCells.Count > 0)
+            {
+                foreach (Cell cell in this.referencedCells)
+                {
+                    cell.PropertyChanged -= this.OnReferenceChanged;
+                }
+
+                this.referencedCells.Clear();
+            }
         }
     }
 }

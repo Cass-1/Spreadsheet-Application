@@ -15,11 +15,6 @@ using System.Diagnostics.CodeAnalysis;
 public class DivisionOperatorNode : OperatorNode
 {
     /// <summary>
-    /// The character representation of the operation.
-    /// </summary>
-    public static char Character = '/';
-
-    /// <summary>
     /// The operator's precedence.
     /// </summary>
     public static int Precedence = 2;
@@ -28,6 +23,11 @@ public class DivisionOperatorNode : OperatorNode
     /// The oporator's assosiativity.
     /// </summary>
     public static string Assosiativity = "Left";
+
+    /// <summary>
+    /// Gets the character representation of the operation.
+    /// </summary>
+    public static char Operator { get; } = '/';
 
     /// <summary>
     /// Evaluates the quotient of the two child nodes.

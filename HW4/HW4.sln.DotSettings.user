@@ -3,7 +3,7 @@
 	<s:String x:Key="/Default/CodeInspection/PencilsConfiguration/FiltersState/=CodeStyle/@EntryIndexedValue">On</s:String>
 	<s:String x:Key="/Default/CodeInspection/PencilsConfiguration/FiltersState/=NamingFilter/@EntryIndexedValue">On</s:String>
 	<s:String x:Key="/Default/CodeInspection/PencilsConfiguration/FiltersState/=SpellingFilter/@EntryIndexedValue">On</s:String>
-	<s:String x:Key="/Default/Environment/Highlighting/HighlightingSourceSnapshotLocation/@EntryValue">/home/dahle/.var/app/com.jetbrains.Rider/cache/JetBrains/Rider2023.3/resharper-host/temp/Rider/vAny/CoverageData/_HW4.632183375/Snapshot/snapshot.utdcvr</s:String>
+
 	<s:Boolean x:Key="/Default/Environment/InlayHints/GeneralInlayHintsOptions/EnableInlayHints/@EntryValue">True</s:Boolean>
 	<s:String x:Key="/Default/Environment/UnitTesting/CreateUnitTestDialog/TestProjectMapping/=5F3B02CA_002DE88F_002D48CF_002DB769_002D0E1732120157/@EntryIndexedValue">5F3B02CA-E88F-48CF-B769-0E1732120157</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/CreateUnitTestDialog/TestTemplateMapping/=NUnit3x/@EntryIndexedValue">db4927dd-2e12-48a7-9a84-2b7e3e31b9c8</s:String>
@@ -34,6 +34,9 @@
     &lt;TestId&gt;NUnit3x::5F3B02CA-E88F-48CF-B769-0E1732120157::net8.0::SpreadsheetEngine_Tests.ExpressionTreeTests.TokenizeExpressionShortConstantsTest&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=99a02813_002Dc976_002D49c1_002D87f0_002D9007605227cd/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ExpressionTreeSimpleVariableTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;Project Location="/home/dahle/Documents/Spring2024/CS 321/testing/cpts321-hws/HW4/SpreadsheetEngine_Tests" Presentation="&amp;lt;SpreadsheetEngine_Tests&amp;gt;" /&gt;
+&lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=b3e13c21_002D84de_002D4dcb_002D9290_002D46e27d983b45/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from Solution #4" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;Solution /&gt;
 &lt;/SessionState&gt;</s:String>
@@ -49,8 +52,8 @@
   &lt;Solution /&gt;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f6cc7c57_002Dca0c_002D4b4f_002D8629_002Dc2d7aa940a9c/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="TokenizeExpressionShortConstantsTest #5" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;Project Location="/home/dahle/Documents/Spring2024/CS 321/cpts321-hws/HW4/SpreadsheetEngine_Tests" Presentation="&amp;lt;SpreadsheetEngine_Tests&amp;gt;" /&gt;
+  &lt;Project Location="/home/dahle/Documents/Spring2024/CS 321/testing/cpts321-hws/HW4/SpreadsheetEngine_Tests" Presentation="&amp;lt;SpreadsheetEngine_Tests&amp;gt;" /&gt;
 &lt;/SessionState&gt;</s:String>
-	
-	
+
+
 	</wpf:ResourceDictionary>

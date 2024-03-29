@@ -15,6 +15,26 @@ using System.Runtime.CompilerServices;
 public abstract class Cell : INotifyPropertyChanged
 {
     /// <summary>
+    /// The cell's name, eg "C10".
+    /// </summary>
+    public string Name;
+
+    /// <summary>
+    /// The mathematical expression in a cell.
+    /// </summary>
+    public string Expression = null!;
+
+    /// <summary>
+    /// The cell's expression tree.
+    /// </summary>
+    protected ExpressionTree expressionTree = null!;
+
+    /// <summary>
+    /// A list of the referenced cells in the expressionTree.
+    /// </summary>
+    protected List<Cell> referencedCells = new List<Cell>();
+
+    /// <summary>
     /// Represents the actual text put into the cell.
     /// </summary>
     protected string text;
@@ -35,6 +55,13 @@ public abstract class Cell : INotifyPropertyChanged
         this.ColumnIndex = columnIndex;
         this.text = string.Empty;
         this.value = string.Empty;
+
+        string str = string.Empty;
+        char col = (char)this.ColumnIndex;
+        col += 'A';
+        str += col;
+        str += (this.RowIndex + 1).ToString();
+        this.Name = str;
     }
 
     /// <inheritdoc/>

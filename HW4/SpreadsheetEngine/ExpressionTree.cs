@@ -11,19 +11,17 @@ using NotImplementedException = System.NotImplementedException;
 /// </summary>
 public class ExpressionTree
 {
-    // TODO: make this private. It is currently public for testing but i should use refelction to test it
-
     /// <summary>
     /// A list of all the tokens in an expression.
     /// </summary>
-    private List<string> tokenizedExpression = new List<string>();
+    private List<string> tokenizedExpression;
 
     // private List<string> PostFixTokenizedExpression = new List<string>();
 
     /// <summary>
     /// The actual expression tree.
     /// </summary>
-    private Node root = null!;
+    private Node root;
 
     /// <summary>
     /// A dictionary of all the variables.
@@ -41,6 +39,18 @@ public class ExpressionTree
 
         // allocate variable database
         this.variableDatabase = new Dictionary<string, double>();
+
+        // tokenize the expression
+        this.tokenizedExpression = this.TokenizeExpression(this.Expression);
+
+        // convert to postfix tokens
+        var postfixTokens = this.ConvertExpressionToPostfix(this.tokenizedExpression);
+
+        // convert tokens to nodes
+        var postfixNodes = this.TokensToNodes(postfixTokens);
+
+        // build the expression tree
+        this.root = this.GenerateExpressionTree(postfixNodes);
     }
 
     /// <summary>
@@ -92,25 +102,34 @@ public class ExpressionTree
     }
 
     /// <summary>
+    /// Gets all the names of the variables in the VariableDatabase.
+    /// </summary>
+    /// <returns>A list of all the names of variables in the VariableDatabase. </returns>
+    public List<string> GetVariableNames()
+    {
+        List<string> variableNames = new List<string>();
+        foreach (var item in this.variableDatabase)
+        {
+            variableNames.Add(item.Key);
+        }
+
+        return variableNames;
+    }
+
+    /// <summary>
     /// Evaluates the expression tree.
     /// </summary>
     /// <returns>The result of the evaluated tree.</returns>
     public double Evaluate()
     {
-        // evaluate the expression
-        double result;
-
-        this.tokenizedExpression = this.TokenizeExpression(this.Expression);
-
-        var postfixTokens = this.ConvertExpressionToPostfix(this.tokenizedExpression);
-
-        var postfixNodes = this.TokensToNodes(postfixTokens);
-
-        this.root = this.GenerateExpressionTree(postfixNodes);
-
-        result = this.EvaluateExpressionTree();
-
-        return result;
+        try
+        {
+            return this.EvaluateExpressionTree();
+        }
+        catch (NullReferenceException)
+        {
+            return 0;
+        }
     }
 
     /// <summary>
@@ -261,6 +280,11 @@ public class ExpressionTree
         Stack<Node> nodeStack = new Stack<Node>();
         Node localRoot;
 
+        if (postfixNodes.Count == 0)
+        {
+            return null!;
+        }
+
         foreach (var node in postfixNodes)
         {
             if (node is not OperatorNode)
@@ -270,8 +294,17 @@ public class ExpressionTree
             else
             {
                 OperatorNode opNode = (OperatorNode)node;
-                opNode.RightChild = nodeStack.Pop();
-                opNode.LeftChild = nodeStack.Pop();
+
+                // prevent crashing when writing in two cells in an expression
+                try
+                {
+                    opNode.RightChild = nodeStack.Pop();
+                    opNode.LeftChild = nodeStack.Pop();
+                }
+                catch (Exception)
+                {
+                    // ignored
+                }
 
                 nodeStack.Push(node);
             }
@@ -290,6 +323,7 @@ public class ExpressionTree
             var charToken = token.ToCharArray();
             if (factory.IsOperator(charToken[0]))
             {
+                // new operator node
                 nodeList.Add(factory.CreateOperatorNode(charToken[0]));
             }
             else
@@ -297,12 +331,16 @@ public class ExpressionTree
                 var isNumber = double.TryParse(token, out double number);
                 if (isNumber)
                 {
+                    // new constant node
                     nodeList.Add(new ConstantNode(number));
                 }
                 else
                 {
-                    var dictionary = this.variableDatabase;
-                    nodeList.Add(new VariableNode(token, ref dictionary));
+                    // add variable to the variable dictionary
+                    this.SetVariable(token, 0);
+
+                    // new variable node
+                    nodeList.Add(new VariableNode(token, ref this.variableDatabase!));
                 }
             }
         }
