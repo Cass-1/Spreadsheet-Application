@@ -120,7 +120,7 @@ public class SpreadsheetTests
     }
 
     /// <summary>
-    /// TEests when a cell references a cell that doesn't exist.
+    /// Tests when a cell references a cell that doesn't exist.
     /// </summary>
     [Test]
     public void CellPropertyChangedExpressionIsOtherCellTestOutOfBounds()
@@ -137,6 +137,9 @@ public class SpreadsheetTests
         }
     }
 
+    /// <summary>
+    /// Tests cell evaluating expression when the expression is dependent on two other cells.
+    /// </summary>
     [Test]
     public void ExpressionDependentOnTwoCellsBasicTest()
     {
@@ -149,9 +152,12 @@ public class SpreadsheetTests
         referenceCellTwo.Text = "11";
         testCell.Text = "=B10+B9";
 
-        Assert.AreEqual(testCell.Value, "16");
+        Assert.That(testCell.Value, Is.EqualTo("16"));
     }
 
+    /// <summary>
+    /// Tests cell evaluating expression when the expression is dependent on two other cells.
+    /// </summary>
     [Test]
     public void ExpressionDependentOnTwoCellsTest()
     {
@@ -164,9 +170,12 @@ public class SpreadsheetTests
         b9.Text = "11";
         testCell.Text = "=B10+B9/B9*(22/B9)";
 
-        Assert.AreEqual(testCell.Value, "7");
+        Assert.That(testCell.Value, Is.EqualTo("7"));
     }
 
+    /// <summary>
+    /// Tests a cell evaluating an expression when a reference cell changes.
+    /// </summary>
     [Test]
     public void ReferenceCellChangedBasicTest()
     {
@@ -180,9 +189,12 @@ public class SpreadsheetTests
         testCell.Text = "=B10+B9";
         b10.Text = "6";
 
-        Assert.AreEqual(testCell.Value, "16");
+        Assert.That(testCell.Value, Is.EqualTo("16"));
     }
 
+    /// <summary>
+    /// Tests a cell evaluating an expression when a reference cell changes.
+    /// </summary>
     [Test]
     public void ReferenceCellChangedTwoCellsTest()
     {
@@ -194,9 +206,12 @@ public class SpreadsheetTests
         testCell.Text = "=B10";
         b10.Text = "6";
 
-        Assert.AreEqual(b10.Value, testCell.Value);
+        Assert.That(testCell.Value, Is.EqualTo(b10.Value));
     }
 
+    /// <summary>
+    /// Tests a cell evaluating an expression when a reference cell changes.
+    /// </summary>
     [Test]
     public void ReferenceCellChangedTwoCellsComplexTest()
     {
@@ -208,6 +223,6 @@ public class SpreadsheetTests
         testCell.Text = "=B10";
         b10.Text = "=12+1";
 
-        Assert.AreEqual(b10.Value, testCell.Value);
+        Assert.That(testCell.Value, Is.EqualTo(b10.Value));
     }
 }
