@@ -122,7 +122,14 @@ public class ExpressionTree
     /// <returns>The result of the evaluated tree.</returns>
     public double Evaluate()
     {
-        return this.EvaluateExpressionTree();
+        try
+        {
+            return this.EvaluateExpressionTree();
+        }
+        catch (NullReferenceException)
+        {
+            return 0;
+        }
     }
 
     /// <summary>
