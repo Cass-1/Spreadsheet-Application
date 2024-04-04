@@ -1,6 +1,10 @@
 ﻿// Copyright (c) Cass Dahle 11775278.
 // Licensed under the GPL v3.0 License. See LICENSE in the project root for license information.
 
+using System.Collections.ObjectModel;
+using Avalonia.Input;
+using Spreadsheet_GettingStarted.ViewModels;
+
 namespace HW4.ViewModels;
 
 using System.Collections.Generic;
@@ -25,6 +29,8 @@ public class MainWindowViewModel : ViewModelBase
     private int rowCount;
     private int columnCount;
     private Spreadsheet? spreadsheet;
+    private List<RowViewModel> _spreadsheetData = null;
+    private readonly List<CellViewModel> _selectedCells = new();
 
     // ReSharper disable once CollectionNeverQueried.Local
     private List<List<Cell>>? spreadsheetData;
@@ -38,18 +44,24 @@ public class MainWindowViewModel : ViewModelBase
         // initalize the spreadsheet
         this.InitializeSpreadsheet();
 
-        // initalize the rows
-        this.Rows = Enumerable.Range(0, this.rowCount)
-            .Select(
-                row => Enumerable.Range(0, this.columnCount)
-                .Select(column => this.spreadsheet?.GetCell(row, column)).ToArray())
-            .ToArray();
+        // for row for col loop over
+        for (int row = 0; row < this.rowCount; row++)
+        {
+            List<CellViewModel> listOfCellModels = new List<CellViewModel>();
+            for (int col = 0; col < this.columnCount; col++)
+            {
+                listOfCellModels.Add(new CellViewModel(this.spreadsheet.GetCell(row,col)));
+            }
+
+            RowViewModel rowViewModel = new RowViewModel(listOfCellModels);
+            this.Rows.Add(rowViewModel);
+        }
     }
 
     /// <summary>
     /// Gets a 2D array of Cells that is populated with the cells from the Spreadsheet.
     /// </summary>
-    public Cell?[][] Rows { get; }
+    public ObservableCollection<RowViewModel> Rows { get; } = new ObservableCollection<RowViewModel>();
 
     /// <summary>
     /// Initalizes the datagrid.
@@ -72,29 +84,91 @@ public class MainWindowViewModel : ViewModelBase
             var columnTemplate = new DataGridTemplateColumn
             {
                 Header = columnHeader,
-                CellTemplate = new FuncDataTemplate<IEnumerable<Cell>>(
-                    (_, _) =>
-                    new TextBlock
-                    {
-                        [!TextBlock.TextProperty] = new Binding($"[{columnIndex}].Value"),
-                        TextAlignment = TextAlignment.Left,
-                        VerticalAlignment = VerticalAlignment.Center,
-                        Padding = Thickness.Parse("5,0,5,0"),
-                    }),
-                CellEditingTemplate = new FuncDataTemplate<IEnumerable<Cell>>(
-                    (_, _) =>
-                    new TextBox
-                    {
-                        [!TextBox.TextProperty] = new Binding($"[{columnIndex}].Text"),
-                    }),
+                CellStyleClasses = { "SpreadsheetCellClass" },
+                CellTemplate = new
+                    FuncDataTemplate<RowViewModel>(
+                        (value, namescope) =>
+                            new TextBlock
+                            {
+                                [!TextBlock.TextProperty] =
+                                    new
+                                        Binding($"[{columnIndex}].Value"),
+                                TextAlignment = TextAlignment.Left,
+                                VerticalAlignment = VerticalAlignment.Center,
+                                Padding = Thickness.Parse("5,0,5,0"),
+                            }),
+                CellEditingTemplate = new
+                    FuncDataTemplate<RowViewModel>(
+                        (value, namescope) =>
+                            new TextBox()),
             };
             dataGrid.Columns.Add(columnTemplate);
         }
 
         dataGrid.ItemsSource = this.Rows;
-        dataGrid.LoadingRow += (_, args) => { args.Row.Header = (args.Row.GetIndex() + 1).ToString(); };
+            dataGrid.LoadingRow += (_, args) => { args.Row.Header = (args.Row.GetIndex() + 1).ToString(); };
 
-        this.isInitialized = true;
+            // add events to update cell value
+            dataGrid.PreparingCellForEdit += (sender, args) =>
+            {
+                if (args.EditingElement is not TextBox textInput) return;
+                var rowIndex = args.Row.GetIndex();
+                var columnIndex = args.Column.DisplayIndex;
+                textInput.Text = this.spreadsheet.GetCell(rowIndex, columnIndex).Text;
+            };
+            dataGrid.CellEditEnding += (sender, args) =>
+            {
+                var rowIndex = args.Row.GetIndex();
+                var colIndex = args.Column.DisplayIndex;
+                var cell = this.spreadsheet.GetCell(rowIndex, colIndex);
+                if (args.EditingElement is TextBox textBox)
+                {
+                    var result = textBox.Text.Trim();
+                    if (result.Length == 0)
+                    {
+                        cell.Text = null;
+                    }
+
+                    cell.Text = result;
+                }
+            };
+
+            dataGrid.BeginningEdit += (sender, args) =>
+            {
+                // get the pressed cell
+                var rowIndex = args.Row.GetIndex();
+                var columnIndex = args.Column.DisplayIndex;
+                var cell = GetCell(rowIndex, columnIndex, dataGrid);
+                if (cell.CanEdit == false)
+                {
+                    args.Cancel = true;
+                }
+                else
+                {
+                    this.ResetSelection();
+                }
+            };
+
+            // we use the following event to write our own selection logic
+            dataGrid.CellPointerPressed += (sender, args) =>
+            {
+                // get the pressed cell
+                var rowIndex = args.Row.GetIndex();
+                var columnIndex = args.Column.DisplayIndex;
+                // are we selected multiple cells
+                var multipleSelection = args.PointerPressedEventArgs.KeyModifiers != KeyModifiers.None;
+                if (multipleSelection == false)
+                {
+                    this.SelectCell(rowIndex, columnIndex, dataGrid);
+                }
+                else
+                {
+                    this.ToggleCellSelection(rowIndex, columnIndex, dataGrid);
+                }
+            };
+
+            this.isInitialized = true;
+
     }
 
     /// <summary>
@@ -118,5 +192,50 @@ public class MainWindowViewModel : ViewModelBase
 
             this.spreadsheetData.Add(columns);
         }
+    }
+
+    public void SelectCell(int rowIndex, int columnIndex, DataGrid dataGrid)
+    {
+        var clickedCell = GetCell(rowIndex, columnIndex, dataGrid);
+        var shouldEditCell = clickedCell.IsSelected;
+        ResetSelection();
+// add the pressed cell back to the list
+        _selectedCells.Add(clickedCell);
+        clickedCell.IsSelected = true;
+        if (shouldEditCell)
+            clickedCell.CanEdit = true;
+    }
+
+    private CellViewModel GetCell(int rowIndex, int columnIndex, DataGrid dataGrid)
+    {
+        return this.Rows[rowIndex][columnIndex];
+
+        //[(rowIndex - 1) * 10 + columnIndex];
+    }
+
+    public void ToggleCellSelection(int rowIndex, int columnIndex, DataGrid dataGrid)
+    {
+        var clickedCell = GetCell(rowIndex, columnIndex, dataGrid);
+        if (clickedCell.IsSelected == false)
+        {
+            _selectedCells.Add(clickedCell);
+            clickedCell.IsSelected = true;
+        }
+        else
+        {
+            this._selectedCells.Remove(clickedCell);
+            clickedCell.IsSelected = false;
+        }
+    }
+
+    public void ResetSelection()
+    {
+// clear current selection
+        foreach (var cell in _selectedCells)
+        {
+            cell.IsSelected = false;
+            cell.CanEdit = false;
+        }
+        _selectedCells.Clear();
     }
 }

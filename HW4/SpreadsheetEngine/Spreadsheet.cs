@@ -73,7 +73,7 @@ public class Spreadsheet
 
         if (colIndex >= this.ColumnCount)
         {
-            throw new ArgumentOutOfRangeException(nameof(colIndex) + " is out of bounds");
+            throw new ArgumentOutOfRangeException(nameof(colIndex) + @" is out of bounds");
         }
 
         return this.cellGrid[rowIndex, colIndex];
@@ -113,7 +113,10 @@ public class Spreadsheet
     {
         // get the spreadsheet cell that sent the event
         var cell = (SpreadsheetCell)sender!;
-
+        if (cell.Text == null)
+        {
+            return;
+        }
         // if the cell's text is an expression
         if (cell.Text.StartsWith('='))
         {

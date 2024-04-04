@@ -45,6 +45,11 @@ public abstract class Cell : INotifyPropertyChanged
     protected string value;
 
     /// <summary>
+    /// The color of the cell.
+    /// </summary>
+    private uint backgroundColor;
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="Cell"/> class.
     /// </summary>
     /// <param name="rowIndex">The cell's row index in a spreadsheet.</param>
@@ -62,6 +67,9 @@ public abstract class Cell : INotifyPropertyChanged
         str += col;
         str += (this.RowIndex + 1).ToString();
         this.Name = str;
+
+        // set the default color to white
+        this.backgroundColor = uint.MaxValue;
     }
 
     /// <inheritdoc/>
@@ -101,6 +109,16 @@ public abstract class Cell : INotifyPropertyChanged
     protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
     {
         this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+
+
+    public uint BackgroundColor
+    {
+        get => this.backgroundColor;
+        set
+        {
+            this.SetandNotifyIfChanged(ref this.backgroundColor, value);
+        }
     }
 
     /// <summary>
