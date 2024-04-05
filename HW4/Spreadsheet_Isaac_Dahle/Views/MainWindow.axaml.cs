@@ -1,23 +1,19 @@
 // Copyright (c) Cass Dahle 11775278.
 // Licensed under the GPL v3.0 License. See LICENSE in the project root for license information.
 
-using System.Threading.Tasks;
+using Avalonia.Controls;
 using Avalonia.Interactivity;
-using Avalonia.Media;
 using Avalonia.Media.Immutable;
+using Avalonia.ReactiveUI;
 using AvaloniaColorPicker;
-using ReactiveUI;
+using HW4.ViewModels;
 
 namespace HW4.Views;
 
-using Avalonia.Controls;
-using Avalonia.ReactiveUI;
-
 // ReSharper disable once RedundantNameQualifier
-using HW4.ViewModels;
 
 /// <summary>
-/// The maid window of the UI.
+///     The maid window of the UI.
 /// </summary>
 public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
 {
@@ -26,35 +22,34 @@ public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
         var colorPickerDialog = new ColorPickerWindow();
         var result = await colorPickerDialog.ShowDialog(this); // Show the dialog window as a modal dialog
 
-        if (result.HasValue && result.Value != null)
+        if (result.HasValue)
         {
             // OK button was clicked, handle the selected color
             var selectedColor = colorPickerDialog.Color;
-            // Do something with the selected color
-            ((MainWindowViewModel)DataContext).ElementBrush = new ImmutableSolidColorBrush(selectedColor);
 
+            // Do something with the selected color
+            ((MainWindowViewModel)this.DataContext)!.ElementBrush = new ImmutableSolidColorBrush(selectedColor);
         }
-        else
-        {
-            // Cancel button was clicked or dialog was closed, handle accordingly
-        }
+
+        // Cancel button was clicked or dialog was closed, handle accordingly
     }
-    private void Button_Click(object sender, Avalonia.Interactivity.RoutedEventArgs e)
+
+    private void Button_Click(object sender, RoutedEventArgs e)
     {
-        OpenColorPickerDialog();
+        this.OpenColorPickerDialog();
     }
+
     /// <summary>
-    /// Initializes a new instance of the <see cref="MainWindow"/> class.
+    ///     Initializes a new instance of the <see cref="MainWindow" /> class.
     /// </summary>
     public MainWindow()
     {
-
         // basic initalization
         this.InitializeComponent();
 
-
         // add headers for the rows
         this.SpreadsheetDataGrid.HeadersVisibility = DataGridHeadersVisibility.All;
+
         // DataContext = new MainWindowViewModel();
         // code for initalizing the SpreadsheetDataGrid
         this.DataContextChanged += (_, _) =>
@@ -67,20 +62,16 @@ public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
         };
 
         // code for getting the row headers
-        this.SpreadsheetDataGrid.LoadingRow += (_, args) =>
-        {
-            args.Row.Header = args.Row.GetIndex() + 1;
-        };
-
+        this.SpreadsheetDataGrid.LoadingRow += (_, args) => { args.Row.Header = args.Row.GetIndex() + 1; };
     }
 
     private void Undo(object? sender, RoutedEventArgs e)
     {
-        ((MainWindowViewModel)DataContext).commandManager.Undo();
+        ((MainWindowViewModel)this.DataContext).CommandManager.Undo();
     }
 
     private void Redo(object? sender, RoutedEventArgs e)
     {
-        ((MainWindowViewModel)DataContext).commandManager.Redo();
+        ((MainWindowViewModel)this.DataContext).CommandManager.Redo();
     }
 }

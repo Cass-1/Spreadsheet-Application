@@ -6,8 +6,8 @@ namespace SpreadsheetEngine;
 public class SetCellTextCommand : ICommand
 {
     private Cell cell;
-    private string oldText;
-    private string newText;
+    private string? oldText;
+    private string? newText;
 
     public SetCellTextCommand(Cell cell, string newText)
     {

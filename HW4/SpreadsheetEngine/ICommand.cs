@@ -5,18 +5,15 @@ namespace SpreadsheetEngine;
 
 public interface ICommand
 {
-    public virtual void Execute()
+    public void Execute()
     {
-
     }
 
-    public virtual void Undo()
+    public void Undo()
     {
-
     }
 
-    public virtual void Redo()
+    public void Redo()
     {
-
     }
 }

@@ -18,10 +18,11 @@ public class SetCellColorCommand : ICommand
 
     public void Execute()
     {
-        if(this.cell == null)
+        if (this.cell == null)
         {
             throw new ArgumentNullException();
         }
+
         this.cell.BackgroundColor = this.newColor;
     }
 

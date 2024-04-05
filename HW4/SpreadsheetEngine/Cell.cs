@@ -37,12 +37,12 @@ public abstract class Cell : INotifyPropertyChanged
     /// <summary>
     /// Represents the actual text put into the cell.
     /// </summary>
-    protected string text;
+    protected string? text;
 
     /// <summary>
     /// Represents the evaluated result of a cell.
     /// </summary>
-    protected string value;
+    protected string? value;
 
     /// <summary>
     /// The color of the cell.
@@ -88,7 +88,7 @@ public abstract class Cell : INotifyPropertyChanged
     /// <summary>
     /// Gets or sets text.
     /// </summary>
-    public string Text
+    public string? Text
     {
         get => this.text;
         set
@@ -100,7 +100,7 @@ public abstract class Cell : INotifyPropertyChanged
     /// <summary>
     /// Gets or sets value.
     /// </summary>
-    public virtual string Value { get; protected internal set; } = null!;
+    public virtual string? Value { get; protected internal set; } = null!;
 
     /// <summary>
     /// Calls the PropertyChangedEvent when a property is changed.
@@ -110,7 +110,6 @@ public abstract class Cell : INotifyPropertyChanged
     {
         this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
-
 
     public uint BackgroundColor
     {
