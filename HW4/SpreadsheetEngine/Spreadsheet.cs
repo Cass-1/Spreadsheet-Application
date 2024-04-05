@@ -16,6 +16,8 @@ public class Spreadsheet
     /// </summary>
     private SpreadsheetCell[,] cellGrid;
 
+    public CommandManager SpreadsheetCommandManager = new CommandManager();
+
     /// <summary>
     /// Initializes a new instance of the <see cref="Spreadsheet"/> class.
     /// </summary>

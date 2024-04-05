@@ -163,10 +163,10 @@ public class MainWindowViewModel : ViewModelBase
                     var result = textBox.Text.Trim();
                     if (result.Length == 0)
                     {
-                        cell.Text = null;
+                        this.commandManager.ExecuteCommand(new SetCellTextCommand(cell, null));
                     }
 
-                    cell.Text = result;
+                    this.commandManager.ExecuteCommand(new SetCellTextCommand(cell, result));
                 }
             };
 
