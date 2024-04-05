@@ -59,6 +59,7 @@
                 <Style Selector="DataGridColumnHeader:selected">
                     <Setter Property="Background" Value="Red" />
                 </Style>
+                <Style Selector="DataGridCell"><Setter Property="TextBox.Foreground" Value="Black"></Setter></Style>
                 <!-- Bind DataGridCell background to a Property on the Row view model -->
                 <!-- since we can't bind directly to a cell view model -->
                 <Style Selector="DataGridCell.SpreadsheetCellClass"
