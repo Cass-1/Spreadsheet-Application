@@ -1,7 +1,9 @@
 // Copyright (c) Cass Dahle 11775278.
 // Licensed under the GPL v3.0 License. See LICENSE in the project root for license information.
 
-namespace SpreadsheetEngine;
+using SpreadsheetEngine;
+
+namespace HW4.Commands;
 
 /// <summary>
 /// A command to set a cell's text.
