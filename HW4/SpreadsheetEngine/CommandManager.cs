@@ -3,13 +3,22 @@
 
 namespace SpreadsheetEngine;
 
+/// <summary>
+/// A class that manages all the commands.
+/// </summary>
 public class CommandManager
 {
     private readonly Stack<ICommand> undoStack = new();
     private readonly Stack<ICommand> redoStack = new();
 
+    /// <summary>
+    /// Gets a value indicating whether checks if a command can be undone.
+    /// </summary>
     public bool CanUndo => this.undoStack.Count > 0;
 
+    /// <summary>
+    /// Gets a value indicating whether checks if a command can be redone.
+    /// </summary>
     public bool CanRedo => this.redoStack.Count > 0;
 
     /// <summary>

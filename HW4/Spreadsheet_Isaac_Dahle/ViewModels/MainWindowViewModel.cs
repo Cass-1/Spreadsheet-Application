@@ -13,9 +13,9 @@ using Avalonia.Input;
 using Avalonia.Layout;
 using Avalonia.Media;
 using Avalonia.Media.Immutable;
-using AvaloniaColorPicker;
 using ReactiveUI;
 using SpreadsheetEngine;
+
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
 namespace HW4.ViewModels;
@@ -28,11 +28,18 @@ public class MainWindowViewModel : ViewModelBase
 #pragma warning restore CA1822 // Mark members as static
 #pragma warning disable CA1822 // Mark members as static
 
-    private readonly List<CellViewModel> selectedCells = new List<CellViewModel>();
+    /// <summary>
+    ///     A manager for all commands.
+    /// </summary>
+    internal readonly CommandManager CommandManager = new();
+
+    private readonly List<CellViewModel> selectedCells = new();
     private bool isInitialized;
     private int rowCount;
     private int columnCount;
     private Spreadsheet spreadsheet;
+
+    private IImmutableSolidColorBrush elementBrush = new ImmutableSolidColorBrush(Colors.Aqua);
 
     // public Interaction<MainWindowViewModel, ColorPickerWindow?> ShowDialog { get; }
 
@@ -49,7 +56,6 @@ public class MainWindowViewModel : ViewModelBase
     public MainWindowViewModel()
     {
         this.ElementBrush = Brushes.Aqua;
-        this.showDialog = new Interaction<MainWindowViewModel, ColorPickerWindow>();
 
         // initalize the spreadsheet
         this.InitializeSpreadsheet();
@@ -60,7 +66,8 @@ public class MainWindowViewModel : ViewModelBase
             var listOfCellModels = new List<CellViewModel>();
             for (var col = 0; col < this.columnCount; col++)
             {
-                listOfCellModels.Add(new CellViewModel(this.spreadsheet?.GetCell(row, col) ?? throw new InvalidOperationException()));
+                listOfCellModels.Add(
+                    new CellViewModel(this.spreadsheet?.GetCell(row, col) ?? throw new InvalidOperationException()));
             }
 
             var rowViewModel = new RowViewModel(listOfCellModels);
@@ -69,16 +76,7 @@ public class MainWindowViewModel : ViewModelBase
     }
 
     /// <summary>
-    /// A manager for all commands.
-    /// </summary>
-    internal readonly CommandManager CommandManager = new CommandManager();
-
-    private Interaction<MainWindowViewModel, ColorPickerWindow> showDialog;
-
-    private IImmutableSolidColorBrush elementBrush = new ImmutableSolidColorBrush(Colors.Aqua);
-
-    /// <summary>
-    /// Gets or sets the brush for a cell or cells.
+    ///     Gets or sets the brush for a cell or cells.
     /// </summary>
     public IImmutableSolidColorBrush ElementBrush
     {
@@ -210,15 +208,70 @@ public class MainWindowViewModel : ViewModelBase
             var multipleSelection = args.PointerPressedEventArgs.KeyModifiers != KeyModifiers.None;
             if (multipleSelection == false)
             {
-                this.SelectCell(rowIndex, columnIndex, dataGrid);
+                this.SelectCell(rowIndex, columnIndex);
             }
             else
             {
-                this.ToggleCellSelection(rowIndex, columnIndex, dataGrid);
+                this.ToggleCellSelection(rowIndex, columnIndex);
             }
         };
 
         this.isInitialized = true;
+    }
+
+    /// <summary>
+    ///  Selects a cell.
+    /// </summary>
+    /// <param name="rowIndex">The row index of a cell.</param>
+    /// <param name="columnIndex">The column index of a cell.</param>
+    public void SelectCell(int rowIndex, int columnIndex)
+    {
+        var clickedCell = this.GetCell(rowIndex, columnIndex);
+        var shouldEditCell = clickedCell.IsSelected;
+        this.ResetSelection();
+
+// add the pressed cell back to the list
+        this.selectedCells.Add(clickedCell);
+        clickedCell.IsSelected = true;
+        if (shouldEditCell)
+        {
+            clickedCell.CanEdit = true;
+        }
+    }
+
+    /// <summary>
+    ///     Toggles the selection of a cell.
+    /// </summary>
+    /// <param name="rowIndex">The index of a cell.</param>
+    /// <param name="columnIndex">A column of a cell.</param>
+    public void ToggleCellSelection(int rowIndex, int columnIndex)
+    {
+        var clickedCell = this.GetCell(rowIndex, columnIndex);
+        if (clickedCell.IsSelected == false)
+        {
+            this.selectedCells.Add(clickedCell);
+            clickedCell.IsSelected = true;
+        }
+        else
+        {
+            this.selectedCells.Remove(clickedCell);
+            clickedCell.IsSelected = false;
+        }
+    }
+
+    /// <summary>
+    ///     Resets the selection.
+    /// </summary>
+    public void ResetSelection()
+    {
+// clear current selection
+        foreach (var cell in this.selectedCells)
+        {
+            cell.IsSelected = false;
+            cell.CanEdit = false;
+        }
+
+        this.selectedCells.Clear();
     }
 
     /// <summary>
@@ -244,52 +297,10 @@ public class MainWindowViewModel : ViewModelBase
         }
     }
 
-    public void SelectCell(int rowIndex, int columnIndex, DataGrid dataGrid)
-    {
-        var clickedCell = this.GetCell(rowIndex, columnIndex);
-        var shouldEditCell = clickedCell.IsSelected;
-        this.ResetSelection();
-
-// add the pressed cell back to the list
-        this.selectedCells.Add(clickedCell);
-        clickedCell.IsSelected = true;
-        if (shouldEditCell)
-        {
-            clickedCell.CanEdit = true;
-        }
-    }
-
     private CellViewModel GetCell(int rowIndex, int columnIndex)
     {
         return this.Rows[rowIndex][columnIndex];
 
         // [(rowIndex - 1) * 10 + columnIndex];
-    }
-
-    public void ToggleCellSelection(int rowIndex, int columnIndex, DataGrid dataGrid)
-    {
-        var clickedCell = this.GetCell(rowIndex, columnIndex);
-        if (clickedCell.IsSelected == false)
-        {
-            this.selectedCells.Add(clickedCell);
-            clickedCell.IsSelected = true;
-        }
-        else
-        {
-            this.selectedCells.Remove(clickedCell);
-            clickedCell.IsSelected = false;
-        }
-    }
-
-    public void ResetSelection()
-    {
-// clear current selection
-        foreach (var cell in this.selectedCells)
-        {
-            cell.IsSelected = false;
-            cell.CanEdit = false;
-        }
-
-        this.selectedCells.Clear();
     }
 }

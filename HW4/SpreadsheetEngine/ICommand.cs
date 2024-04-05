@@ -3,16 +3,28 @@
 
 namespace SpreadsheetEngine;
 
+/// <summary>
+/// An interface for commands.
+/// </summary>
 public interface ICommand
 {
+    /// <summary>
+    /// Executes the command.
+    /// </summary>
     public void Execute()
     {
     }
 
+    /// <summary>
+    /// Undoes a command.
+    /// </summary>
     public void Undo()
     {
     }
 
+    /// <summary>
+    /// Redoes a command.
+    /// </summary>
     public void Redo()
     {
     }

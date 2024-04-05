@@ -12,11 +12,14 @@ namespace SpreadsheetEngine;
 public class Spreadsheet
 {
     /// <summary>
+    /// A command manager.
+    /// </summary>
+    public CommandManager SpreadsheetCommandManager = new();
+
+    /// <summary>
     ///     The 2D grid of cells in the spreadsheet.
     /// </summary>
     private readonly SpreadsheetCell[,] cellGrid;
-
-    public CommandManager SpreadsheetCommandManager = new();
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="Spreadsheet" /> class.
@@ -207,7 +210,10 @@ public class Spreadsheet
             {
                 if (cell.Value != string.Empty)
                 {
-                    this.expressionTree.SetVariable(cell.Name, double.Parse(cell.Value));
+                    if (cell.Value != null)
+                    {
+                        this.expressionTree.SetVariable(cell.Name, double.Parse(cell.Value));
+                    }
                 }
             }
 

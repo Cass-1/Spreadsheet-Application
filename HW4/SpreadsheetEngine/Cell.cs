@@ -98,6 +98,18 @@ public abstract class Cell : INotifyPropertyChanged
     }
 
     /// <summary>
+    /// Gets or sets the background color of a cell.
+    /// </summary>
+    public uint BackgroundColor
+    {
+        get => this.backgroundColor;
+        set
+        {
+            this.SetandNotifyIfChanged(ref this.backgroundColor, value);
+        }
+    }
+
+    /// <summary>
     /// Gets or sets value.
     /// </summary>
     public virtual string? Value { get; protected internal set; } = null!;
@@ -109,15 +121,6 @@ public abstract class Cell : INotifyPropertyChanged
     protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
     {
         this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
-
-    public uint BackgroundColor
-    {
-        get => this.backgroundColor;
-        set
-        {
-            this.SetandNotifyIfChanged(ref this.backgroundColor, value);
-        }
     }
 
     /// <summary>

@@ -17,28 +17,6 @@ namespace HW4.Views;
 /// </summary>
 public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
 {
-    private async void OpenColorPickerDialog()
-    {
-        var colorPickerDialog = new ColorPickerWindow();
-        var result = await colorPickerDialog.ShowDialog(this); // Show the dialog window as a modal dialog
-
-        if (result.HasValue)
-        {
-            // OK button was clicked, handle the selected color
-            var selectedColor = colorPickerDialog.Color;
-
-            // Do something with the selected color
-            ((MainWindowViewModel)this.DataContext)!.ElementBrush = new ImmutableSolidColorBrush(selectedColor);
-        }
-
-        // Cancel button was clicked or dialog was closed, handle accordingly
-    }
-
-    private void Button_Click(object sender, RoutedEventArgs e)
-    {
-        this.OpenColorPickerDialog();
-    }
-
     /// <summary>
     ///     Initializes a new instance of the <see cref="MainWindow" /> class.
     /// </summary>
@@ -65,13 +43,35 @@ public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
         this.SpreadsheetDataGrid.LoadingRow += (_, args) => { args.Row.Header = args.Row.GetIndex() + 1; };
     }
 
-    private void Undo(object? sender, RoutedEventArgs e)
+    private async void OpenColorPickerDialog()
     {
-        ((MainWindowViewModel)this.DataContext).CommandManager.Undo();
+        var colorPickerDialog = new ColorPickerWindow();
+        var result = await colorPickerDialog.ShowDialog(this); // Show the dialog window as a modal dialog
+
+        if (result.HasValue)
+        {
+            // OK button was clicked, handle the selected color
+            var selectedColor = colorPickerDialog.Color;
+
+            // Do something with the selected color
+            ((MainWindowViewModel)this.DataContext!).ElementBrush = new ImmutableSolidColorBrush(selectedColor);
+        }
+
+        // Cancel button was clicked or dialog was closed, handle accordingly
     }
 
-    private void Redo(object? sender, RoutedEventArgs e)
+    private void Button_Click(object? sender, RoutedEventArgs routedEventArgs)
     {
-        ((MainWindowViewModel)this.DataContext).CommandManager.Redo();
+        this.OpenColorPickerDialog();
+    }
+
+    private void Undo(object? sender, RoutedEventArgs routedEventArgs)
+    {
+        ((MainWindowViewModel)this.DataContext!).CommandManager.Undo();
+    }
+
+    private void Redo(object? sender, RoutedEventArgs routedEventArgs)
+    {
+        ((MainWindowViewModel)this.DataContext!).CommandManager.Redo();
     }
 }

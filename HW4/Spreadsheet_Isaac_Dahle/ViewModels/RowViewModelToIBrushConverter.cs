@@ -1,20 +1,29 @@
+// Copyright (c) Cass Dahle 11775278.
+// Licensed under the GPL v3.0 License. See LICENSE in the project root for license information.
+
 using System;
 using System.Globalization;
 using Avalonia.Data;
 using Avalonia.Data.Converters;
 using Avalonia.Media;
-using HW4.ViewModels;
 
-namespace Spreadsheet_GettingStarted.ValueConverters;
+namespace HW4.ViewModels;
 
+/// <summary>
+/// Converts a RowViewModel to a IBrush.
+/// </summary>
 public class RowViewModelToIBrushConverter : IValueConverter
 {
+    /// <summary>
+    /// A static instance of a RowViewModelToIBrushConverter.
+    /// </summary>
     public static readonly RowViewModelToIBrushConverter Instance = new();
 
     private RowViewModel? currentRow;
     private int cellCounter;
 
-    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+    /// <inheritdoc/>
+    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         // if the converter used for the wrong type throw an exception
         if (value is not RowViewModel row)
@@ -41,7 +50,8 @@ public class RowViewModelToIBrushConverter : IValueConverter
         return brush;
     }
 
-    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+    /// <inheritdoc/>
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         throw new NotImplementedException();
     }
