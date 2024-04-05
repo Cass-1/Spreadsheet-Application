@@ -32,6 +32,7 @@
                 <MenuItem Header="Color" Click="Button_Click"/>
                 <Separator/>
                 <MenuItem Header="Undo" Click="Undo"/>
+                <MenuItem Header="Redo" Click="Redo"/>
             </MenuItem>
 
 

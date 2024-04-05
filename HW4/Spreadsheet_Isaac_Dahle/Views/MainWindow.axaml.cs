@@ -78,4 +78,9 @@ public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
     {
         ((MainWindowViewModel)DataContext).commandManager.Undo();
     }
+
+    private void Redo(object? sender, RoutedEventArgs e)
+    {
+        ((MainWindowViewModel)DataContext).commandManager.Redo();
+    }
 }
