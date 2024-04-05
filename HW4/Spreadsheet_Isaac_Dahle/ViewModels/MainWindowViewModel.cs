@@ -2,7 +2,12 @@
 // Licensed under the GPL v3.0 License. See LICENSE in the project root for license information.
 
 using System.Collections.ObjectModel;
+using System.Reactive;
+using System.Windows.Input;
 using Avalonia.Input;
+using AvaloniaColorPicker;
+using HW4.Views;
+using ReactiveUI;
 using Spreadsheet_GettingStarted.ViewModels;
 
 namespace HW4.ViewModels;
@@ -32,8 +37,16 @@ public class MainWindowViewModel : ViewModelBase
     private List<RowViewModel> _spreadsheetData = null;
     private readonly List<CellViewModel> _selectedCells = new();
 
+
+
+    // public Interaction<MainWindowViewModel, ColorPickerWindow?> ShowDialog { get; }
+
     // ReSharper disable once CollectionNeverQueried.Local
     private List<List<Cell>>? spreadsheetData;
+    private Color _selectedColor;
+
+    // public int Number { get; set; }
+    // public IBrush mycolor { get; set; } = Brushes.Aqua;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MainWindowViewModel"/> class.
@@ -41,6 +54,9 @@ public class MainWindowViewModel : ViewModelBase
     /// </summary>
     public MainWindowViewModel()
     {
+        this.ElementBrush = Brushes.Aqua;
+        ShowDialog = new Interaction<MainWindowViewModel, ColorPickerWindow>();
+
         // initalize the spreadsheet
         this.InitializeSpreadsheet();
 
@@ -56,6 +72,17 @@ public class MainWindowViewModel : ViewModelBase
             RowViewModel rowViewModel = new RowViewModel(listOfCellModels);
             this.Rows.Add(rowViewModel);
         }
+
+    }
+
+
+    public Interaction<MainWindowViewModel, ColorPickerWindow> ShowDialog { get; }
+
+    private IBrush elementBrush;
+    public IBrush ElementBrush
+    {
+        get => this.elementBrush;
+        set => this.RaiseAndSetIfChanged(ref this.elementBrush, value);
     }
 
     /// <summary>
