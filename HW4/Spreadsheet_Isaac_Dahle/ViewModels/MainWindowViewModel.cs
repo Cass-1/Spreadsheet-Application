@@ -13,6 +13,7 @@ using Avalonia.Input;
 using Avalonia.Layout;
 using Avalonia.Media;
 using Avalonia.Media.Immutable;
+using HW4.Commands;
 using ReactiveUI;
 using SpreadsheetEngine;
 

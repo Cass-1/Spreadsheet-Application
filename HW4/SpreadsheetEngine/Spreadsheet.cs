@@ -12,11 +12,6 @@ namespace SpreadsheetEngine;
 public class Spreadsheet
 {
     /// <summary>
-    /// A command manager.
-    /// </summary>
-    public CommandManager SpreadsheetCommandManager = new();
-
-    /// <summary>
     ///     The 2D grid of cells in the spreadsheet.
     /// </summary>
     private readonly SpreadsheetCell[,] cellGrid;

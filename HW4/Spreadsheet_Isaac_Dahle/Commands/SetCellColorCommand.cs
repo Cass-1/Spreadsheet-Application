@@ -1,7 +1,10 @@
 // Copyright (c) Cass Dahle 11775278.
 // Licensed under the GPL v3.0 License. See LICENSE in the project root for license information.
 
-namespace SpreadsheetEngine;
+using System;
+using SpreadsheetEngine;
+
+namespace HW4.Commands;
 
 /// <summary>
 /// A command that changes the color of a cell.
