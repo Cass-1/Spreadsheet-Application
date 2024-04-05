@@ -3,6 +3,7 @@
 
 using System.Threading.Tasks;
 using Avalonia.Media;
+using Avalonia.Media.Immutable;
 using AvaloniaColorPicker;
 using ReactiveUI;
 
@@ -29,7 +30,7 @@ public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
             // OK button was clicked, handle the selected color
             var selectedColor = colorPickerDialog.Color;
             // Do something with the selected color
-            ((MainWindowViewModel)DataContext).ElementBrush = new SolidColorBrush(selectedColor);
+            ((MainWindowViewModel)DataContext).ElementBrush = new ImmutableSolidColorBrush(selectedColor);
 
         }
         else

@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Reactive;
 using System.Windows.Input;
 using Avalonia.Input;
+using Avalonia.Media.Immutable;
 using AvaloniaColorPicker;
 using HW4.Views;
 using ReactiveUI;
@@ -78,11 +79,18 @@ public class MainWindowViewModel : ViewModelBase
 
     public Interaction<MainWindowViewModel, ColorPickerWindow> ShowDialog { get; }
 
-    private IBrush elementBrush;
-    public IBrush ElementBrush
+    private IImmutableSolidColorBrush elementBrush;
+    public IImmutableSolidColorBrush ElementBrush
     {
         get => this.elementBrush;
-        set => this.RaiseAndSetIfChanged(ref this.elementBrush, value);
+        set
+        {
+            this.RaiseAndSetIfChanged(ref this.elementBrush, value);
+            foreach (var cell in this._selectedCells)
+            {
+                cell.BackgroundColor = value.Color.ToUInt32();
+            }
+        }
     }
 
     /// <summary>
@@ -265,4 +273,6 @@ public class MainWindowViewModel : ViewModelBase
         }
         _selectedCells.Clear();
     }
+
+
 }

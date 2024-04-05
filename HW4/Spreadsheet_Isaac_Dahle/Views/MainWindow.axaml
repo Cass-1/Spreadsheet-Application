@@ -3,8 +3,11 @@
         xmlns:vm="using:HW4.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:colorpicker="clr-namespace:AvaloniaColorPicker;assembly=AvaloniaColorPicker"
         xmlns:utils="using:Spreadsheet_GettingStarted.ValueConverters"
         xmlns:viewModels="clr-namespace:Spreadsheet_GettingStarted.ViewModels"
+
+
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="HW4.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
@@ -16,7 +19,6 @@
     </Window.Resources>
 
 
-
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
@@ -24,9 +26,27 @@
     </Design.DataContext>
 
     <DockPanel Margin="20">
-        <DataGrid Name="SpreadsheetDataGrid" AutoGenerateColumns="False" HorizontalScrollBarVisibility="Visible"
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <!-- <StyleInclude Source="avares://Avalonia.Controls.ColorPicker/Themes/Fluent/Fluent.xaml" /> -->
+                <MenuItem Header="Color" Click="Button_Click"/>
+                <Separator/>
+            </MenuItem>
+
+
+        </Menu>
+        <!-- <Rectangle Fill="Chartreuse" Width="100" Height="100"/> -->
+<!-- <TextBox Background="{Binding mycolor}" Text="{Binding Number}"></TextBox> -->
+        <!-- <Rectangle Fill="{Binding ElementBrush}" Width="100" Height="100"/> -->
+
+        <DataGrid IsVisible="True" Name="SpreadsheetDataGrid" AutoGenerateColumns="False" HorizontalScrollBarVisibility="Visible"
                   VerticalScrollBarVisibility="Visible" GridLinesVisibility="All" RowHeaderWidth="40">
             <DataGrid.Styles>
+                <Style Selector="DataGridCell.SpreadsheetCellClass"
+                       x:DataType="viewModels:RowViewModel">
+                    <Setter Property="Background" Value="{Binding SelfReference,
+                            Converter={StaticResource RowBrushConverter}}" />
+                </Style>
                 <!-- Remove blue background on row header when selecting a cell -->
                 <Style Selector="DataGridRow:selected /template/Rectangle#BackgroundRectangle">
                     <Setter Property="Fill" Value="Yellow" />
