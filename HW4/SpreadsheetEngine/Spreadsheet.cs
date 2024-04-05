@@ -1,23 +1,28 @@
 // Copyright (c) Cass Dahle 11775278.
 // Licensed under the GPL v3.0 License. See LICENSE in the project root for license information.
 
-namespace SpreadsheetEngine;
-
 using System.ComponentModel;
 using System.Globalization;
 
+namespace SpreadsheetEngine;
+
 /// <summary>
-/// A class that represents a spreadsheet.
+///     A class that represents a spreadsheet.
 /// </summary>
 public class Spreadsheet
 {
     /// <summary>
-    /// The 2D grid of cells in the spreadsheet.
+    /// A command manager.
     /// </summary>
-    private SpreadsheetCell[,] cellGrid;
+    public CommandManager SpreadsheetCommandManager = new();
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="Spreadsheet"/> class.
+    ///     The 2D grid of cells in the spreadsheet.
+    /// </summary>
+    private readonly SpreadsheetCell[,] cellGrid;
+
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="Spreadsheet" /> class.
     /// </summary>
     /// <param name="rowCount">The number of rows to have.</param>
     /// <param name="columnCount">the number of columns to have.</param>
@@ -49,17 +54,17 @@ public class Spreadsheet
     }
 
     /// <summary>
-    /// Gets the number of rows.
+    ///     Gets the number of rows.
     /// </summary>
     public int RowCount { get; }
 
     /// <summary>
-    /// Gets the number of comumns.
+    ///     Gets the number of comumns.
     /// </summary>
     public int ColumnCount { get; }
 
     /// <summary>
-    /// Returns the cell at a given row and column index.
+    ///     Returns the cell at a given row and column index.
     /// </summary>
     /// <param name="rowIndex">the row index of the cell.</param>
     /// <param name="colIndex">the column index of the cell.</param>
@@ -73,20 +78,22 @@ public class Spreadsheet
 
         if (colIndex >= this.ColumnCount)
         {
-            throw new ArgumentOutOfRangeException(nameof(colIndex) + " is out of bounds");
+            throw new ArgumentOutOfRangeException(nameof(colIndex) + @" is out of bounds");
         }
 
         return this.cellGrid[rowIndex, colIndex];
     }
 
     /// <summary>
-    /// Returns the cell at a specified location, using the spreadsheet naming convention.
+    ///     Returns the cell at a specified location, using the spreadsheet naming convention.
     /// </summary>
     /// <param name="col">A character that represents the column in the spreadsheet UI.</param>
     /// <param name="row">A number that represents the row in the spreadsheet UI.</param>
     /// <returns>A cell in the spreadsheet.</returns>
-    /// <exception cref="ArgumentOutOfRangeException">The argument(s) given are outside the bounds of
-    /// the spreadsheet.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">
+    ///     The argument(s) given are outside the bounds of
+    ///     the spreadsheet.
+    /// </exception>
     public Cell GetCell(char col, int row)
     {
         var rowIndex = row - 1;
@@ -105,7 +112,7 @@ public class Spreadsheet
     }
 
     /// <summary>
-    /// The function that is called whenever a cell has been changed.
+    ///     The function that is called whenever a cell has been changed.
     /// </summary>
     /// <param name="sender">The object that send the property changed event.</param>
     /// <param name="e">The event arguments.</param>
@@ -113,6 +120,10 @@ public class Spreadsheet
     {
         // get the spreadsheet cell that sent the event
         var cell = (SpreadsheetCell)sender!;
+        if (cell.Text == null)
+        {
+            return;
+        }
 
         // if the cell's text is an expression
         if (cell.Text.StartsWith('='))
@@ -127,7 +138,7 @@ public class Spreadsheet
 
             cell.SetExpression(expression);
 
-            List<string> variables = cell.GetReferencedCellNames();
+            var variables = cell.GetReferencedCellNames();
 
             foreach (var variable in variables)
             {
@@ -143,7 +154,7 @@ public class Spreadsheet
                 try
                 {
                     // get the reference cell
-                    Cell referencedCell = this.GetCell(int.Parse(rowCharacter) - 1, columnCharacter - 'A');
+                    var referencedCell = this.GetCell(int.Parse(rowCharacter) - 1, columnCharacter - 'A');
 
                     cell.AddReferenceCell(referencedCell);
                 }
@@ -169,7 +180,7 @@ public class Spreadsheet
     private class SpreadsheetCell : Cell
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="SpreadsheetCell"/> class.
+        ///     Initializes a new instance of the <see cref="SpreadsheetCell" /> class.
         /// </summary>
         /// <param name="rowIndex">The cell's row position in the spreadsheet.</param>
         /// <param name="columnIndex">The cell's column position in the spreadsheet.</param>
@@ -179,16 +190,16 @@ public class Spreadsheet
         }
 
         /// <summary>
-        /// Gets or sets the value of Value.
+        ///     Gets or sets the value of Value.
         /// </summary>
-        public override string Value
+        public override string? Value
         {
             get => this.value;
             protected internal set => this.SetandNotifyIfChanged(ref this.value, value);
         }
 
         /// <summary>
-        /// Evaluates the cell's expression.
+        ///     Evaluates the cell's expression.
         /// </summary>
         public void EvaluateExpression()
         {
@@ -199,7 +210,10 @@ public class Spreadsheet
             {
                 if (cell.Value != string.Empty)
                 {
-                    this.expressionTree.SetVariable(cell.Name, double.Parse(cell.Value));
+                    if (cell.Value != null)
+                    {
+                        this.expressionTree.SetVariable(cell.Name, double.Parse(cell.Value));
+                    }
                 }
             }
 
@@ -207,7 +221,7 @@ public class Spreadsheet
         }
 
         /// <summary>
-        /// Sets the cell's expression.
+        ///     Sets the cell's expression.
         /// </summary>
         /// <param name="expression">The new expression.</param>
         public void SetExpression(string expression)
@@ -218,7 +232,7 @@ public class Spreadsheet
         }
 
         /// <summary>
-        /// Gets the names of all the cells this cell's expression references.
+        ///     Gets the names of all the cells this cell's expression references.
         /// </summary>
         /// <returns>A list of all the cells that this cell's expression references.</returns>
         public List<string> GetReferencedCellNames()
@@ -227,7 +241,7 @@ public class Spreadsheet
         }
 
         /// <summary>
-        /// Adds a reference to a cell that this cell's expression references.
+        ///     Adds a reference to a cell that this cell's expression references.
         /// </summary>
         /// <param name="cell">The new cell to reference.</param>
         public void AddReferenceCell(Cell cell)
@@ -237,7 +251,7 @@ public class Spreadsheet
         }
 
         /// <summary>
-        /// Called when a reference cell changes.
+        ///     Called when a reference cell changes.
         /// </summary>
         /// <param name="sender">The sender of the event.</param>
         /// <param name="e">The event arguments.</param>
@@ -247,13 +261,13 @@ public class Spreadsheet
         }
 
         /// <summary>
-        /// Unsubscribe from all reference cells.
+        ///     Unsubscribe from all reference cells.
         /// </summary>
         private void UnsubscribeFromReferencedCells()
         {
             if (this.referencedCells.Count > 0)
             {
-                foreach (Cell cell in this.referencedCells)
+                foreach (var cell in this.referencedCells)
                 {
                     cell.PropertyChanged -= this.OnReferenceChanged;
                 }

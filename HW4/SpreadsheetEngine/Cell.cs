@@ -37,12 +37,17 @@ public abstract class Cell : INotifyPropertyChanged
     /// <summary>
     /// Represents the actual text put into the cell.
     /// </summary>
-    protected string text;
+    protected string? text;
 
     /// <summary>
     /// Represents the evaluated result of a cell.
     /// </summary>
-    protected string value;
+    protected string? value;
+
+    /// <summary>
+    /// The color of the cell.
+    /// </summary>
+    private uint backgroundColor;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Cell"/> class.
@@ -62,6 +67,9 @@ public abstract class Cell : INotifyPropertyChanged
         str += col;
         str += (this.RowIndex + 1).ToString();
         this.Name = str;
+
+        // set the default color to white
+        this.backgroundColor = uint.MaxValue;
     }
 
     /// <inheritdoc/>
@@ -80,7 +88,7 @@ public abstract class Cell : INotifyPropertyChanged
     /// <summary>
     /// Gets or sets text.
     /// </summary>
-    public string Text
+    public string? Text
     {
         get => this.text;
         set
@@ -90,9 +98,21 @@ public abstract class Cell : INotifyPropertyChanged
     }
 
     /// <summary>
+    /// Gets or sets the background color of a cell.
+    /// </summary>
+    public uint BackgroundColor
+    {
+        get => this.backgroundColor;
+        set
+        {
+            this.SetandNotifyIfChanged(ref this.backgroundColor, value);
+        }
+    }
+
+    /// <summary>
     /// Gets or sets value.
     /// </summary>
-    public virtual string Value { get; protected internal set; } = null!;
+    public virtual string? Value { get; protected internal set; } = null!;
 
     /// <summary>
     /// Calls the PropertyChangedEvent when a property is changed.

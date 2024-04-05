@@ -44,7 +44,7 @@ public class CellTests
     public void TextGetterTest()
     {
         TestingCell cell = new TestingCell(0, 0);
-        string text = cell.GetText();
+        string? text = cell.GetText();
 
         Assert.That(text, Is.EqualTo(string.Empty));
     }
@@ -68,7 +68,7 @@ public class CellTests
     public void ValueGetterTest()
     {
         TestingCell cell = new TestingCell(0, 0);
-        string text = cell.GetValue();
+        string? text = cell.GetValue();
 
         Assert.That(text, Is.EqualTo(string.Empty));
     }
@@ -89,14 +89,14 @@ public class CellTests
         {
         }
 
-        public string GetText() => this.text;
+        public string? GetText() => this.text;
 
-        public void SetText(string str)
+        public void SetText(string? str)
         {
             this.text = str;
         }
 
-        public string GetValue()
+        public string? GetValue()
         {
             return this.value;
         }
