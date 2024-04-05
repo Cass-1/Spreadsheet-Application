@@ -2,6 +2,7 @@
 // Licensed under the GPL v3.0 License. See LICENSE in the project root for license information.
 
 using System.Threading.Tasks;
+using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.Media.Immutable;
 using AvaloniaColorPicker;
@@ -73,4 +74,8 @@ public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
 
     }
 
+    private void Undo(object? sender, RoutedEventArgs e)
+    {
+        ((MainWindowViewModel)DataContext).commandManager.Undo();
+    }
 }

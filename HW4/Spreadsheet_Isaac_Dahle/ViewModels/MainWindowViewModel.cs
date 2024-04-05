@@ -76,6 +76,7 @@ public class MainWindowViewModel : ViewModelBase
 
     }
 
+    internal CommandManager commandManager = new CommandManager();
 
     public Interaction<MainWindowViewModel, ColorPickerWindow> ShowDialog { get; }
 
@@ -86,9 +87,10 @@ public class MainWindowViewModel : ViewModelBase
         set
         {
             this.RaiseAndSetIfChanged(ref this.elementBrush, value);
-            foreach (var cell in this._selectedCells)
+            foreach (CellViewModel cell in this._selectedCells)
             {
-                cell.BackgroundColor = value.Color.ToUInt32();
+                this.commandManager.ExecuteCommand(new SetCellColorCommand(cell.Cell, value.Color.ToUInt32()));
+                // cell.BackgroundColor = value.Color.ToUInt32();
             }
         }
     }

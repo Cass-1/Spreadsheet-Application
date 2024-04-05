@@ -11,12 +11,17 @@ public class SetCellColorCommand : ICommand
 
     public SetCellColorCommand(Cell cell, uint newColor)
     {
+        this.cell = cell;
         this.oldColor = cell.BackgroundColor;
         this.newColor = newColor;
     }
 
     public void Execute()
     {
+        if(this.cell == null)
+        {
+            throw new ArgumentNullException();
+        }
         this.cell.BackgroundColor = this.newColor;
     }
 

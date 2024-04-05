@@ -11,6 +11,7 @@ public class SetCellTextCommand : ICommand
 
     public SetCellTextCommand(Cell cell, string newText)
     {
+        this.cell = cell;
         this.oldText = cell.Text;
         this.newText = newText;
     }
