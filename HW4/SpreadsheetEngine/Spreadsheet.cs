@@ -3,6 +3,7 @@
 
 using System.ComponentModel;
 using System.Globalization;
+using System.Xml;
 
 namespace SpreadsheetEngine;
 
@@ -111,6 +112,52 @@ public class Spreadsheet
         return this.cellGrid[rowIndex, colIndex];
     }
 
+
+
+    public void Save(Stream stream)
+    {
+        // Create XmlWriterSettings
+        XmlWriterSettings settings = new XmlWriterSettings();
+        settings.Indent = true;
+
+        // Create an XmlWriter
+        using (XmlWriter writer = XmlWriter.Create(stream, settings))
+        {
+            // Start the document
+            writer.WriteStartDocument();
+
+            // Start root element
+            writer.WriteStartElement("Spreadsheet");
+
+            for (int row = 0; row < this.RowCount; row++)
+            {
+                for (int col = 0; col < this.ColumnCount; col++)
+                {
+                    // Get the cell
+                    Cell cell = this.GetCell(row, col);
+
+                    // only write cell if it has been changed
+                    if (cell.ChangedFromDefaults())
+                    {
+                        cell.WriteXml(writer);
+                    }
+                }
+            }
+
+            // End the root element
+            writer.WriteEndElement();
+
+            // End the document
+            writer.WriteEndDocument();
+
+            // Flush the writer to ensure all data is written to the MemoryStream
+            writer.Flush();
+        }
+
+// Reset the position of the MemoryStream to the beginning
+        stream.Position = 0;
+    }
+
     /// <summary>
     ///     The function that is called whenever a cell has been changed.
     /// </summary>
@@ -205,7 +252,7 @@ public class Spreadsheet
         {
             this.expressionTree = new ExpressionTree(this.Expression);
 
-            // TODO: set the reference variables
+            // set the reference variables
             foreach (var cell in this.referencedCells)
             {
                 if (cell.Value != string.Empty)
@@ -249,6 +296,8 @@ public class Spreadsheet
             this.referencedCells.Add(cell);
             cell.PropertyChanged += this.OnReferenceChanged;
         }
+
+
 
         /// <summary>
         ///     Called when a reference cell changes.
