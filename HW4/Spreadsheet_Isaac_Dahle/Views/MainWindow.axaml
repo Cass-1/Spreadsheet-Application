@@ -28,8 +28,8 @@
                 <!-- <StyleInclude Source="avares://Avalonia.Controls.ColorPicker/Themes/Fluent/Fluent.xaml" /> -->
                 <MenuItem Header="Color" Click="Button_Click"/>
                 <Separator/>
-                <MenuItem Header="Undo" Click="Undo"/>
-                <MenuItem Header="Redo" Click="Redo"/>
+                <MenuItem Header="Undo" Command="{Binding UndoCommand}"/>
+                <MenuItem Header="Redo" Command="{Binding RedoCommand}"/>
             </MenuItem>
 
 

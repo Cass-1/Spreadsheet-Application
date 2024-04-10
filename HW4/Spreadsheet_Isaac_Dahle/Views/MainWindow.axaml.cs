@@ -56,22 +56,10 @@ public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
             // Do something with the selected color
             ((MainWindowViewModel)this.DataContext!).ElementBrush = new ImmutableSolidColorBrush(selectedColor);
         }
-
-        // Cancel button was clicked or dialog was closed, handle accordingly
     }
 
     private void Button_Click(object? sender, RoutedEventArgs routedEventArgs)
     {
         this.OpenColorPickerDialog();
-    }
-
-    private void Undo(object? sender, RoutedEventArgs routedEventArgs)
-    {
-        ((MainWindowViewModel)this.DataContext!).CommandManager.Undo();
-    }
-
-    private void Redo(object? sender, RoutedEventArgs routedEventArgs)
-    {
-        ((MainWindowViewModel)this.DataContext!).CommandManager.Redo();
     }
 }

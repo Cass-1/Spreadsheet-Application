@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reactive;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
@@ -46,6 +47,10 @@ public class MainWindowViewModel : ViewModelBase
     // ReSharper disable once CollectionNeverQueried.Local
     private List<List<Cell>>? spreadsheetData;
 
+    public ReactiveCommand<Unit, Unit> RedoCommand { get; }
+    public ReactiveCommand<Unit, Unit> UndoCommand { get; }
+
+
     // public int Number { get; set; }
     // public IBrush mycolor { get; set; } = Brushes.Aqua;
 
@@ -56,6 +61,9 @@ public class MainWindowViewModel : ViewModelBase
     public MainWindowViewModel()
     {
         this.ElementBrush = Brushes.Aqua;
+        this.RedoCommand = ReactiveCommand.Create(this.Redo);
+        this.UndoCommand = ReactiveCommand.Create(this.Undo);
+
 
         // initalize the spreadsheet
         this.InitializeSpreadsheet();
@@ -73,6 +81,16 @@ public class MainWindowViewModel : ViewModelBase
             var rowViewModel = new RowViewModel(listOfCellModels);
             this.Rows.Add(rowViewModel);
         }
+    }
+
+    private void Redo()
+    {
+        this.CommandManager.Redo();
+    }
+
+    private void Undo()
+    {
+        this.CommandManager.Undo();
     }
 
     /// <summary>
