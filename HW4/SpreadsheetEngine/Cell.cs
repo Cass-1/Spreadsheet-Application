@@ -1,6 +1,10 @@
 // Copyright (c) Cass Dahle 11775278.
 // Licensed under the GPL v3.0 License. See LICENSE in the project root for license information.
 
+using System.Xml;
+using System.Xml.Schema;
+using System.Xml.Serialization;
+
 namespace SpreadsheetEngine;
 
 using System.ComponentModel;
@@ -12,7 +16,7 @@ using System.Runtime.CompilerServices;
 /// </summary>
 [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:Fields should be private", Justification = "<both the value and text property need to be protected and not private to comply with assignment requirements.>")]
 [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "<both the value and text property need to be protected and not private to comply with assignment requirements.>")]
-public abstract class Cell : INotifyPropertyChanged
+public abstract class Cell : INotifyPropertyChanged, IXmlSerializable
 {
     /// <summary>
     /// The cell's name, eg "C10".
@@ -142,4 +146,60 @@ public abstract class Cell : INotifyPropertyChanged
         this.OnPropertyChanged(propertyName);
         return true;
     }
+
+    public XmlSchema? GetSchema()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void ReadXml(XmlReader reader)
+    {
+        if (reader.MoveToContent() == XmlNodeType.Element && reader.LocalName == "Cell")
+        {
+            while (reader.Read())
+            {
+                if (reader.NodeType == XmlNodeType.Element || reader.NodeType == XmlNodeType.Text)
+                {
+                    switch (reader.Name)
+                    {
+                        case "Name":
+                            this.Name = reader.ReadElementContentAsString();
+                            break;
+                        case "Text":
+                            this.Text = reader.ReadElementContentAsString();
+                            break;
+                        case "Expression":
+                            this.Expression = reader.ReadElementContentAsString();
+                            break;
+                        case "Value":
+                            this.Value = reader.ReadElementContentAsString();
+                            break;
+                        case "BackgroundColor":
+                            this.BackgroundColor = uint.Parse(reader.ReadElementContentAsString());
+                            break;
+                    }
+                }
+                else if (reader.NodeType == XmlNodeType.EndElement && reader.Name == "Cell")
+                {
+                    return;
+                }
+            }
+        }
+    }
+
+    /// <inheritdoc/>
+    public void WriteXml(XmlWriter writer)
+    {
+
+        writer.WriteStartElement("Cell");
+
+        writer.WriteElementString("Name", this.Name);
+        writer.WriteElementString("Text", this.Text);
+        writer.WriteElementString("Expression", this.Expression);
+        writer.WriteElementString("Value", this.Value);
+        writer.WriteElementString("BackgroundColor", this.BackgroundColor.ToString());
+
+        writer.WriteEndElement();
+    }
+
 }
