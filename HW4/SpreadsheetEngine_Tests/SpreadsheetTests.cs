@@ -325,4 +325,28 @@ public class SpreadsheetTests
         Assert.That(cell3.Element("Value").Value, Is.EqualTo("28"));
         Assert.That(cell3.Element("BackgroundColor").Value, Is.EqualTo("23"));
     }
+
+    [Test]
+    public void ClearBasicTest()
+    {
+        Spreadsheet spreadsheet = new Spreadsheet(2, 2);
+        var cellA1 = spreadsheet.GetCell(0, 0);
+        var cellA2 = spreadsheet.GetCell(1, 0);
+
+        cellA1.Text = "=5+9";
+        cellA1.BackgroundColor = 10;
+
+        cellA2.Text = "=2*16";
+        cellA2.BackgroundColor = 20;
+
+        spreadsheet.Clear();
+
+        // the xml produced should be empty
+        MemoryStream stream = new MemoryStream();
+        spreadsheet.Save(stream);
+        stream.Position = 0;
+        XDocument doc = XDocument.Load(XmlReader.Create(stream));
+
+        Assert.True(doc.Root.IsEmpty);
+    }
 }
