@@ -203,6 +203,26 @@ public class CellTests
         Assert.That(cell.BackgroundColor, Is.EqualTo(4294967295));
     }
 
+    [Test]
+    public void ReadXmlOutOfOrderTest()
+    {
+        // Arrange
+        TestingCell cell = new TestingCell(0, 0);
+        string xmlData = "<Cell>\n  <Text />  \n<Name>A1</Name>\n  <Expression />\n  <BackgroundColor>4294967295</BackgroundColor>\n  <Value />\n</Cell>";
+        XmlReaderSettings settings = new XmlReaderSettings();
+        using (StringReader sr = new StringReader(xmlData))
+        using (XmlReader reader = XmlReader.Create(sr, settings))
+        {
+            // Act
+            cell.ReadXml(reader);
+        }
+
+        // Assert
+        Assert.That(cell.Name, Is.EqualTo("A1"));
+        Assert.That(cell.GetText(), Is.EqualTo(string.Empty));
+        Assert.That(cell.BackgroundColor, Is.EqualTo(4294967295));
+    }
+
     /// <summary>
     /// Tests the ChangedFromDefaults method.
     /// </summary>
