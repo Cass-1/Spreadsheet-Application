@@ -182,6 +182,11 @@ public abstract class Cell : INotifyPropertyChanged, IXmlSerializable
                             this.Value = reader.ReadElementContentAsString();
                             break;
                         case "BackgroundColor":
+                            if (reader.ReadElementContentAsString() == "")
+                            {
+                                this.BackgroundColor = uint.MaxValue;
+                                break;
+                            }
                             this.BackgroundColor = uint.Parse(reader.ReadElementContentAsString());
                             break;
                     }
