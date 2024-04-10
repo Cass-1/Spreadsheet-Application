@@ -1,6 +1,9 @@
 // Copyright (c) Cass Dahle 11775278.
 // Licensed under the GPL v3.0 License. See LICENSE in the project root for license information.
 
+using System.Xml;
+using System.Xml.Linq;
+
 namespace SpreadsheetEngine_Tests;
 
 using SpreadsheetEngine;
@@ -224,5 +227,102 @@ public class SpreadsheetTests
         b10.Text = "=12+1";
 
         Assert.That(testCell.Value, Is.EqualTo(b10.Value));
+    }
+
+    [Test]
+    public void SaveBasicTest()
+    {
+        // Arrange
+        Spreadsheet spreadsheet = new Spreadsheet(2, 2);
+        var cellA1 = spreadsheet.GetCell(0, 0);
+        var cellA2 = spreadsheet.GetCell(1, 0);
+
+        cellA1.Text = "=5+7";
+        cellA1.BackgroundColor = 45;
+
+        cellA2.Text = "=2*8";
+        cellA2.BackgroundColor = 23;
+
+
+        // Act
+        MemoryStream stream = new MemoryStream();
+        spreadsheet.Save(stream);
+
+        // Assert
+        stream.Position = 0;
+        XDocument doc = XDocument.Load(XmlReader.Create(stream));
+        var cells = doc.Root.Elements("Cell").ToList();
+
+        Assert.That(cells.Count, Is.EqualTo(2));
+
+        var cell1 = cells[0];
+        var cell2 = cells[1];
+
+        Assert.That(cell1.Element("Name").Value, Is.EqualTo("A1"));
+        Assert.That(cell1.Element("Text").Value, Is.EqualTo("=5+7"));
+        Assert.That(cell1.Element("Expression").Value, Is.EqualTo("5+7"));
+        Assert.That(cell1.Element("Value").Value, Is.EqualTo("12"));
+        Assert.That(cell1.Element("BackgroundColor").Value, Is.EqualTo("45"));
+
+
+        Assert.That(cell2.Element("Name").Value, Is.EqualTo("A2"));
+        Assert.That(cell2.Element("Text").Value, Is.EqualTo("=2*8"));
+        Assert.That(cell2.Element("Expression").Value, Is.EqualTo("2*8"));
+        Assert.That(cell2.Element("Value").Value, Is.EqualTo("16"));
+        Assert.That(cell2.Element("BackgroundColor").Value, Is.EqualTo("23"));
+    }
+
+    [Test]
+    public void SaveOnlyModifiedTest()
+    {
+        // Arrange
+        Spreadsheet spreadsheet = new Spreadsheet(3, 3);
+        var cellA1 = spreadsheet.GetCell(0, 0);
+        var cellA2 = spreadsheet.GetCell(1, 0);
+        var cellB2 = spreadsheet.GetCell(1, 1);
+
+        cellA1.Text = "=5+7";
+        cellA1.BackgroundColor = 45;
+
+        cellA2.Text = "=2*8";
+        cellA2.BackgroundColor = 23;
+
+        cellB2.Text = "=A1+A2";
+        cellB2.BackgroundColor = 23;
+
+
+        // Act
+        MemoryStream stream = new MemoryStream();
+        spreadsheet.Save(stream);
+
+        // Assert
+        stream.Position = 0;
+        XDocument doc = XDocument.Load(XmlReader.Create(stream));
+        var cells = doc.Root.Elements("Cell").ToList();
+
+        Assert.That(cells.Count, Is.EqualTo(3));
+
+        var cell1 = cells[0];
+        var cell2 = cells[1];
+        var cell3 = cells[2];
+
+        Assert.That(cell1.Element("Name").Value, Is.EqualTo("A1"));
+        Assert.That(cell1.Element("Text").Value, Is.EqualTo("=5+7"));
+        Assert.That(cell1.Element("Expression").Value, Is.EqualTo("5+7"));
+        Assert.That(cell1.Element("Value").Value, Is.EqualTo("12"));
+        Assert.That(cell1.Element("BackgroundColor").Value, Is.EqualTo("45"));
+
+
+        Assert.That(cell2.Element("Name").Value, Is.EqualTo("A2"));
+        Assert.That(cell2.Element("Text").Value, Is.EqualTo("=2*8"));
+        Assert.That(cell2.Element("Expression").Value, Is.EqualTo("2*8"));
+        Assert.That(cell2.Element("Value").Value, Is.EqualTo("16"));
+        Assert.That(cell2.Element("BackgroundColor").Value, Is.EqualTo("23"));
+
+        Assert.That(cell3.Element("Name").Value, Is.EqualTo("B2"));
+        Assert.That(cell3.Element("Text").Value, Is.EqualTo("=A1+A2"));
+        Assert.That(cell3.Element("Expression").Value, Is.EqualTo("A1+A2"));
+        Assert.That(cell3.Element("Value").Value, Is.EqualTo("28"));
+        Assert.That(cell3.Element("BackgroundColor").Value, Is.EqualTo("23"));
     }
 }
