@@ -267,38 +267,4 @@ public class CellTests
         cell.BackgroundColor = uint.MaxValue;
         Assert.IsFalse(cell.ChangedFromDefaults());
     }
-
-    /// <summary>
-    /// This allows testing of protected methods.
-    /// </summary>
-    private class TestingCell : Cell
-    {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TestingCell"/> class. This is done so that protected
-        /// methods can be tested.
-        /// </summary>
-        /// <param name="rowIndex">The cell's row index in a spreadsheet.</param>
-        /// <param name="columnIndex">The cell's column index in a spreadsheet.</param>
-        public TestingCell(int rowIndex, int columnIndex)
-            : base(rowIndex, columnIndex)
-        {
-        }
-
-        public string? GetText() => this.text;
-
-        public void SetText(string? str)
-        {
-            this.text = str;
-        }
-
-        public string? GetValue()
-        {
-            return this.value;
-        }
-
-        public void SetValue(string? str)
-        {
-            this.value = str;
-        }
-    }
 }
