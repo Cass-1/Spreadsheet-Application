@@ -165,7 +165,7 @@ public class CellTests
     {
         // Arrange
         TestingCell cell = new TestingCell(0, 0);
-        string xmlData = "<Cell>\n  <Name>A1</Name>\n  <Text>hello</Text>\n  <Expression />\n  <Value />\n  <BackgroundColor>4294967295</BackgroundColor>\n</Cell>";
+        string xmlData = "<Cell>\n  <Name>A1</Name>\n  <Text>hello</Text>\n  <Expression>=5+9</Expression>\n  <Value>14</Value>\n  <BackgroundColor>4294967295</BackgroundColor>\n</Cell>";
         XmlReaderSettings settings = new XmlReaderSettings();
         using (StringReader sr = new StringReader(xmlData))
         using (XmlReader reader = XmlReader.Create(sr, settings))
@@ -177,6 +177,8 @@ public class CellTests
         // Assert
         Assert.That(cell.Name, Is.EqualTo("A1"));
         Assert.That(cell.Text, Is.EqualTo("hello"));
+        Assert.That(cell.Expression, Is.EqualTo("=5+9"));
+        Assert.That(cell.GetValue(), Is.EqualTo("14"));
         Assert.That(cell.BackgroundColor, Is.EqualTo(4294967295));
     }
 
@@ -244,11 +246,11 @@ public class CellTests
         Assert.IsFalse(cell.ChangedFromDefaults());
 
         // Change Value and assert that ChangedFromDefaults returns true
-        cell.Value = "Test";
+        cell.SetValue("Test");
         Assert.IsTrue(cell.ChangedFromDefaults());
 
         // Reset Value and assert that ChangedFromDefaults returns false
-        cell.Value = string.Empty;
+        cell.SetValue(string.Empty);
         Assert.IsFalse(cell.ChangedFromDefaults());
 
         // Change Expression and assert that ChangedFromDefaults returns true
@@ -296,10 +298,9 @@ public class CellTests
             return this.value;
         }
 
-        public string Value
+        public void SetValue(string? str)
         {
-            get => this.value;
-            set => this.value = value;
+            this.value = str;
         }
     }
 }

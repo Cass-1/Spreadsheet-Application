@@ -117,7 +117,11 @@ public abstract class Cell : INotifyPropertyChanged, IXmlSerializable
     /// <summary>
     /// Gets or sets value.
     /// </summary>
-    public virtual string? Value { get; protected internal set; } = null!;
+    public virtual string? Value
+    {
+        get => this.value;
+        protected internal set => this.value = value;
+    }
 
     /// <summary>
     /// Calls the PropertyChangedEvent when a property is changed.
@@ -161,7 +165,7 @@ public abstract class Cell : INotifyPropertyChanged, IXmlSerializable
         {
             while (reader.Read())
             {
-                if (reader.NodeType == XmlNodeType.Element || reader.NodeType == XmlNodeType.Text)
+                if (reader.NodeType == XmlNodeType.Element)
                 {
                     switch (reader.Name)
                     {
