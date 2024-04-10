@@ -267,4 +267,23 @@ public class CellTests
         cell.BackgroundColor = uint.MaxValue;
         Assert.IsFalse(cell.ChangedFromDefaults());
     }
+
+    [Test]
+    public void ClearBasicTest()
+    {
+        TestingCell cell = new TestingCell(0, 0);
+
+        cell.Text = "=5+7";
+        cell.BackgroundColor = 45;
+
+        cell.Clear();
+
+        Assert.That(cell.Text, Is.EqualTo(string.Empty));
+        Assert.That(cell.Value, Is.EqualTo(string.Empty));
+        Assert.That(cell.Expression, Is.EqualTo(string.Empty));
+        Assert.That(cell.BackgroundColor, Is.EqualTo(uint.MaxValue));
+
+
+
+    }
 }
