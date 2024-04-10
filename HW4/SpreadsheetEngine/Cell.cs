@@ -64,6 +64,9 @@ public abstract class Cell : INotifyPropertyChanged, IXmlSerializable
         this.ColumnIndex = columnIndex;
         this.text = string.Empty;
         this.value = string.Empty;
+        // set the default color to white
+        this.backgroundColor = uint.MaxValue;
+        this.Expression = string.Empty;
 
         string str = string.Empty;
         char col = (char)this.ColumnIndex;
@@ -72,8 +75,6 @@ public abstract class Cell : INotifyPropertyChanged, IXmlSerializable
         str += (this.RowIndex + 1).ToString();
         this.Name = str;
 
-        // set the default color to white
-        this.backgroundColor = uint.MaxValue;
     }
 
     /// <inheritdoc/>
@@ -147,11 +148,13 @@ public abstract class Cell : INotifyPropertyChanged, IXmlSerializable
         return true;
     }
 
+    /// <inheritdoc/>
     public XmlSchema? GetSchema()
     {
-        throw new NotImplementedException();
+        return null;
     }
 
+    /// <inheritdoc/>
     public void ReadXml(XmlReader reader)
     {
         if (reader.MoveToContent() == XmlNodeType.Element && reader.LocalName == "Cell")
@@ -200,6 +203,22 @@ public abstract class Cell : INotifyPropertyChanged, IXmlSerializable
         writer.WriteElementString("BackgroundColor", this.BackgroundColor.ToString());
 
         writer.WriteEndElement();
+    }
+
+    /// <summary>
+    /// Detects if the cell has been changed from its default values.
+    /// Used when determining if a cell needs to be written to Xml.
+    /// </summary>
+    /// <returns>If the cell has been modified from defaults.</returns>
+    public bool ChangedFromDefaults()
+    {
+        if (this.text != string.Empty || this.value != string.Empty || this.Expression != string.Empty ||
+            this.BackgroundColor != uint.MaxValue)
+        {
+            return true;
+        }
+
+        return false;
     }
 
 }
