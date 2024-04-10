@@ -157,12 +157,15 @@ public class CellTests
         Assert.That(sb.ToString(), Is.EqualTo(expectedXml));
     }
 
+    /// <summary>
+    /// Basic test for ReadXml
+    /// </summary>
     [Test]
     public void ReadXmlBasicTest()
     {
         // Arrange
         TestingCell cell = new TestingCell(0, 0);
-        string xmlData = "<Cell><Name>A1</Name><Text>hello</Text><Expression /><Value /><BackgroundColor>4294967295</BackgroundColor></Cell>";
+        string xmlData = "<Cell>\n  <Name>A1</Name>\n  <Text>hello</Text>\n  <Expression />\n  <Value />\n  <BackgroundColor>4294967295</BackgroundColor>\n</Cell>";
         XmlReaderSettings settings = new XmlReaderSettings();
         using (StringReader sr = new StringReader(xmlData))
         using (XmlReader reader = XmlReader.Create(sr, settings))
@@ -177,12 +180,15 @@ public class CellTests
         Assert.That(cell.BackgroundColor, Is.EqualTo(4294967295));
     }
 
+    /// <summary>
+    /// Tests ReadXml when the cell is empty.
+    /// </summary>
     [Test]
     public void ReadXmlEmptyTest()
     {
         // Arrange
         TestingCell cell = new TestingCell(0, 0);
-        string xmlData = "<Cell><Name>A1</Name><Text /><Expression /><Value /><BackgroundColor>4294967295</BackgroundColor></Cell>";
+        string xmlData = "<Cell>\n  <Name>A1</Name>\n  <Text />\n  <Expression />\n  <Value />\n  <BackgroundColor>4294967295</BackgroundColor>\n</Cell>";
         XmlReaderSettings settings = new XmlReaderSettings();
         using (StringReader sr = new StringReader(xmlData))
         using (XmlReader reader = XmlReader.Create(sr, settings))
@@ -193,8 +199,53 @@ public class CellTests
 
         // Assert
         Assert.That(cell.Name, Is.EqualTo("A1"));
-        Assert.That(cell.GetText(), Is.EqualTo(""));
+        Assert.That(cell.GetText(), Is.EqualTo(string.Empty));
         Assert.That(cell.BackgroundColor, Is.EqualTo(4294967295));
+    }
+
+    /// <summary>
+    /// Tests the ChangedFromDefaults method.
+    /// </summary>
+    [Test]
+    public void TestChangedFromDefaults()
+    {
+        // Arrange
+        TestingCell cell = new TestingCell(0, 0);
+
+        // Assert that ChangedFromDefaults returns false for a new cell
+        Assert.IsFalse(cell.ChangedFromDefaults());
+
+        // Change Text and assert that ChangedFromDefaults returns true
+        cell.Text = "Test";
+        Assert.IsTrue(cell.ChangedFromDefaults());
+
+        // Reset Text and assert that ChangedFromDefaults returns false
+        cell.Text = string.Empty;
+        Assert.IsFalse(cell.ChangedFromDefaults());
+
+        // Change Value and assert that ChangedFromDefaults returns true
+        cell.Value = "Test";
+        Assert.IsTrue(cell.ChangedFromDefaults());
+
+        // Reset Value and assert that ChangedFromDefaults returns false
+        cell.Value = string.Empty;
+        Assert.IsFalse(cell.ChangedFromDefaults());
+
+        // Change Expression and assert that ChangedFromDefaults returns true
+        cell.Expression = "Test";
+        Assert.IsTrue(cell.ChangedFromDefaults());
+
+        // Reset Expression and assert that ChangedFromDefaults returns false
+        cell.Expression = string.Empty;
+        Assert.IsFalse(cell.ChangedFromDefaults());
+
+        // Change BackgroundColor and assert that ChangedFromDefaults returns true
+        cell.BackgroundColor = 0;
+        Assert.IsTrue(cell.ChangedFromDefaults());
+
+        // Reset BackgroundColor and assert that ChangedFromDefaults returns false
+        cell.BackgroundColor = uint.MaxValue;
+        Assert.IsFalse(cell.ChangedFromDefaults());
     }
 
     /// <summary>
@@ -223,6 +274,12 @@ public class CellTests
         public string? GetValue()
         {
             return this.value;
+        }
+
+        public string Value
+        {
+            get => this.value;
+            set => this.value = value;
         }
     }
 }
