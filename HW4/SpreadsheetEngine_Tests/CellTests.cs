@@ -1,6 +1,9 @@
 // Copyright (c) Cass Dahle 11775278.
 // Licensed under the GPL v3.0 License. See LICENSE in the project root for license information.
 
+using System.Text;
+using System.Xml;
+
 namespace SpreadsheetEngine_Tests;
 
 using SpreadsheetEngine;
@@ -71,6 +74,87 @@ public class CellTests
         string? text = cell.GetValue();
 
         Assert.That(text, Is.EqualTo(string.Empty));
+    }
+
+    /// <summary>
+    /// A basic test for the WriteXml method.
+    /// </summary>
+    [Test]
+    public void WriteXmlBasicTest()
+    {
+        // Arrange
+        TestingCell cell = new TestingCell(0, 0);
+        cell.SetText("hello");
+        StringBuilder sb = new StringBuilder();
+        XmlWriterSettings settings = new XmlWriterSettings();
+        settings.Indent = true;
+        settings.OmitXmlDeclaration = true; // Add this line
+
+
+        // Act
+        using (XmlWriter writer = XmlWriter.Create(sb, settings))
+        {
+            cell.WriteXml(writer);
+        }
+
+        // Assert
+        string expectedXml = "<Cell>\n  <Name>A1</Name>\n  <Text>hello</Text>\n  <Expression />\n  <Value />\n  <BackgroundColor>4294967295</BackgroundColor>\n</Cell>";
+        Assert.That(sb.ToString(), Is.EqualTo(expectedXml));
+    }
+
+    /// <summary>
+    /// A test for the WriteXml method when the cell is given no values.
+    /// </summary>
+    [Test]
+    public void WriteXmlEmptyTest()
+    {
+        // Arrange
+        TestingCell cell = new TestingCell(0, 0);
+        StringBuilder sb = new StringBuilder();
+        XmlWriterSettings settings = new XmlWriterSettings();
+
+        // makes the xml output easier to read for testing
+        settings.Indent = true;
+        settings.OmitXmlDeclaration = true;
+
+
+        // Act
+        using (XmlWriter writer = XmlWriter.Create(sb, settings))
+        {
+            cell.WriteXml(writer);
+        }
+
+        // Assert
+        string expectedXml = "<Cell>\n  <Name>A1</Name>\n  <Text />\n  <Expression />\n  <Value />\n  <BackgroundColor>4294967295</BackgroundColor>\n</Cell>";
+        Assert.That(sb.ToString(), Is.EqualTo(expectedXml));
+    }
+
+    /// <summary>
+    /// A test for the WriteXml method when the cell is actually in a spreadsheet.
+    /// </summary>
+    [Test]
+    public void WriteXmlInSpreadsheetTest()
+    {
+        // Arrange
+        Spreadsheet spreadsheet = new Spreadsheet(5, 5);
+        Cell cell = spreadsheet.GetCell(0, 0);
+        cell.Text = "=5+9";
+        StringBuilder sb = new StringBuilder();
+        XmlWriterSettings settings = new XmlWriterSettings();
+
+        // makes the xml output easier to read for testing
+        settings.Indent = true;
+        settings.OmitXmlDeclaration = true;
+
+        // Act
+        using (XmlWriter writer = XmlWriter.Create(sb, settings))
+        {
+            cell.WriteXml(writer);
+        }
+
+        // Assert
+        string expectedXml = "<Cell>\n  <Name>A1</Name>\n  <Text>=5+9</Text>\n  <Expression>5+9</Expression>\n  <Value>14</Value>\n  <BackgroundColor>4294967295</BackgroundColor>\n</Cell>";
+        Assert.That(sb.ToString(), Is.EqualTo(expectedXml));
     }
 
     /// <summary>
