@@ -157,6 +157,46 @@ public class CellTests
         Assert.That(sb.ToString(), Is.EqualTo(expectedXml));
     }
 
+    [Test]
+    public void ReadXmlBasicTest()
+    {
+        // Arrange
+        TestingCell cell = new TestingCell(0, 0);
+        string xmlData = "<Cell><Name>A1</Name><Text>hello</Text><Expression /><Value /><BackgroundColor>4294967295</BackgroundColor></Cell>";
+        XmlReaderSettings settings = new XmlReaderSettings();
+        using (StringReader sr = new StringReader(xmlData))
+        using (XmlReader reader = XmlReader.Create(sr, settings))
+        {
+            // Act
+            cell.ReadXml(reader);
+        }
+
+        // Assert
+        Assert.That(cell.Name, Is.EqualTo("A1"));
+        Assert.That(cell.Text, Is.EqualTo("hello"));
+        Assert.That(cell.BackgroundColor, Is.EqualTo(4294967295));
+    }
+
+    [Test]
+    public void ReadXmlEmptyTest()
+    {
+        // Arrange
+        TestingCell cell = new TestingCell(0, 0);
+        string xmlData = "<Cell><Name>A1</Name><Text /><Expression /><Value /><BackgroundColor>4294967295</BackgroundColor></Cell>";
+        XmlReaderSettings settings = new XmlReaderSettings();
+        using (StringReader sr = new StringReader(xmlData))
+        using (XmlReader reader = XmlReader.Create(sr, settings))
+        {
+            // Act
+            cell.ReadXml(reader);
+        }
+
+        // Assert
+        Assert.That(cell.Name, Is.EqualTo("A1"));
+        Assert.That(cell.GetText(), Is.EqualTo(""));
+        Assert.That(cell.BackgroundColor, Is.EqualTo(4294967295));
+    }
+
     /// <summary>
     /// This allows testing of protected methods.
     /// </summary>
