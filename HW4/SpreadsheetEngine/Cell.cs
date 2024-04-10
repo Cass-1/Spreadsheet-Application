@@ -123,6 +123,12 @@ public abstract class Cell : INotifyPropertyChanged, IXmlSerializable
         protected internal set => this.value = value;
     }
 
+    public void Clear()
+    {
+        this.Text = string.Empty;
+        this.BackgroundColor = uint.MaxValue;
+    }
+
     /// <summary>
     /// Calls the PropertyChangedEvent when a property is changed.
     /// </summary>
