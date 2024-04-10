@@ -233,6 +233,7 @@ public class Spreadsheet
         else
         {
             cell.Value = cell.Text;
+            cell.Expression = string.Empty;
         }
 
         // invoke the property changed event to update the UI
