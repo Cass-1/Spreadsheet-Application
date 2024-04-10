@@ -165,7 +165,7 @@ public abstract class Cell : INotifyPropertyChanged, IXmlSerializable
         {
             while (reader.Read())
             {
-                if (reader.NodeType == XmlNodeType.Element)
+                if (reader.NodeType == XmlNodeType.Element && reader.NodeType != XmlNodeType.Whitespace)
                 {
                     switch (reader.Name)
                     {
@@ -182,12 +182,20 @@ public abstract class Cell : INotifyPropertyChanged, IXmlSerializable
                             this.Value = reader.ReadElementContentAsString();
                             break;
                         case "BackgroundColor":
-                            if (reader.ReadElementContentAsString() == "")
+                            if (reader.NodeType == XmlNodeType.Whitespace || reader.ReadElementContentAsString() == "")
                             {
                                 this.BackgroundColor = uint.MaxValue;
                                 break;
                             }
-                            this.BackgroundColor = uint.Parse(reader.ReadElementContentAsString());
+
+                            try
+                            {
+                                this.BackgroundColor = uint.Parse(reader.ReadElementContentAsString());
+                            }
+                            catch (System.InvalidOperationException e)
+                            {
+                                this.BackgroundColor = uint.MaxValue;
+                            }
                             break;
                     }
                 }
@@ -202,7 +210,6 @@ public abstract class Cell : INotifyPropertyChanged, IXmlSerializable
     /// <inheritdoc/>
     public void WriteXml(XmlWriter writer)
     {
-
         writer.WriteStartElement("Cell");
 
         writer.WriteElementString("Name", this.Name);
