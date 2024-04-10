@@ -114,6 +114,21 @@ public class Spreadsheet
 
 
 
+    public void Clear()
+    {
+        for (int row = 0; row < this.RowCount; row++)
+        {
+            for (int col = 0; col < this.ColumnCount; col++)
+            {
+                var cell = GetCell(row, col);
+                if (cell.ChangedFromDefaults())
+                {
+                    cell.Clear();
+                }
+            }
+        }
+    }
+
     public void Save(Stream stream)
     {
         // Create XmlWriterSettings
