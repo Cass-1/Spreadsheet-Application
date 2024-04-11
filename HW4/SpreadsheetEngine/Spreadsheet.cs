@@ -4,6 +4,7 @@
 using System.ComponentModel;
 using System.Globalization;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace SpreadsheetEngine;
 
@@ -112,7 +113,46 @@ public class Spreadsheet
         return this.cellGrid[rowIndex, colIndex];
     }
 
+    public void Load(StreamReader stream)
+    {
+        this.Clear();
 
+            // -create XmlReader
+            //
+            // -create XDocument(reader)
+            //
+            // -create enumerable usring document.elements
+            //
+            // -for element (load cell)
+
+        XmlReaderSettings settings = new XmlReaderSettings();
+
+        XmlReader reader = XmlReader.Create(stream, settings);
+
+        XDocument xdoc = XDocument.Load(reader);
+
+        // XElement spread
+
+        IEnumerable<XElement> elements = xdoc.Root.Elements("Cell");
+
+        foreach (XElement xElement in elements)
+        {
+            string cellName = xElement.Element("Name").Value;
+
+            // Get the cell
+            int rowIndex = int.Parse(cellName.Substring(1)) - 1;
+            int colIndex = cellName[0] - 'A';
+            SpreadsheetCell cell = this.cellGrid[rowIndex, colIndex];
+            cell.ReadXml(xElement);
+            cell.EvaluateExpression();
+
+        }//TODO: change ReadXml to take xElement
+
+
+
+
+
+    }
 
     public void Clear()
     {
