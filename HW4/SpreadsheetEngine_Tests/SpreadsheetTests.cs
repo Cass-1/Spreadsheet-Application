@@ -387,4 +387,109 @@ public class SpreadsheetTests
         Assert.That(cell1.Expression, Is.EqualTo("2+3"));
         Assert.That(cell1.BackgroundColor, Is.EqualTo(34));
     }
+
+    [Test]
+public void LoadMultipleCellsTest()
+{
+    Spreadsheet spreadsheet = new Spreadsheet(2, 2);
+
+    string xmlData = @"
+    <Spreadsheet>
+        <Cell>
+            <Name>A1</Name>
+            <Text>=2+3</Text>
+            <Expression>2+3</Expression>
+            <Value>5</Value>
+            <BackgroundColor>34</BackgroundColor>
+        </Cell>
+        <Cell>
+            <Name>A2</Name>
+            <Text>=3+4</Text>
+            <Expression>3+4</Expression>
+            <Value>7</Value>
+            <BackgroundColor>45</BackgroundColor>
+        </Cell>
+    </Spreadsheet>";
+
+    string filePath = Path.GetTempFileName();
+    File.WriteAllText(filePath, xmlData);
+
+    using (FileStream fileStream = File.OpenRead(filePath))
+    using (StreamReader reader = new StreamReader(fileStream))
+    {
+        spreadsheet.Load(reader);
+    }
+
+    File.Delete(filePath);
+
+    var cell1 = spreadsheet.GetCell('A', 1);
+    var cell2 = spreadsheet.GetCell('A', 2);
+
+    Assert.That(cell1.Text, Is.EqualTo("=2+3"));
+    Assert.That(cell1.Value, Is.EqualTo("5"));
+    Assert.That(cell1.Expression, Is.EqualTo("2+3"));
+    Assert.That(cell1.BackgroundColor, Is.EqualTo(34));
+
+    Assert.That(cell2.Text, Is.EqualTo("=3+4"));
+    Assert.That(cell2.Value, Is.EqualTo("7"));
+    Assert.That(cell2.Expression, Is.EqualTo("3+4"));
+    Assert.That(cell2.BackgroundColor, Is.EqualTo(45));
+}
+
+[Test]
+public void LoadEmptyCellTest()
+{
+    Spreadsheet spreadsheet = new Spreadsheet(2, 2);
+
+    string xmlData = @"
+    <Spreadsheet>
+        <Cell>
+            <Name>A1</Name>
+            <Text></Text>
+            <Expression></Expression>
+            <Value></Value>
+            <BackgroundColor>0</BackgroundColor>
+        </Cell>
+    </Spreadsheet>";
+
+    string filePath = Path.GetTempFileName();
+    File.WriteAllText(filePath, xmlData);
+
+    using (FileStream fileStream = File.OpenRead(filePath))
+    using (StreamReader reader = new StreamReader(fileStream))
+    {
+        spreadsheet.Load(reader);
+    }
+
+    File.Delete(filePath);
+
+    var cell1 = spreadsheet.GetCell('A', 1);
+
+    Assert.That(cell1.Text, Is.EqualTo(""));
+    Assert.That(cell1.Value, Is.EqualTo(""));
+    Assert.That(cell1.Expression, Is.EqualTo(""));
+    Assert.That(cell1.BackgroundColor, Is.EqualTo(0));
+}
+
+[Test]
+public void LoadInvalidFormatTest()
+{
+    Spreadsheet spreadsheet = new Spreadsheet(2, 2);
+
+    string xmlData = "Invalid XML data";
+
+    string filePath = Path.GetTempFileName();
+    File.WriteAllText(filePath, xmlData);
+
+    Assert.Throws<XmlException>(() =>
+    {
+        using (FileStream fileStream = File.OpenRead(filePath))
+        using (StreamReader reader = new StreamReader(fileStream))
+        {
+            spreadsheet.Load(reader);
+        }
+    });
+
+    File.Delete(filePath);
+}
 }
