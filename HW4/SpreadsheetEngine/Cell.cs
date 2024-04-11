@@ -2,6 +2,7 @@
 // Licensed under the GPL v3.0 License. See LICENSE in the project root for license information.
 
 using System.Xml;
+using System.Xml.Linq;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 
@@ -16,7 +17,7 @@ using System.Runtime.CompilerServices;
 /// </summary>
 [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:Fields should be private", Justification = "<both the value and text property need to be protected and not private to comply with assignment requirements.>")]
 [SuppressMessage("ReSharper", "InconsistentNaming", Justification = "<both the value and text property need to be protected and not private to comply with assignment requirements.>")]
-public abstract class Cell : INotifyPropertyChanged, IXmlSerializable
+public abstract class Cell : INotifyPropertyChanged
 {
     /// <summary>
     /// The cell's name, eg "C10".
@@ -165,50 +166,27 @@ public abstract class Cell : INotifyPropertyChanged, IXmlSerializable
     }
 
     /// <inheritdoc/>
-    public void ReadXml(XmlReader reader)
+    public void ReadXml(XElement element)
     {
-        if (reader.MoveToContent() == XmlNodeType.Element && reader.LocalName == "Cell")
+        foreach (var attribute in element.Attributes())
         {
-            while (reader.Read())
+            switch (attribute.Name.ToString())
             {
-                if (reader.NodeType == XmlNodeType.Element && reader.NodeType != XmlNodeType.Whitespace)
-                {
-                    switch (reader.Name)
-                    {
-                        case "Name":
-                            this.Name = reader.ReadElementContentAsString();
-                            break;
-                        case "Text":
-                            this.Text = reader.ReadElementContentAsString();
-                            break;
-                        case "Expression":
-                            this.Expression = reader.ReadElementContentAsString();
-                            break;
-                        case "Value":
-                            this.Value = reader.ReadElementContentAsString();
-                            break;
-                        case "BackgroundColor":
-                            if (reader.NodeType == XmlNodeType.Whitespace || reader.ReadElementContentAsString() == "")
-                            {
-                                this.BackgroundColor = uint.MaxValue;
-                                break;
-                            }
-
-                            try
-                            {
-                                this.BackgroundColor = uint.Parse(reader.ReadElementContentAsString());
-                            }
-                            catch (System.InvalidOperationException e)
-                            {
-                                this.BackgroundColor = uint.MaxValue;
-                            }
-                            break;
-                    }
-                }
-                else if (reader.NodeType == XmlNodeType.EndElement && reader.Name == "Cell")
-                {
-                    return;
-                }
+                case "Name":
+                    this.Name = attribute.Value;
+                    break;
+                case "Text":
+                    this.Text = attribute.Value;
+                    break;
+                case "Expression":
+                    this.Expression = attribute.Value;
+                    break;
+                case "Value":
+                    this.Value = attribute.Value;
+                    break;
+                case "BackgroundColor":
+                    this.BackgroundColor = uint.Parse(attribute.Value);
+                    break;
             }
         }
     }
