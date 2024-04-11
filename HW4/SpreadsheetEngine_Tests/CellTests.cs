@@ -3,6 +3,7 @@
 
 using System.Text;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace SpreadsheetEngine_Tests;
 
@@ -167,12 +168,12 @@ public class CellTests
         TestingCell cell = new TestingCell(0, 0);
         string xmlData = "<Cell>\n  <Name>A1</Name>\n  <Text>hello</Text>\n  <Expression>=5+9</Expression>\n  <Value>14</Value>\n  <BackgroundColor>4294967295</BackgroundColor>\n</Cell>";
         XmlReaderSettings settings = new XmlReaderSettings();
-        using (StringReader sr = new StringReader(xmlData))
-        using (XmlReader reader = XmlReader.Create(sr, settings))
-        {
-            // Act
-            cell.ReadXml(reader);
-        }
+        StringReader sr = new StringReader(xmlData);
+        XmlReader reader = XmlReader.Create(sr, settings);
+        XElement xElement = XDocument.Load(reader).Element("Cell");
+
+        // Act
+        cell.ReadXml(xElement);
 
         // Assert
         Assert.That(cell.Name, Is.EqualTo("A1"));
@@ -192,13 +193,12 @@ public class CellTests
         TestingCell cell = new TestingCell(0, 0);
         string xmlData = "<Cell>\n  <Name />\n  <Text />\n  <Expression />\n  <Value />\n  <BackgroundColor />\n</Cell>";
         XmlReaderSettings settings = new XmlReaderSettings();
-        using (StringReader sr = new StringReader(xmlData))
-        using (XmlReader reader = XmlReader.Create(sr, settings))
-        {
-            // Act
-            cell.ReadXml(reader);
-        }
+        StringReader sr = new StringReader(xmlData);
+        XmlReader reader = XmlReader.Create(sr, settings);
+        XElement xElement = XDocument.Load(reader).Element("Cell");
 
+        // Act
+        cell.ReadXml(xElement);
         // throw new NotImplementedException();
         Assert.Pass();
     }
@@ -210,12 +210,12 @@ public class CellTests
         TestingCell cell = new TestingCell(0, 0);
         string xmlData = "<Cell>\n  <Text />  \n<Name>A1</Name>\n  <Expression />\n  <BackgroundColor>4294967295</BackgroundColor>\n  <Value />\n</Cell>";
         XmlReaderSettings settings = new XmlReaderSettings();
-        using (StringReader sr = new StringReader(xmlData))
-        using (XmlReader reader = XmlReader.Create(sr, settings))
-        {
-            // Act
-            cell.ReadXml(reader);
-        }
+        StringReader sr = new StringReader(xmlData);
+        XmlReader reader = XmlReader.Create(sr, settings);
+        XElement xElement = XDocument.Load(reader).Element("Cell");
+
+        // Act
+        cell.ReadXml(xElement);
 
         // Assert
         Assert.That(cell.Name, Is.EqualTo("A1"));
@@ -282,8 +282,5 @@ public class CellTests
         Assert.That(cell.Value, Is.EqualTo(string.Empty));
         Assert.That(cell.Expression, Is.EqualTo(string.Empty));
         Assert.That(cell.BackgroundColor, Is.EqualTo(uint.MaxValue));
-
-
-
     }
 }
