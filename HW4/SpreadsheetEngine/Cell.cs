@@ -185,7 +185,16 @@ public abstract class Cell : INotifyPropertyChanged
                     this.Value = attribute.Value;
                     break;
                 case "BackgroundColor":
-                    this.BackgroundColor = uint.Parse(attribute.Value);
+                    // TODO: make this better
+                    try
+                    {
+                        this.BackgroundColor = uint.Parse(attribute.Value);
+                    }
+                    catch
+                    {
+                        this.BackgroundColor = uint.MaxValue;
+                    }
+
                     break;
             }
         }
