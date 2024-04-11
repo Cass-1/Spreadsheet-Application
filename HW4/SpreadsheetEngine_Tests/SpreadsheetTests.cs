@@ -1,6 +1,7 @@
 // Copyright (c) Cass Dahle 11775278.
 // Licensed under the GPL v3.0 License. See LICENSE in the project root for license information.
 
+using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -348,5 +349,42 @@ public class SpreadsheetTests
         XDocument doc = XDocument.Load(XmlReader.Create(stream));
 
         Assert.True(doc.Root.IsEmpty);
+    }
+
+    [Test]
+    public void LoadBasicTest()
+    {
+        Spreadsheet spreadsheet = new Spreadsheet(2, 2);
+
+        string xmlData = @"
+        <Spreadsheet>
+            <Cell>
+                <Name>A1</Name>
+                <Text>=2+3</Text>
+                <Expression></Expression>
+                <Value></Value>
+                <BackgroundColor>34</BackgroundColor>
+            </Cell>
+        </Spreadsheet>";
+
+        // Write the XML data to a temporary file
+        string filePath = Path.GetTempFileName();
+        File.WriteAllText(filePath, xmlData);
+
+        using (FileStream fileStream = File.OpenRead(filePath))
+        using (StreamReader reader = new StreamReader(fileStream))
+        {
+            spreadsheet.Load(reader);
+        }
+
+        // delete the temp file
+        File.Delete(filePath);
+
+        var cell1 = spreadsheet.GetCell('A', 1);
+
+        Assert.That(cell1.Text, Is.EqualTo("=2+3"));
+        Assert.That(cell1.Value, Is.EqualTo("5"));
+        Assert.That(cell1.Expression, Is.EqualTo("2+3"));
+        Assert.That(cell1.BackgroundColor, Is.EqualTo(34));
     }
 }
