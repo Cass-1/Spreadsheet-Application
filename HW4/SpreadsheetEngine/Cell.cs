@@ -168,7 +168,7 @@ public abstract class Cell : INotifyPropertyChanged
     /// <inheritdoc/>
     public void ReadXml(XElement element)
     {
-        foreach (var attribute in element.Attributes())
+        foreach (var attribute in element.Elements())
         {
             switch (attribute.Name.ToString())
             {
