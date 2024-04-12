@@ -4,176 +4,177 @@
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
+using SpreadsheetEngine;
 
 namespace SpreadsheetEngine_Tests;
 
-using SpreadsheetEngine;
-
 /// <summary>
-/// Tests methods in the Cell class
-/// Note: Getter and Setter tests are included because I was trying to figure out how to implement them.
+///     Tests methods in the Cell class
+///     Note: Getter and Setter tests are included because I was trying to figure out how to implement them.
 /// </summary>
 public class CellTests
 {
     /// <summary>
-    /// Tests the getter for RowIndex.
+    ///     Tests the getter for RowIndex.
     /// </summary>
     [Test]
     public void RowIndexGetterTest()
     {
-        Spreadsheet spreadsheet = new Spreadsheet(10, 10);
-        Cell cell = spreadsheet.GetCell(0, 0);
+        var spreadsheet = new Spreadsheet(10, 10);
+        var cell = spreadsheet.GetCell(0, 0);
         var rowIndex = cell.RowIndex;
 
         Assert.That(rowIndex, Is.EqualTo(0));
     }
 
     /// <summary>
-    /// Tests the getter for ColumnIndex.
+    ///     Tests the getter for ColumnIndex.
     /// </summary>
     [Test]
     public void ColumnIndexGetterTest()
     {
-        Spreadsheet spreadsheet = new Spreadsheet(10, 10);
-        Cell cell = spreadsheet.GetCell(0, 0);
+        var spreadsheet = new Spreadsheet(10, 10);
+        var cell = spreadsheet.GetCell(0, 0);
         var columnIndex = cell.ColumnIndex;
 
         Assert.That(columnIndex, Is.EqualTo(0));
     }
 
     /// <summary>
-    /// Tests the getter for Text.
+    ///     Tests the getter for Text.
     /// </summary>
     [Test]
     public void TextGetterTest()
     {
-        TestingCell cell = new TestingCell(0, 0);
-        string? text = cell.GetText();
+        var cell = new TestingCell(0, 0);
+        var text = cell.GetText();
 
         Assert.That(text, Is.EqualTo(string.Empty));
     }
 
     /// <summary>
-    /// Tests the setter for Text.
+    ///     Tests the setter for Text.
     /// </summary>
     [Test]
     public void TextSetterTest()
     {
-        TestingCell cell = new TestingCell(0, 0);
+        var cell = new TestingCell(0, 0);
         cell.SetText("hello");
 
         Assert.That(cell.GetText(), Is.EqualTo("hello"));
     }
 
     /// <summary>
-    /// Tests the getter for Value.
+    ///     Tests the getter for Value.
     /// </summary>
     [Test]
     public void ValueGetterTest()
     {
-        TestingCell cell = new TestingCell(0, 0);
-        string? text = cell.GetValue();
+        var cell = new TestingCell(0, 0);
+        var text = cell.GetValue();
 
         Assert.That(text, Is.EqualTo(string.Empty));
     }
 
     /// <summary>
-    /// A basic test for the WriteXml method.
+    ///     A basic test for the WriteXml method.
     /// </summary>
     [Test]
     public void WriteXmlBasicTest()
     {
         // Arrange
-        TestingCell cell = new TestingCell(0, 0);
+        var cell = new TestingCell(0, 0);
         cell.SetText("hello");
-        StringBuilder sb = new StringBuilder();
-        XmlWriterSettings settings = new XmlWriterSettings();
+        var sb = new StringBuilder();
+        var settings = new XmlWriterSettings();
         settings.Indent = true;
         settings.OmitXmlDeclaration = true; // Add this line
 
-
         // Act
-        using (XmlWriter writer = XmlWriter.Create(sb, settings))
+        using (var writer = XmlWriter.Create(sb, settings))
         {
             cell.WriteXml(writer);
         }
 
         // Assert
-        string expectedXml = "<Cell>\n  <Name>A1</Name>\n  <Text>hello</Text>\n  <Expression />\n  <Value />\n  <BackgroundColor>4294967295</BackgroundColor>\n</Cell>";
+        var expectedXml =
+            "<Cell>\n  <Name>A1</Name>\n  <Text>hello</Text>\n  <Expression />\n  <Value />\n  <BackgroundColor>4294967295</BackgroundColor>\n</Cell>";
         Assert.That(sb.ToString(), Is.EqualTo(expectedXml));
     }
 
     /// <summary>
-    /// A test for the WriteXml method when the cell is given no values.
+    ///     A test for the WriteXml method when the cell is given no values.
     /// </summary>
     [Test]
     public void WriteXmlEmptyTest()
     {
         // Arrange
-        TestingCell cell = new TestingCell(0, 0);
-        StringBuilder sb = new StringBuilder();
-        XmlWriterSettings settings = new XmlWriterSettings();
+        var cell = new TestingCell(0, 0);
+        var sb = new StringBuilder();
+        var settings = new XmlWriterSettings();
 
         // makes the xml output easier to read for testing
         settings.Indent = true;
         settings.OmitXmlDeclaration = true;
 
-
         // Act
-        using (XmlWriter writer = XmlWriter.Create(sb, settings))
+        using (var writer = XmlWriter.Create(sb, settings))
         {
             cell.WriteXml(writer);
         }
 
         // Assert
-        string expectedXml = "<Cell>\n  <Name>A1</Name>\n  <Text />\n  <Expression />\n  <Value />\n  <BackgroundColor>4294967295</BackgroundColor>\n</Cell>";
+        var expectedXml =
+            "<Cell>\n  <Name>A1</Name>\n  <Text />\n  <Expression />\n  <Value />\n  <BackgroundColor>4294967295</BackgroundColor>\n</Cell>";
         Assert.That(sb.ToString(), Is.EqualTo(expectedXml));
     }
 
     /// <summary>
-    /// A test for the WriteXml method when the cell is actually in a spreadsheet.
+    ///     A test for the WriteXml method when the cell is actually in a spreadsheet.
     /// </summary>
     [Test]
     public void WriteXmlInSpreadsheetTest()
     {
         // Arrange
-        Spreadsheet spreadsheet = new Spreadsheet(5, 5);
-        Cell cell = spreadsheet.GetCell(0, 0);
+        var spreadsheet = new Spreadsheet(5, 5);
+        var cell = spreadsheet.GetCell(0, 0);
         cell.Text = "=5+9";
-        StringBuilder sb = new StringBuilder();
-        XmlWriterSettings settings = new XmlWriterSettings();
+        var sb = new StringBuilder();
+        var settings = new XmlWriterSettings();
 
         // makes the xml output easier to read for testing
         settings.Indent = true;
         settings.OmitXmlDeclaration = true;
 
         // Act
-        using (XmlWriter writer = XmlWriter.Create(sb, settings))
+        using (var writer = XmlWriter.Create(sb, settings))
         {
             cell.WriteXml(writer);
         }
 
         // Assert
-        string expectedXml = "<Cell>\n  <Name>A1</Name>\n  <Text>=5+9</Text>\n  <Expression>5+9</Expression>\n  <Value>14</Value>\n  <BackgroundColor>4294967295</BackgroundColor>\n</Cell>";
+        var expectedXml =
+            "<Cell>\n  <Name>A1</Name>\n  <Text>=5+9</Text>\n  <Expression>5+9</Expression>\n  <Value>14</Value>\n  <BackgroundColor>4294967295</BackgroundColor>\n</Cell>";
         Assert.That(sb.ToString(), Is.EqualTo(expectedXml));
     }
 
     /// <summary>
-    /// Basic test for ReadXml
+    ///     Basic test for ReadXml.
     /// </summary>
     [Test]
     public void ReadXmlBasicTest()
     {
         // Arrange
-        TestingCell cell = new TestingCell(0, 0);
-        string xmlData = "<Cell>\n  <Name>A1</Name>\n  <Text>hello</Text>\n  <Expression>=5+9</Expression>\n  <Value>14</Value>\n  <BackgroundColor>4294967295</BackgroundColor>\n</Cell>";
-        XmlReaderSettings settings = new XmlReaderSettings();
-        StringReader sr = new StringReader(xmlData);
-        XmlReader reader = XmlReader.Create(sr, settings);
-        XElement xElement = XDocument.Load(reader).Element("Cell");
+        var cell = new TestingCell(0, 0);
+        var xmlData =
+            "<Cell>\n  <Name>A1</Name>\n  <Text>hello</Text>\n  <Expression>=5+9</Expression>\n  <Value>14</Value>\n  <BackgroundColor>4294967295</BackgroundColor>\n</Cell>";
+        var settings = new XmlReaderSettings();
+        var sr = new StringReader(xmlData);
+        var reader = XmlReader.Create(sr, settings);
+        var xElement = XDocument.Load(reader).Element("Cell");
 
         // Act
-        cell.ReadXml(xElement);
+        cell.ReadXml(xElement!);
 
         // Assert
         Assert.That(cell.Name, Is.EqualTo("A1"));
@@ -184,38 +185,43 @@ public class CellTests
     }
 
     /// <summary>
-    /// Tests ReadXml when the cell is empty. If no errors are thrown, the test passes.
+    ///     Tests ReadXml when the cell is empty. If no errors are thrown, the test passes.
     /// </summary>
     [Test]
     public void ReadXmlEmptyTest()
     {
         // Arrange
-        TestingCell cell = new TestingCell(0, 0);
-        string xmlData = "<Cell>\n  <Name />\n  <Text />\n  <Expression />\n  <Value />\n  <BackgroundColor />\n</Cell>";
-        XmlReaderSettings settings = new XmlReaderSettings();
-        StringReader sr = new StringReader(xmlData);
-        XmlReader reader = XmlReader.Create(sr, settings);
-        XElement xElement = XDocument.Load(reader).Element("Cell");
+        var cell = new TestingCell(0, 0);
+        var xmlData = "<Cell>\n  <Name />\n  <Text />\n  <Expression />\n  <Value />\n  <BackgroundColor />\n</Cell>";
+        var settings = new XmlReaderSettings();
+        var sr = new StringReader(xmlData);
+        var reader = XmlReader.Create(sr, settings);
+        var xElement = XDocument.Load(reader).Element("Cell");
 
         // Act
-        cell.ReadXml(xElement);
+        cell.ReadXml(xElement!);
+
         // throw new NotImplementedException();
         Assert.Pass();
     }
 
+    /// <summary>
+    /// Tests ReadXml when the XML is out of order. If no errors are thrown, the test passes.
+    /// </summary>
     [Test]
     public void ReadXmlOutOfOrderTest()
     {
         // Arrange
-        TestingCell cell = new TestingCell(0, 0);
-        string xmlData = "<Cell>\n  <Text />  \n<Name>A1</Name>\n  <Expression />\n  <BackgroundColor>4294967295</BackgroundColor>\n  <Value />\n</Cell>";
-        XmlReaderSettings settings = new XmlReaderSettings();
-        StringReader sr = new StringReader(xmlData);
-        XmlReader reader = XmlReader.Create(sr, settings);
-        XElement xElement = XDocument.Load(reader).Element("Cell");
+        var cell = new TestingCell(0, 0);
+        var xmlData =
+            "<Cell>\n  <Text />  \n<Name>A1</Name>\n  <Expression />\n  <BackgroundColor>4294967295</BackgroundColor>\n  <Value />\n</Cell>";
+        var settings = new XmlReaderSettings();
+        var sr = new StringReader(xmlData);
+        var reader = XmlReader.Create(sr, settings);
+        var xElement = XDocument.Load(reader).Element("Cell");
 
         // Act
-        cell.ReadXml(xElement);
+        cell.ReadXml(xElement!);
 
         // Assert
         Assert.That(cell.Name, Is.EqualTo("A1"));
@@ -224,13 +230,13 @@ public class CellTests
     }
 
     /// <summary>
-    /// Tests the ChangedFromDefaults method.
+    ///     Tests the ChangedFromDefaults method.
     /// </summary>
     [Test]
     public void TestChangedFromDefaults()
     {
         // Arrange
-        TestingCell cell = new TestingCell(0, 0);
+        var cell = new TestingCell(0, 0);
 
         // Assert that ChangedFromDefaults returns false for a new cell
         Assert.IsFalse(cell.ChangedFromDefaults());
@@ -268,10 +274,13 @@ public class CellTests
         Assert.IsFalse(cell.ChangedFromDefaults());
     }
 
+    /// <summary>
+    ///   Tests the Clear method.
+    /// </summary>
     [Test]
     public void ClearBasicTest()
     {
-        TestingCell cell = new TestingCell(0, 0);
+        var cell = new TestingCell(0, 0);
 
         cell.Text = "=5+7";
         cell.BackgroundColor = 45;
