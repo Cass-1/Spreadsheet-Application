@@ -49,18 +49,6 @@ public class MainWindowViewModel : ViewModelBase
     // ReSharper disable once CollectionNeverQueried.Local
     private List<List<Cell>>? spreadsheetData;
 
-    public ReactiveCommand<Unit, Unit> RedoCommand { get; }
-    public ReactiveCommand<Unit, Unit> UndoCommand { get; }
-
-    public ReactiveCommand<Unit, Unit> OpenFileCommand { get; }
-
-
-    // interactions
-    public Interaction<Unit, string?> AskForFileToLoad { get; }
-
-    public Interaction<Unit, string?> AskForFileToSave { get; }
-
-
     /// <summary>
     ///     Initializes a new instance of the <see cref="MainWindowViewModel" /> class.
     ///     Constructor.
@@ -70,14 +58,12 @@ public class MainWindowViewModel : ViewModelBase
         this.ElementBrush = Brushes.Aqua;
         this.RedoCommand = ReactiveCommand.Create(this.Redo);
         this.UndoCommand = ReactiveCommand.Create(this.Undo);
+
         // Create an interaction between the view model and the view for the file to be loaded:
         this.AskForFileToLoad = new Interaction<Unit, string?>();
 
         // Similarly to load, there is a need to create an interaction for saving into a file:
         this.AskForFileToSave = new Interaction<Unit, string?>();
-
-
-
 
         // initalize the spreadsheet
         this.InitializeSpreadsheet();
@@ -98,50 +84,30 @@ public class MainWindowViewModel : ViewModelBase
     }
 
     /// <summary>
-    /// This method will be executed when the user wants to load content from a file.
+    /// Gets a reactive command for redo.
     /// </summary>
-    public async void LoadFromFile()
-    {
-        // Wait for the user to select the file to load from.
-        var filePath = await this.AskForFileToLoad.Handle(default);
-        if (filePath == null)
-        {
-            return;
-        }
-
-        // If the user selected a file, create the stream reader and load the text.
-        var textReader = new StreamReader(filePath);
-        this.spreadsheet.Load(textReader);
-        textReader.Close();
-    }
+    public ReactiveCommand<Unit, Unit> RedoCommand { get; }
 
     /// <summary>
-    /// This method will be executed when a user wants to save content to a file.
+    /// Gets a reactive command for undo.
     /// </summary>
-    public async void SaveToFile()
-    {
-        // Wait for the user to select the file to save to.
-        var filePath = await this.AskForFileToSave.Handle(default);
-        if (filePath == null)
-        {
-            return;
-        }
+    public ReactiveCommand<Unit, Unit> UndoCommand { get; }
 
-        // If the user selected a file create new stream writer and save the text
-        StreamWriter streamWriter = new StreamWriter(filePath);
-        this.spreadsheet.Save(streamWriter);
-        streamWriter.Close();
-    }
+    /// <summary>
+    /// Gets a reactive command for asking for a file to load.
+    /// </summary>
+    // interactions
+    public Interaction<Unit, string?> AskForFileToLoad { get; }
 
-    private void Redo()
-    {
-        this.CommandManager.Redo();
-    }
+    /// <summary>
+    /// Gets a reactive command for asking for a file to save to.
+    /// </summary>
+    public Interaction<Unit, string?> AskForFileToSave { get; }
 
-    private void Undo()
-    {
-        this.CommandManager.Undo();
-    }
+    /// <summary>
+    ///     Gets a 2D array of Cells that is populated with the cells from the Spreadsheet.
+    /// </summary>
+    public ObservableCollection<RowViewModel> Rows { get; } = new();
 
     /// <summary>
     ///     Gets or sets the brush for a cell or cells.
@@ -160,9 +126,41 @@ public class MainWindowViewModel : ViewModelBase
     }
 
     /// <summary>
-    ///     Gets a 2D array of Cells that is populated with the cells from the Spreadsheet.
+    ///     This method will be executed when the user wants to load content from a file.
     /// </summary>
-    public ObservableCollection<RowViewModel> Rows { get; } = new();
+    public async void LoadFromFile()
+    {
+        // Wait for the user to select the file to load from.
+        var filePath = await this.AskForFileToLoad.Handle(default);
+        if (filePath == null)
+        {
+            return;
+        }
+
+        // If the user selected a file, create the stream reader and load the text.
+        var textReader = new StreamReader(filePath);
+        this.spreadsheet.Load(textReader);
+        textReader.Close();
+        this.CommandManager.ClearUndoStack();
+    }
+
+    /// <summary>
+    ///     This method will be executed when a user wants to save content to a file.
+    /// </summary>
+    public async void SaveToFile()
+    {
+        // Wait for the user to select the file to save to.
+        var filePath = await this.AskForFileToSave.Handle(default);
+        if (filePath == null)
+        {
+            return;
+        }
+
+        // If the user selected a file create new stream writer and save the text
+        var streamWriter = new StreamWriter(filePath);
+        this.spreadsheet.Save(streamWriter);
+        streamWriter.Close();
+    }
 
     /// <summary>
     ///     Initalizes the datagrid.
@@ -288,7 +286,7 @@ public class MainWindowViewModel : ViewModelBase
     }
 
     /// <summary>
-    ///  Selects a cell.
+    ///     Selects a cell.
     /// </summary>
     /// <param name="rowIndex">The row index of a cell.</param>
     /// <param name="columnIndex">The column index of a cell.</param>
@@ -298,7 +296,7 @@ public class MainWindowViewModel : ViewModelBase
         var shouldEditCell = clickedCell.IsSelected;
         this.ResetSelection();
 
-// add the pressed cell back to the list
+        // add the pressed cell back to the list
         this.selectedCells.Add(clickedCell);
         clickedCell.IsSelected = true;
         if (shouldEditCell)
@@ -340,6 +338,22 @@ public class MainWindowViewModel : ViewModelBase
         }
 
         this.selectedCells.Clear();
+    }
+
+    /// <summary>
+    /// Calls redo.
+    /// </summary>
+    private void Redo()
+    {
+        this.CommandManager.Redo();
+    }
+
+    /// <summary>
+    /// Calls undo.
+    /// </summary>
+    private void Undo()
+    {
+        this.CommandManager.Undo();
     }
 
     /// <summary>
