@@ -50,7 +50,6 @@ public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
         // watchers for when interactions are called
         this.WhenActivated(d => d(this.ViewModel!.AskForFileToLoad.RegisterHandler(this.DoOpenFile)));
         this.WhenActivated(d => d(this.ViewModel!.AskForFileToSave.RegisterHandler(this.DoSaveFile)));
-
     }
 
     /// <summary>
@@ -69,13 +68,13 @@ public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
         fileTypes.Add(fileType);
 
         // Start async operation to open the dialog.
-        var filePath = await topLevel.StorageProvider.OpenFilePickerAsync(
+        var filePath = await topLevel?.StorageProvider.OpenFilePickerAsync(
             new FilePickerOpenOptions
-        {
-          Title = "Open Text File",
-          AllowMultiple = false,
-          FileTypeFilter = fileTypes,
-        });
+            {
+                Title = "Open Text File",
+                AllowMultiple = false,
+                FileTypeFilter = fileTypes,
+            })!;
 
         // return the file's absolute path
         interaction.SetOutput(filePath.Count == 1 ? filePath[0].Path.AbsolutePath : null);
@@ -93,16 +92,15 @@ public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
         var topLevel = TopLevel.GetTopLevel(this);
 
         // Start async operation to open the dialog. This opens your sysem's default file explorer
-        var file = await topLevel.StorageProvider.SaveFilePickerAsync(
+        var file = await topLevel?.StorageProvider.SaveFilePickerAsync(
             new FilePickerSaveOptions
-        {
-            Title = "Save Text File",
-        });
+            {
+                Title = "Save Text File",
+            })!;
 
         // return the file's absolute path
-        interaction.SetOutput(file.Path.AbsolutePath);
+        interaction.SetOutput(file?.Path.AbsolutePath);
     }
-
 
     private async void OpenColorPickerDialog()
     {
