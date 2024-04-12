@@ -27,9 +27,11 @@
             <MenuItem Header="_File">
                 <!-- <StyleInclude Source="avares://Avalonia.Controls.ColorPicker/Themes/Fluent/Fluent.xaml" /> -->
                 <MenuItem Header="Color" Click="Button_Click"/>
+                <MenuItem Header="Undo" Command="{Binding UndoCommand}"/>
+                <MenuItem Header="Redo" Command="{Binding RedoCommand}"/>
                 <Separator/>
-                <MenuItem Header="Undo" Click="Undo"/>
-                <MenuItem Header="Redo" Click="Redo"/>
+                <MenuItem Header="Load" Command="{Binding LoadFromFile}"/>
+                <MenuItem Header="Save" Command="{Binding SaveToFile}"/>
             </MenuItem>
 
 

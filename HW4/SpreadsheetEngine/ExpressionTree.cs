@@ -220,8 +220,6 @@ public class ExpressionTree
         return postfixTokens;
     }
 
-    // TODO: make this private. It is currently public for testing but i should use refelction to test it
-
     /// <summary>
     /// Takes this.expression and populates this.tokenizedExpression.
     /// </summary>
@@ -276,7 +274,7 @@ public class ExpressionTree
     /// <exception cref="NotImplementedException">Not implemented.</exception>
     private Node GenerateExpressionTree(List<Node> postfixNodes)
     {
-        // TODO: Loop through postfix tokenized expression and generate nodes.
+        // Loop through postfix tokenized expression and generate nodes.
         Stack<Node> nodeStack = new Stack<Node>();
         Node localRoot;
 

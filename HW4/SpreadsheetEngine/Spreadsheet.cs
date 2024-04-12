@@ -3,6 +3,8 @@
 
 using System.ComponentModel;
 using System.Globalization;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace SpreadsheetEngine;
 
@@ -12,7 +14,7 @@ namespace SpreadsheetEngine;
 public class Spreadsheet
 {
     /// <summary>
-    /// A command manager.
+    ///     A command manager.
     /// </summary>
     public CommandManager SpreadsheetCommandManager = new();
 
@@ -112,6 +114,116 @@ public class Spreadsheet
     }
 
     /// <summary>
+    /// Loads the spreadsheet from a stream.
+    /// </summary>
+    /// <param name="stream">The stream to load informatino from.</param>
+    public void Load(StreamReader stream)
+    {
+        // Clear the spreadsheet
+        this.Clear();
+
+        // Create XmlReaderSettings and
+        var settings = new XmlReaderSettings();
+
+        // Create an XmlReader and xdoc
+        var reader = XmlReader.Create(stream, settings);
+        var xdoc = XDocument.Load(reader);
+
+        // Get the elements
+        if (xdoc.Root != null)
+        {
+            var elements = xdoc.Root.Elements("Cell");
+
+            // Read the elements
+            foreach (var xElement in elements)
+            {
+                // Get the cell name
+                var cellName = xElement.Element("Name")?.Value;
+
+                // Get the cell
+                if (cellName != null)
+                {
+                    var rowIndex = int.Parse(cellName.Substring(1)) - 1;
+                    var colIndex = cellName[0] - 'A';
+                    var cell = this.cellGrid[rowIndex, colIndex];
+
+                    // Read the cell in from the xml
+                    cell.ReadXml(xElement);
+
+                    // If the cell has an expression, evaluate it
+                    cell.EvaluateExpression();
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Clears the spreadsheet.
+    /// </summary>
+    public void Clear()
+    {
+        for (var row = 0; row < this.RowCount; row++)
+        {
+            for (var col = 0; col < this.ColumnCount; col++)
+            {
+                var cell = this.GetCell(row, col);
+                if (cell.ChangedFromDefaults())
+                {
+                    cell.Clear();
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Saves the spreadsheet to a stream.
+    /// </summary>
+    /// <param name="stream">The stream to save the spreadsheet to.</param>
+    public void Save(StreamWriter stream)
+    {
+        // Create XmlWriterSettings
+        var settings = new XmlWriterSettings();
+        settings.Indent = true;
+
+        // Create an XmlWriter
+        using (var writer = XmlWriter.Create(stream, settings))
+        {
+            // Start the document
+            writer.WriteStartDocument();
+
+            // Start root element
+            writer.WriteStartElement("Spreadsheet");
+
+            for (var row = 0; row < this.RowCount; row++)
+            {
+                for (var col = 0; col < this.ColumnCount; col++)
+                {
+                    // Get the cell
+                    var cell = this.GetCell(row, col);
+
+                    // only write cell if it has been changed
+                    if (cell.ChangedFromDefaults())
+                    {
+                        cell.WriteXml(writer);
+                    }
+                }
+            }
+
+            // End the root element
+            writer.WriteEndElement();
+
+            // End the document
+            writer.WriteEndDocument();
+
+            // Flush the writer to ensure all data is written to the MemoryStream
+            writer.Flush();
+        }
+
+// Reset the position of the MemoryStream to the beginning
+        // stream.Position = 0;
+    }
+
+    /// <summary>
     ///     The function that is called whenever a cell has been changed.
     /// </summary>
     /// <param name="sender">The object that send the property changed event.</param>
@@ -171,6 +283,7 @@ public class Spreadsheet
         else
         {
             cell.Value = cell.Text;
+            cell.Expression = string.Empty;
         }
 
         // invoke the property changed event to update the UI
@@ -205,7 +318,7 @@ public class Spreadsheet
         {
             this.expressionTree = new ExpressionTree(this.Expression);
 
-            // TODO: set the reference variables
+            // set the reference variables
             foreach (var cell in this.referencedCells)
             {
                 if (cell.Value != string.Empty)

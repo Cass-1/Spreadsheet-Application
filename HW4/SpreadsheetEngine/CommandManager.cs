@@ -56,4 +56,29 @@ public class CommandManager
             this.undoStack.Push(command);
         }
     }
+
+    /// <summary>
+    /// Clears the redo stack.
+    /// </summary>
+    public void ClearRedoStack()
+    {
+        this.redoStack.Clear();
+    }
+
+    /// <summary>
+    /// Clears the undo stack.
+    /// </summary>
+    public void ClearUndoStack()
+    {
+        this.undoStack.Clear();
+    }
+
+    /// <summary>
+    /// Clears both the undo and the redo stack.
+    /// </summary>
+    public void ClearAll()
+    {
+        this.ClearRedoStack();
+        this.ClearUndoStack();
+    }
 }
