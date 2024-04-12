@@ -169,7 +169,7 @@ public class Spreadsheet
         }
     }
 
-    public void Save(Stream stream)
+    public void Save(StreamWriter stream)
     {
         // Create XmlWriterSettings
         XmlWriterSettings settings = new XmlWriterSettings();
@@ -210,7 +210,7 @@ public class Spreadsheet
         }
 
 // Reset the position of the MemoryStream to the beginning
-        stream.Position = 0;
+        // stream.Position = 0;
     }
 
     /// <summary>

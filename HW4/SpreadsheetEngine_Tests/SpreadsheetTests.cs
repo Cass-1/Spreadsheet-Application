@@ -245,19 +245,22 @@ public class SpreadsheetTests
         cellA2.BackgroundColor = 23;
 
 
-        // Act
-        MemoryStream stream = new MemoryStream();
-        spreadsheet.Save(stream);
+        // Set up
+        string filePath = Path.GetTempFileName();
+        StreamWriter streamWriter = new StreamWriter(filePath);
+        spreadsheet.Save(streamWriter);
+        StreamReader streamReader = new StreamReader(filePath);
 
         // Assert
-        stream.Position = 0;
-        XDocument doc = XDocument.Load(XmlReader.Create(stream));
+        XDocument doc = XDocument.Load(XmlReader.Create(streamReader));
         var cells = doc.Root.Elements("Cell").ToList();
 
         Assert.That(cells.Count, Is.EqualTo(2));
 
         var cell1 = cells[0];
         var cell2 = cells[1];
+
+        File.Delete(filePath);
 
         Assert.That(cell1.Element("Name").Value, Is.EqualTo("A1"));
         Assert.That(cell1.Element("Text").Value, Is.EqualTo("=5+7"));
@@ -292,13 +295,13 @@ public class SpreadsheetTests
         cellB2.BackgroundColor = 23;
 
 
-        // Act
-        MemoryStream stream = new MemoryStream();
-        spreadsheet.Save(stream);
+        // Set up
+        string filePath = Path.GetTempFileName();
+        StreamWriter streamWriter = new StreamWriter(filePath);
+        spreadsheet.Save(streamWriter);
+        StreamReader streamReader = new StreamReader(filePath);
 
-        // Assert
-        stream.Position = 0;
-        XDocument doc = XDocument.Load(XmlReader.Create(stream));
+        XDocument doc = XDocument.Load(XmlReader.Create(streamReader));
         var cells = doc.Root.Elements("Cell").ToList();
 
         Assert.That(cells.Count, Is.EqualTo(3));
@@ -306,6 +309,8 @@ public class SpreadsheetTests
         var cell1 = cells[0];
         var cell2 = cells[1];
         var cell3 = cells[2];
+
+        File.Delete(filePath);
 
         Assert.That(cell1.Element("Name").Value, Is.EqualTo("A1"));
         Assert.That(cell1.Element("Text").Value, Is.EqualTo("=5+7"));
@@ -342,11 +347,16 @@ public class SpreadsheetTests
 
         spreadsheet.Clear();
 
-        // the xml produced should be empty
-        MemoryStream stream = new MemoryStream();
-        spreadsheet.Save(stream);
-        stream.Position = 0;
-        XDocument doc = XDocument.Load(XmlReader.Create(stream));
+        // Set up
+        string filePath = Path.GetTempFileName();
+        StreamWriter streamWriter = new StreamWriter(filePath);
+        spreadsheet.Save(streamWriter);
+        StreamReader streamReader = new StreamReader(filePath);
+
+        XDocument doc = XDocument.Load(XmlReader.Create(streamReader));
+
+        File.Delete(filePath);
+
 
         Assert.True(doc.Root.IsEmpty);
     }
