@@ -4,8 +4,10 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Reactive;
+using System.Reactive.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
@@ -50,9 +52,14 @@ public class MainWindowViewModel : ViewModelBase
     public ReactiveCommand<Unit, Unit> RedoCommand { get; }
     public ReactiveCommand<Unit, Unit> UndoCommand { get; }
 
+    public ReactiveCommand<Unit, Unit> OpenFileCommand { get; }
 
-    // public int Number { get; set; }
-    // public IBrush mycolor { get; set; } = Brushes.Aqua;
+
+    // interactions
+    public Interaction<Unit, string?> AskForFileToLoad { get; }
+
+    public Interaction<Unit, string?> AskForFileToSave { get; }
+
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="MainWindowViewModel" /> class.
@@ -63,6 +70,13 @@ public class MainWindowViewModel : ViewModelBase
         this.ElementBrush = Brushes.Aqua;
         this.RedoCommand = ReactiveCommand.Create(this.Redo);
         this.UndoCommand = ReactiveCommand.Create(this.Undo);
+        // Create an interaction between the view model and the view for the file to be loaded:
+        this.AskForFileToLoad = new Interaction<Unit, string?>();
+
+        // Similarly to load, there is a need to create an interaction for saving into a file:
+        this.AskForFileToSave = new Interaction<Unit, string?>();
+
+
 
 
         // initalize the spreadsheet
@@ -81,6 +95,42 @@ public class MainWindowViewModel : ViewModelBase
             var rowViewModel = new RowViewModel(listOfCellModels);
             this.Rows.Add(rowViewModel);
         }
+    }
+
+    /// <summary>
+    /// This method will be executed when the user wants to load content from a file.
+    /// </summary>
+    public async void LoadFromFile()
+    {
+        // Wait for the user to select the file to load from.
+        var filePath = await this.AskForFileToLoad.Handle(default);
+        if (filePath == null)
+        {
+            return;
+        }
+
+        // If the user selected a file, create the stream reader and load the text.
+        var textReader = new StreamReader(filePath);
+        this.spreadsheet.Load(textReader);
+        textReader.Close();
+    }
+
+    /// <summary>
+    /// This method will be executed when a user wants to save content to a file.
+    /// </summary>
+    public async void SaveToFile()
+    {
+        // Wait for the user to select the file to save to.
+        var filePath = await this.AskForFileToSave.Handle(default);
+        if (filePath == null)
+        {
+            return;
+        }
+
+        // If the user selected a file create new stream writer and save the text
+        StreamWriter streamWriter = new StreamWriter(filePath);
+        this.spreadsheet.Save(streamWriter);
+        streamWriter.Close();
     }
 
     private void Redo()
