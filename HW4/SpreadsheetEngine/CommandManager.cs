@@ -56,4 +56,20 @@ public class CommandManager
             this.undoStack.Push(command);
         }
     }
+
+    public void ClearRedoStack()
+    {
+        this.redoStack.Clear();
+    }
+
+    public void ClearUndoStack()
+    {
+        this.undoStack.Clear();
+    }
+
+    public void ClearAll()
+    {
+        this.ClearRedoStack();
+        this.ClearUndoStack();
+    }
 }
