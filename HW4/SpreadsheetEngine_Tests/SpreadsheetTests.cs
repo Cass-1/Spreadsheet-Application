@@ -1,53 +1,51 @@
 // Copyright (c) Cass Dahle 11775278.
 // Licensed under the GPL v3.0 License. See LICENSE in the project root for license information.
 
-using System.Text;
 using System.Xml;
 using System.Xml.Linq;
+using SpreadsheetEngine;
 
 namespace SpreadsheetEngine_Tests;
 
-using SpreadsheetEngine;
-
 /// <summary>
-/// Tests for the spreadsheet class.
+///     Tests for the spreadsheet class.
 /// </summary>
 public class SpreadsheetTests
 {
     /// <summary>
-    /// For the method GetCell()
-    /// Does a simple test to make sure GetCell can get a cell.
+    ///     For the method GetCell()
+    ///     Does a simple test to make sure GetCell can get a cell.
     /// </summary>
     [Test]
     public void GetCellBasicTest()
     {
-        Spreadsheet spreadsheet = new Spreadsheet(10, 10);
-        Cell cell = spreadsheet.GetCell(2, 2);
+        var spreadsheet = new Spreadsheet(10, 10);
+        var cell = spreadsheet.GetCell(2, 2);
 
         Assert.NotNull(cell);
     }
 
     /// <summary>
-    /// For the method GetCell()
-    /// Tests the edge of the 2D array to make sure that the indexes are working properly.
+    ///     For the method GetCell()
+    ///     Tests the edge of the 2D array to make sure that the indexes are working properly.
     /// </summary>
     [Test]
     public void GetCellEdgeTest()
     {
-        Spreadsheet spreadsheet = new Spreadsheet(10, 10);
-        Cell cell = spreadsheet.GetCell(9, 9);
+        var spreadsheet = new Spreadsheet(10, 10);
+        var cell = spreadsheet.GetCell(9, 9);
 
         Assert.NotNull(cell);
     }
 
     /// <summary>
-    /// For the method GetCell()
-    /// Tests if the error is caught when the rowIndex is out of range.
+    ///     For the method GetCell()
+    ///     Tests if the error is caught when the rowIndex is out of range.
     /// </summary>
     [Test]
     public void GetCellRowCountOutOfBoundsTest()
     {
-        Spreadsheet spreadsheet = new Spreadsheet(1, 1);
+        var spreadsheet = new Spreadsheet(1, 1);
 
         try
         {
@@ -60,13 +58,13 @@ public class SpreadsheetTests
     }
 
     /// <summary>
-    /// For the method GetCell()
-    /// Tests if the error is caught when the columnIndex is out of range.
+    ///     For the method GetCell()
+    ///     Tests if the error is caught when the columnIndex is out of range.
     /// </summary>
     [Test]
     public void GetCellColumnCountOutOfBoundsTest()
     {
-        Spreadsheet spreadsheet = new Spreadsheet(1, 1);
+        var spreadsheet = new Spreadsheet(1, 1);
 
         try
         {
@@ -79,12 +77,12 @@ public class SpreadsheetTests
     }
 
     /// <summary>
-    /// Tests if a cell's value is updated when the text is.
+    ///     Tests if a cell's value is updated when the text is.
     /// </summary>
     [Test]
     public void CellPropertyChangedBasicTest()
     {
-        Spreadsheet spreadsheet = new Spreadsheet(10, 10);
+        var spreadsheet = new Spreadsheet(10, 10);
         var cell = spreadsheet.GetCell(1, 1);
         cell.Text = "testing";
 
@@ -92,12 +90,12 @@ public class SpreadsheetTests
     }
 
     /// <summary>
-    /// Tests if when the text is a expression to another cell if value is set to the other cell's value.
+    ///     Tests if when the text is a expression to another cell if value is set to the other cell's value.
     /// </summary>
     [Test]
     public void CellPropertyChangedExpressionIsOtherCellTest1()
     {
-        Spreadsheet spreadsheet = new Spreadsheet(10, 10);
+        var spreadsheet = new Spreadsheet(10, 10);
         var referenceCell = spreadsheet.GetCell(1, 1);
         var testCell = spreadsheet.GetCell(2, 2);
 
@@ -108,12 +106,12 @@ public class SpreadsheetTests
     }
 
     /// <summary>
-    /// Tests if when the text is a expression to another cell if value is set to the other cell's value.
+    ///     Tests if when the text is a expression to another cell if value is set to the other cell's value.
     /// </summary>
     [Test]
     public void CellPropertyChangedExpressionIsOtherCellTest2()
     {
-        Spreadsheet spreadsheet = new Spreadsheet(20, 20);
+        var spreadsheet = new Spreadsheet(20, 20);
         var referenceCell = spreadsheet.GetCell(9, 1);
         var testCell = spreadsheet.GetCell(2, 2);
 
@@ -124,12 +122,12 @@ public class SpreadsheetTests
     }
 
     /// <summary>
-    /// Tests when a cell references a cell that doesn't exist.
+    ///     Tests when a cell references a cell that doesn't exist.
     /// </summary>
     [Test]
     public void CellPropertyChangedExpressionIsOtherCellTestOutOfBounds()
     {
-        Spreadsheet spreadsheet = new Spreadsheet(20, 20);
+        var spreadsheet = new Spreadsheet(20, 20);
         var testCell = spreadsheet.GetCell(2, 2);
         try
         {
@@ -142,12 +140,12 @@ public class SpreadsheetTests
     }
 
     /// <summary>
-    /// Tests cell evaluating expression when the expression is dependent on two other cells.
+    ///     Tests cell evaluating expression when the expression is dependent on two other cells.
     /// </summary>
     [Test]
     public void ExpressionDependentOnTwoCellsBasicTest()
     {
-        Spreadsheet spreadsheet = new Spreadsheet(20, 20);
+        var spreadsheet = new Spreadsheet(20, 20);
         var referenceCell = spreadsheet.GetCell(9, 1);
         var referenceCellTwo = spreadsheet.GetCell(8, 1);
         var testCell = spreadsheet.GetCell(2, 2);
@@ -160,12 +158,12 @@ public class SpreadsheetTests
     }
 
     /// <summary>
-    /// Tests cell evaluating expression when the expression is dependent on two other cells.
+    ///     Tests cell evaluating expression when the expression is dependent on two other cells.
     /// </summary>
     [Test]
     public void ExpressionDependentOnTwoCellsTest()
     {
-        Spreadsheet spreadsheet = new Spreadsheet(20, 20);
+        var spreadsheet = new Spreadsheet(20, 20);
         var b10 = spreadsheet.GetCell(9, 1);
         var b9 = spreadsheet.GetCell(8, 1);
         var testCell = spreadsheet.GetCell(2, 2);
@@ -178,12 +176,12 @@ public class SpreadsheetTests
     }
 
     /// <summary>
-    /// Tests a cell evaluating an expression when a reference cell changes.
+    ///     Tests a cell evaluating an expression when a reference cell changes.
     /// </summary>
     [Test]
     public void ReferenceCellChangedBasicTest()
     {
-        Spreadsheet spreadsheet = new Spreadsheet(20, 20);
+        var spreadsheet = new Spreadsheet(20, 20);
         var b10 = spreadsheet.GetCell(9, 1);
         var b9 = spreadsheet.GetCell(8, 1);
         var testCell = spreadsheet.GetCell(2, 2);
@@ -197,12 +195,12 @@ public class SpreadsheetTests
     }
 
     /// <summary>
-    /// Tests a cell evaluating an expression when a reference cell changes.
+    ///     Tests a cell evaluating an expression when a reference cell changes.
     /// </summary>
     [Test]
     public void ReferenceCellChangedTwoCellsTest()
     {
-        Spreadsheet spreadsheet = new Spreadsheet(20, 20);
+        var spreadsheet = new Spreadsheet(20, 20);
         var b10 = spreadsheet.GetCell(9, 1);
         var testCell = spreadsheet.GetCell(2, 2);
 
@@ -214,12 +212,12 @@ public class SpreadsheetTests
     }
 
     /// <summary>
-    /// Tests a cell evaluating an expression when a reference cell changes.
+    ///     Tests a cell evaluating an expression when a reference cell changes.
     /// </summary>
     [Test]
     public void ReferenceCellChangedTwoCellsComplexTest()
     {
-        Spreadsheet spreadsheet = new Spreadsheet(20, 20);
+        var spreadsheet = new Spreadsheet(20, 20);
         var b10 = spreadsheet.GetCell(9, 1);
         var testCell = spreadsheet.GetCell(2, 2);
 
@@ -230,11 +228,14 @@ public class SpreadsheetTests
         Assert.That(testCell.Value, Is.EqualTo(b10.Value));
     }
 
+    /// <summary>
+    ///    Tests a cell evaluating an expression when a reference cell changes.
+    /// </summary>
     [Test]
     public void SaveBasicTest()
     {
         // Arrange
-        Spreadsheet spreadsheet = new Spreadsheet(2, 2);
+        var spreadsheet = new Spreadsheet(2, 2);
         var cellA1 = spreadsheet.GetCell(0, 0);
         var cellA2 = spreadsheet.GetCell(1, 0);
 
@@ -244,16 +245,15 @@ public class SpreadsheetTests
         cellA2.Text = "=2*8";
         cellA2.BackgroundColor = 23;
 
-
         // Set up
-        string filePath = Path.GetTempFileName();
-        StreamWriter streamWriter = new StreamWriter(filePath);
+        var filePath = Path.GetTempFileName();
+        var streamWriter = new StreamWriter(filePath);
         spreadsheet.Save(streamWriter);
-        StreamReader streamReader = new StreamReader(filePath);
+        var streamReader = new StreamReader(filePath);
 
         // Assert
-        XDocument doc = XDocument.Load(XmlReader.Create(streamReader));
-        var cells = doc.Root.Elements("Cell").ToList();
+        var doc = XDocument.Load(XmlReader.Create(streamReader));
+        var cells = doc.Root!.Elements("Cell").ToList();
 
         Assert.That(cells.Count, Is.EqualTo(2));
 
@@ -262,25 +262,27 @@ public class SpreadsheetTests
 
         File.Delete(filePath);
 
-        Assert.That(cell1.Element("Name").Value, Is.EqualTo("A1"));
-        Assert.That(cell1.Element("Text").Value, Is.EqualTo("=5+7"));
-        Assert.That(cell1.Element("Expression").Value, Is.EqualTo("5+7"));
-        Assert.That(cell1.Element("Value").Value, Is.EqualTo("12"));
-        Assert.That(cell1.Element("BackgroundColor").Value, Is.EqualTo("45"));
+        Assert.That(cell1.Element("Name")!.Value, Is.EqualTo("A1"));
+        Assert.That(cell1.Element("Text")!.Value, Is.EqualTo("=5+7"));
+        Assert.That(cell1.Element("Expression")!.Value, Is.EqualTo("5+7"));
+        Assert.That(cell1.Element("Value")!.Value, Is.EqualTo("12"));
+        Assert.That(cell1.Element("BackgroundColor")!.Value, Is.EqualTo("45"));
 
-
-        Assert.That(cell2.Element("Name").Value, Is.EqualTo("A2"));
-        Assert.That(cell2.Element("Text").Value, Is.EqualTo("=2*8"));
-        Assert.That(cell2.Element("Expression").Value, Is.EqualTo("2*8"));
-        Assert.That(cell2.Element("Value").Value, Is.EqualTo("16"));
-        Assert.That(cell2.Element("BackgroundColor").Value, Is.EqualTo("23"));
+        Assert.That(cell2.Element("Name")!.Value, Is.EqualTo("A2"));
+        Assert.That(cell2.Element("Text")!.Value, Is.EqualTo("=2*8"));
+        Assert.That(cell2.Element("Expression")!.Value, Is.EqualTo("2*8"));
+        Assert.That(cell2.Element("Value")!.Value, Is.EqualTo("16"));
+        Assert.That(cell2.Element("BackgroundColor")!.Value, Is.EqualTo("23"));
     }
 
+    /// <summary>
+    ///   Tests saving a spreadsheet with multiple cells.
+    /// </summary>
     [Test]
     public void SaveOnlyModifiedTest()
     {
         // Arrange
-        Spreadsheet spreadsheet = new Spreadsheet(3, 3);
+        var spreadsheet = new Spreadsheet(3, 3);
         var cellA1 = spreadsheet.GetCell(0, 0);
         var cellA2 = spreadsheet.GetCell(1, 0);
         var cellB2 = spreadsheet.GetCell(1, 1);
@@ -294,15 +296,14 @@ public class SpreadsheetTests
         cellB2.Text = "=A1+A2";
         cellB2.BackgroundColor = 23;
 
-
         // Set up
-        string filePath = Path.GetTempFileName();
-        StreamWriter streamWriter = new StreamWriter(filePath);
+        var filePath = Path.GetTempFileName();
+        var streamWriter = new StreamWriter(filePath);
         spreadsheet.Save(streamWriter);
-        StreamReader streamReader = new StreamReader(filePath);
+        var streamReader = new StreamReader(filePath);
 
-        XDocument doc = XDocument.Load(XmlReader.Create(streamReader));
-        var cells = doc.Root.Elements("Cell").ToList();
+        var doc = XDocument.Load(XmlReader.Create(streamReader));
+        var cells = doc.Root!.Elements("Cell").ToList();
 
         Assert.That(cells.Count, Is.EqualTo(3));
 
@@ -312,30 +313,32 @@ public class SpreadsheetTests
 
         File.Delete(filePath);
 
-        Assert.That(cell1.Element("Name").Value, Is.EqualTo("A1"));
-        Assert.That(cell1.Element("Text").Value, Is.EqualTo("=5+7"));
-        Assert.That(cell1.Element("Expression").Value, Is.EqualTo("5+7"));
-        Assert.That(cell1.Element("Value").Value, Is.EqualTo("12"));
-        Assert.That(cell1.Element("BackgroundColor").Value, Is.EqualTo("45"));
+        Assert.That(cell1.Element("Name")!.Value, Is.EqualTo("A1"));
+        Assert.That(cell1.Element("Text")!.Value, Is.EqualTo("=5+7"));
+        Assert.That(cell1.Element("Expression")!.Value, Is.EqualTo("5+7"));
+        Assert.That(cell1.Element("Value")!.Value, Is.EqualTo("12"));
+        Assert.That(cell1.Element("BackgroundColor")!.Value, Is.EqualTo("45"));
 
+        Assert.That(cell2.Element("Name")!.Value, Is.EqualTo("A2"));
+        Assert.That(cell2.Element("Text")!.Value, Is.EqualTo("=2*8"));
+        Assert.That(cell2.Element("Expression")!.Value, Is.EqualTo("2*8"));
+        Assert.That(cell2.Element("Value")!.Value, Is.EqualTo("16"));
+        Assert.That(cell2.Element("BackgroundColor")!.Value, Is.EqualTo("23"));
 
-        Assert.That(cell2.Element("Name").Value, Is.EqualTo("A2"));
-        Assert.That(cell2.Element("Text").Value, Is.EqualTo("=2*8"));
-        Assert.That(cell2.Element("Expression").Value, Is.EqualTo("2*8"));
-        Assert.That(cell2.Element("Value").Value, Is.EqualTo("16"));
-        Assert.That(cell2.Element("BackgroundColor").Value, Is.EqualTo("23"));
-
-        Assert.That(cell3.Element("Name").Value, Is.EqualTo("B2"));
-        Assert.That(cell3.Element("Text").Value, Is.EqualTo("=A1+A2"));
-        Assert.That(cell3.Element("Expression").Value, Is.EqualTo("A1+A2"));
-        Assert.That(cell3.Element("Value").Value, Is.EqualTo("28"));
-        Assert.That(cell3.Element("BackgroundColor").Value, Is.EqualTo("23"));
+        Assert.That(cell3.Element("Name")!.Value, Is.EqualTo("B2"));
+        Assert.That(cell3.Element("Text")!.Value, Is.EqualTo("=A1+A2"));
+        Assert.That(cell3.Element("Expression")!.Value, Is.EqualTo("A1+A2"));
+        Assert.That(cell3.Element("Value")!.Value, Is.EqualTo("28"));
+        Assert.That(cell3.Element("BackgroundColor")!.Value, Is.EqualTo("23"));
     }
 
+    /// <summary>
+    ///   Tests saving a spreadsheet with multiple cells.
+    /// </summary>
     [Test]
     public void ClearBasicTest()
     {
-        Spreadsheet spreadsheet = new Spreadsheet(2, 2);
+        var spreadsheet = new Spreadsheet(2, 2);
         var cellA1 = spreadsheet.GetCell(0, 0);
         var cellA2 = spreadsheet.GetCell(1, 0);
 
@@ -348,25 +351,27 @@ public class SpreadsheetTests
         spreadsheet.Clear();
 
         // Set up
-        string filePath = Path.GetTempFileName();
-        StreamWriter streamWriter = new StreamWriter(filePath);
+        var filePath = Path.GetTempFileName();
+        var streamWriter = new StreamWriter(filePath);
         spreadsheet.Save(streamWriter);
-        StreamReader streamReader = new StreamReader(filePath);
+        var streamReader = new StreamReader(filePath);
 
-        XDocument doc = XDocument.Load(XmlReader.Create(streamReader));
+        var doc = XDocument.Load(XmlReader.Create(streamReader));
 
         File.Delete(filePath);
 
-
-        Assert.True(doc.Root.IsEmpty);
+        Assert.True(doc.Root!.IsEmpty);
     }
 
+    /// <summary>
+    ///  Tests loading a spreadsheet with a single cell.
+    /// </summary>
     [Test]
     public void LoadBasicTest()
     {
-        Spreadsheet spreadsheet = new Spreadsheet(2, 2);
+        var spreadsheet = new Spreadsheet(2, 2);
 
-        string xmlData = @"
+        var xmlData = @"
         <Spreadsheet>
             <Cell>
                 <Name>A1</Name>
@@ -378,11 +383,11 @@ public class SpreadsheetTests
         </Spreadsheet>";
 
         // Write the XML data to a temporary file
-        string filePath = Path.GetTempFileName();
+        var filePath = Path.GetTempFileName();
         File.WriteAllText(filePath, xmlData);
 
-        using (FileStream fileStream = File.OpenRead(filePath))
-        using (StreamReader reader = new StreamReader(fileStream))
+        using (var fileStream = File.OpenRead(filePath))
+        using (var reader = new StreamReader(fileStream))
         {
             spreadsheet.Load(reader);
         }
@@ -398,12 +403,15 @@ public class SpreadsheetTests
         Assert.That(cell1.BackgroundColor, Is.EqualTo(34));
     }
 
+    /// <summary>
+    ///  Tests loading a spreadsheet with multiple cells.
+    /// </summary>
     [Test]
-public void LoadMultipleCellsTest()
-{
-    Spreadsheet spreadsheet = new Spreadsheet(2, 2);
+    public void LoadMultipleCellsTest()
+    {
+        var spreadsheet = new Spreadsheet(2, 2);
 
-    string xmlData = @"
+        var xmlData = @"
     <Spreadsheet>
         <Cell>
             <Name>A1</Name>
@@ -421,37 +429,40 @@ public void LoadMultipleCellsTest()
         </Cell>
     </Spreadsheet>";
 
-    string filePath = Path.GetTempFileName();
-    File.WriteAllText(filePath, xmlData);
+        var filePath = Path.GetTempFileName();
+        File.WriteAllText(filePath, xmlData);
 
-    using (FileStream fileStream = File.OpenRead(filePath))
-    using (StreamReader reader = new StreamReader(fileStream))
-    {
-        spreadsheet.Load(reader);
+        using (var fileStream = File.OpenRead(filePath))
+        using (var reader = new StreamReader(fileStream))
+        {
+            spreadsheet.Load(reader);
+        }
+
+        File.Delete(filePath);
+
+        var cell1 = spreadsheet.GetCell('A', 1);
+        var cell2 = spreadsheet.GetCell('A', 2);
+
+        Assert.That(cell1.Text, Is.EqualTo("=2+3"));
+        Assert.That(cell1.Value, Is.EqualTo("5"));
+        Assert.That(cell1.Expression, Is.EqualTo("2+3"));
+        Assert.That(cell1.BackgroundColor, Is.EqualTo(34));
+
+        Assert.That(cell2.Text, Is.EqualTo("=3+4"));
+        Assert.That(cell2.Value, Is.EqualTo("7"));
+        Assert.That(cell2.Expression, Is.EqualTo("3+4"));
+        Assert.That(cell2.BackgroundColor, Is.EqualTo(45));
     }
 
-    File.Delete(filePath);
+    /// <summary>
+    ///  Tests loading a spreadsheet with multiple cells.
+    /// </summary>
+    [Test]
+    public void LoadEmptyCellTest()
+    {
+        var spreadsheet = new Spreadsheet(2, 2);
 
-    var cell1 = spreadsheet.GetCell('A', 1);
-    var cell2 = spreadsheet.GetCell('A', 2);
-
-    Assert.That(cell1.Text, Is.EqualTo("=2+3"));
-    Assert.That(cell1.Value, Is.EqualTo("5"));
-    Assert.That(cell1.Expression, Is.EqualTo("2+3"));
-    Assert.That(cell1.BackgroundColor, Is.EqualTo(34));
-
-    Assert.That(cell2.Text, Is.EqualTo("=3+4"));
-    Assert.That(cell2.Value, Is.EqualTo("7"));
-    Assert.That(cell2.Expression, Is.EqualTo("3+4"));
-    Assert.That(cell2.BackgroundColor, Is.EqualTo(45));
-}
-
-[Test]
-public void LoadEmptyCellTest()
-{
-    Spreadsheet spreadsheet = new Spreadsheet(2, 2);
-
-    string xmlData = @"
+        var xmlData = @"
     <Spreadsheet>
         <Cell>
             <Name>A1</Name>
@@ -462,44 +473,48 @@ public void LoadEmptyCellTest()
         </Cell>
     </Spreadsheet>";
 
-    string filePath = Path.GetTempFileName();
-    File.WriteAllText(filePath, xmlData);
+        var filePath = Path.GetTempFileName();
+        File.WriteAllText(filePath, xmlData);
 
-    using (FileStream fileStream = File.OpenRead(filePath))
-    using (StreamReader reader = new StreamReader(fileStream))
-    {
-        spreadsheet.Load(reader);
-    }
-
-    File.Delete(filePath);
-
-    var cell1 = spreadsheet.GetCell('A', 1);
-
-    Assert.That(cell1.Text, Is.EqualTo(""));
-    Assert.That(cell1.Value, Is.EqualTo(""));
-    Assert.That(cell1.Expression, Is.EqualTo(""));
-    Assert.That(cell1.BackgroundColor, Is.EqualTo(0));
-}
-
-[Test]
-public void LoadInvalidFormatTest()
-{
-    Spreadsheet spreadsheet = new Spreadsheet(2, 2);
-
-    string xmlData = "Invalid XML data";
-
-    string filePath = Path.GetTempFileName();
-    File.WriteAllText(filePath, xmlData);
-
-    Assert.Throws<XmlException>(() =>
-    {
-        using (FileStream fileStream = File.OpenRead(filePath))
-        using (StreamReader reader = new StreamReader(fileStream))
+        using (var fileStream = File.OpenRead(filePath))
+        using (var reader = new StreamReader(fileStream))
         {
             spreadsheet.Load(reader);
         }
-    });
 
-    File.Delete(filePath);
-}
+        File.Delete(filePath);
+
+        var cell1 = spreadsheet.GetCell('A', 1);
+
+        Assert.That(cell1.Text, Is.EqualTo(string.Empty));
+        Assert.That(cell1.Value, Is.EqualTo(string.Empty));
+        Assert.That(cell1.Expression, Is.EqualTo(string.Empty));
+        Assert.That(cell1.BackgroundColor, Is.EqualTo(0));
+    }
+
+    /// <summary>
+    ///  Tests loading a spreadsheet with multiple cells.
+    /// </summary>
+    [Test]
+    public void LoadInvalidFormatTest()
+    {
+        var spreadsheet = new Spreadsheet(2, 2);
+
+        var xmlData = "Invalid XML data";
+
+        var filePath = Path.GetTempFileName();
+        File.WriteAllText(filePath, xmlData);
+
+        Assert.Throws<XmlException>(
+            () =>
+            {
+                using (var fileStream = File.OpenRead(filePath))
+                using (var reader = new StreamReader(fileStream))
+                {
+                    spreadsheet.Load(reader);
+                }
+            });
+
+        File.Delete(filePath);
+    }
 }

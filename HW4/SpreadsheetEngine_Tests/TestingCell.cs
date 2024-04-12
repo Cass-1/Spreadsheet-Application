@@ -21,18 +21,34 @@ public class TestingCell : Cell
     {
     }
 
+    /// <summary>
+    /// Gets the cell's text.
+    /// </summary>
+    /// <returns>The cell's text.</returns>
     public string? GetText() => this.text;
 
+    /// <summary>
+    /// Sets the cell's text.
+    /// </summary>
+    /// <param name="str">The string to set the text to.</param>
     public void SetText(string? str)
     {
         this.text = str;
     }
 
+    /// <summary>
+    /// Gets the cell's value.
+    /// </summary>
+    /// <returns>The cell's value.</returns>
     public string? GetValue()
     {
         return this.value;
     }
 
+    /// <summary>
+    /// Sets the cell's value.
+    /// </summary>
+    /// <param name="str">The string to set the value to.</param>
     public void SetValue(string? str)
     {
         this.value = str;
