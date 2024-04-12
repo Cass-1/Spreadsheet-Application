@@ -14,7 +14,7 @@ namespace SpreadsheetEngine;
 public class Spreadsheet
 {
     /// <summary>
-    /// A command manager.
+    ///     A command manager.
     /// </summary>
     public CommandManager SpreadsheetCommandManager = new();
 
@@ -113,54 +113,60 @@ public class Spreadsheet
         return this.cellGrid[rowIndex, colIndex];
     }
 
+    /// <summary>
+    /// Loads the spreadsheet from a stream.
+    /// </summary>
+    /// <param name="stream">The stream to load informatino from.</param>
     public void Load(StreamReader stream)
     {
+        // Clear the spreadsheet
         this.Clear();
 
-            // -create XmlReader
-            //
-            // -create XDocument(reader)
-            //
-            // -create enumerable usring document.elements
-            //
-            // -for element (load cell)
+        // Create XmlReaderSettings and
+        var settings = new XmlReaderSettings();
 
-        XmlReaderSettings settings = new XmlReaderSettings();
+        // Create an XmlReader and xdoc
+        var reader = XmlReader.Create(stream, settings);
+        var xdoc = XDocument.Load(reader);
 
-        XmlReader reader = XmlReader.Create(stream, settings);
-
-        XDocument xdoc = XDocument.Load(reader);
-
-        // XElement spread
-
-        IEnumerable<XElement> elements = xdoc.Root.Elements("Cell");
-
-        foreach (XElement xElement in elements)
+        // Get the elements
+        if (xdoc.Root != null)
         {
-            string cellName = xElement.Element("Name").Value;
+            var elements = xdoc.Root.Elements("Cell");
 
-            // Get the cell
-            int rowIndex = int.Parse(cellName.Substring(1)) - 1;
-            int colIndex = cellName[0] - 'A';
-            SpreadsheetCell cell = this.cellGrid[rowIndex, colIndex];
-            cell.ReadXml(xElement);
-            cell.EvaluateExpression();
+            // Read the elements
+            foreach (var xElement in elements)
+            {
+                // Get the cell name
+                var cellName = xElement.Element("Name")?.Value;
 
-        }//TODO: change ReadXml to take xElement
+                // Get the cell
+                if (cellName != null)
+                {
+                    var rowIndex = int.Parse(cellName.Substring(1)) - 1;
+                    var colIndex = cellName[0] - 'A';
+                    var cell = this.cellGrid[rowIndex, colIndex];
 
+                    // Read the cell in from the xml
+                    cell.ReadXml(xElement);
 
-
-
-
+                    // If the cell has an expression, evaluate it
+                    cell.EvaluateExpression();
+                }
+            }
+        }
     }
 
+    /// <summary>
+    /// Clears the spreadsheet.
+    /// </summary>
     public void Clear()
     {
-        for (int row = 0; row < this.RowCount; row++)
+        for (var row = 0; row < this.RowCount; row++)
         {
-            for (int col = 0; col < this.ColumnCount; col++)
+            for (var col = 0; col < this.ColumnCount; col++)
             {
-                var cell = GetCell(row, col);
+                var cell = this.GetCell(row, col);
                 if (cell.ChangedFromDefaults())
                 {
                     cell.Clear();
@@ -169,14 +175,18 @@ public class Spreadsheet
         }
     }
 
+    /// <summary>
+    /// Saves the spreadsheet to a stream.
+    /// </summary>
+    /// <param name="stream">The stream to save the spreadsheet to.</param>
     public void Save(StreamWriter stream)
     {
         // Create XmlWriterSettings
-        XmlWriterSettings settings = new XmlWriterSettings();
+        var settings = new XmlWriterSettings();
         settings.Indent = true;
 
         // Create an XmlWriter
-        using (XmlWriter writer = XmlWriter.Create(stream, settings))
+        using (var writer = XmlWriter.Create(stream, settings))
         {
             // Start the document
             writer.WriteStartDocument();
@@ -184,12 +194,12 @@ public class Spreadsheet
             // Start root element
             writer.WriteStartElement("Spreadsheet");
 
-            for (int row = 0; row < this.RowCount; row++)
+            for (var row = 0; row < this.RowCount; row++)
             {
-                for (int col = 0; col < this.ColumnCount; col++)
+                for (var col = 0; col < this.ColumnCount; col++)
                 {
                     // Get the cell
-                    Cell cell = this.GetCell(row, col);
+                    var cell = this.GetCell(row, col);
 
                     // only write cell if it has been changed
                     if (cell.ChangedFromDefaults())
@@ -352,8 +362,6 @@ public class Spreadsheet
             this.referencedCells.Add(cell);
             cell.PropertyChanged += this.OnReferenceChanged;
         }
-
-
 
         /// <summary>
         ///     Called when a reference cell changes.
