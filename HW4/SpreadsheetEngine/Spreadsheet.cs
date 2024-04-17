@@ -316,13 +316,12 @@ public class Spreadsheet
         /// </summary>
         public void EvaluateExpression()
         {
+            this.expressionTree = new ExpressionTree(this.Expression);
 
             if (this.ReferencesSelf())
             {
                 throw new ArgumentException("A cell cannot reference itself.");
             }
-
-            this.expressionTree = new ExpressionTree(this.Expression);
 
             // set the reference variables
             foreach (var cell in this.referencedCells)
@@ -347,7 +346,8 @@ public class Spreadsheet
         {
             this.UnsubscribeFromReferencedCells();
             this.Expression = expression;
-            this.EvaluateExpression();
+            this.expressionTree = new ExpressionTree(this.Expression);
+
         }
 
         /// <summary>
