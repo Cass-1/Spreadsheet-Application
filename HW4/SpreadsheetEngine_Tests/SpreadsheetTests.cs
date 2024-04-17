@@ -517,4 +517,22 @@ public class SpreadsheetTests
 
         File.Delete(filePath);
     }
+
+    /// <summary>
+    ///  Tests if the error is caught when the rowIndex is out of range.
+    /// </summary>
+    [Test]
+    public void OutOfBoundsReferenceCellTest()
+    {
+        var spreadsheet = new Spreadsheet(20, 20);
+        var testCell = spreadsheet.GetCell(2, 2);
+        try
+        {
+            testCell.Text = "=B60";
+        }
+        catch (Exception e)
+        {
+            Assert.True(e is ArgumentOutOfRangeException);
+        }
+    }
 }
