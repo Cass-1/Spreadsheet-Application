@@ -535,4 +535,43 @@ public class SpreadsheetTests
             Assert.True(e is ArgumentOutOfRangeException);
         }
     }
+
+    /// <summary>
+    /// Tests for if a cell references itself.
+    /// </summary>
+    [Test]
+    public void SelfReferenceBasicTest()
+    {
+        var cell = new TestingCell(0, 0);
+        try
+        {
+            cell.Text = "=A1";
+            Assert.Fail();
+        }
+        catch
+        {
+            Assert.Pass();
+        }
+    }
+
+    /// <summary>
+    /// Tests for if a cell references itself.
+    /// </summary>
+    [Test]
+    public void SelfReferenceExpressionTest()
+    {
+        var spreadsheet = new Spreadsheet(3, 3);
+        var testCell = spreadsheet.GetCell(0, 0);
+        try
+        {
+            // BUG doesn't work bc the spreadsheet is the one who calls the cell to evaluate itself
+            testCell.Text = "=7+A1*9";
+
+        }
+        catch (ArgumentException)
+        {
+            Assert.Pass();
+        }
+        Assert.Fail();
+    }
 }

@@ -292,40 +292,4 @@ public class CellTests
         Assert.That(cell.Expression, Is.EqualTo(string.Empty));
         Assert.That(cell.BackgroundColor, Is.EqualTo(uint.MaxValue));
     }
-
-    /// <summary>
-    /// Tests for if a cell references itself.
-    /// </summary>
-    [Test]
-    public void SelfReferenceBasicTest()
-    {
-        var cell = new TestingCell(0, 0);
-        try
-        {
-            cell.Text = "=A1";
-            Assert.Fail();
-        }
-        catch (ArgumentException)
-        {
-            Assert.Pass();
-        }
-    }
-
-    /// <summary>
-    /// Tests for if a cell references itself.
-    /// </summary>
-    [Test]
-    public void SelfReferenceExpressionTest()
-    {
-        var cell = new TestingCell(0, 0);
-        try
-        {
-            cell.Text = "=7+A1*9";
-            Assert.Fail();
-        }
-        catch (ArgumentException)
-        {
-            Assert.Pass();
-        }
-    }
 }
