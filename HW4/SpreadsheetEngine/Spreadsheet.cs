@@ -316,6 +316,12 @@ public class Spreadsheet
         /// </summary>
         public void EvaluateExpression()
         {
+
+            if (this.ReferencesSelf())
+            {
+                throw new ArgumentException("A cell cannot reference itself.");
+            }
+
             this.expressionTree = new ExpressionTree(this.Expression);
 
             // set the reference variables
@@ -351,6 +357,23 @@ public class Spreadsheet
         public List<string> GetReferencedCellNames()
         {
             return this.expressionTree.GetVariableNames();
+        }
+
+        /// <summary>
+        /// Checks if a cell references itself.
+        /// </summary>
+        /// <returns>True or false.</returns>
+        public bool ReferencesSelf()
+        {
+            foreach (var name in this.GetReferencedCellNames())
+            {
+                if (this.Name == name)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         /// <summary>
