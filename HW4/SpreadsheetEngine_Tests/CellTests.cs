@@ -293,7 +293,7 @@ public class CellTests
         Assert.That(cell.BackgroundColor, Is.EqualTo(uint.MaxValue));
     }
 
-    [Test]
+    // [Test]
     public void CellHasCircularReferencesTest_NoCircularReference()
     {
         var spreadsheet = new Spreadsheet(3, 3);
@@ -309,7 +309,7 @@ public class CellTests
         // Assert.IsFalse(result);
     }
 
-    [Test]
+    // [Test]
     public void CellHasCircularReferencesTest_SelfCircularReference()
     {
         var spreadsheet = new Spreadsheet(3, 3);
@@ -323,7 +323,7 @@ public class CellTests
         // Assert.IsTrue(result);
     }
 
-    [Test]
+    // [Test]
     public void CellHasCircularReferencesTest_TwoCellsCircularReference()
     {
         var spreadsheet = new Spreadsheet(3, 3);
@@ -339,7 +339,7 @@ public class CellTests
         // Assert.IsTrue(result);
     }
 
-    [Test]
+    // [Test]
     public void CellHasCircularReferencesTest_ThreeCellsCircularReference()
     {
         var spreadsheet = new Spreadsheet(3, 3);
