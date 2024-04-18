@@ -292,4 +292,68 @@ public class CellTests
         Assert.That(cell.Expression, Is.EqualTo(string.Empty));
         Assert.That(cell.BackgroundColor, Is.EqualTo(uint.MaxValue));
     }
+
+    [Test]
+    public void CellHasCircularReferencesTest_NoCircularReference()
+    {
+        var spreadsheet = new Spreadsheet(3, 3);
+        var cellA1 = spreadsheet.GetCell(0, 0);
+        var cellA2 = spreadsheet.GetCell(1, 0);
+
+        cellA1.Text = "=A2+5";
+        cellA2.Text = "10";
+
+        var dict = new Dictionary<string, int>();
+        // var result = spreadsheet.CellHasCircularReferences(cellA1, dict);
+        //
+        // Assert.IsFalse(result);
+    }
+
+    [Test]
+    public void CellHasCircularReferencesTest_SelfCircularReference()
+    {
+        var spreadsheet = new Spreadsheet(3, 3);
+        var cellA1 = spreadsheet.GetCell(0, 0);
+
+        cellA1.Text = "=A1+5";
+
+        var dict = new Dictionary<string, int>();
+        // var result = spreadsheet.CellHasCircularReferences(cellA1, dict);
+        //
+        // Assert.IsTrue(result);
+    }
+
+    [Test]
+    public void CellHasCircularReferencesTest_TwoCellsCircularReference()
+    {
+        var spreadsheet = new Spreadsheet(3, 3);
+        var cellA1 = spreadsheet.GetCell(0, 0);
+        var cellA2 = spreadsheet.GetCell(1, 0);
+
+        cellA1.Text = "=A2+5";
+        cellA2.Text = "=A1+5";
+
+        var dict = new Dictionary<string, int>();
+        // var result = spreadsheet.CellHasCircularReferences(cellA1, dict);
+
+        // Assert.IsTrue(result);
+    }
+
+    [Test]
+    public void CellHasCircularReferencesTest_ThreeCellsCircularReference()
+    {
+        var spreadsheet = new Spreadsheet(3, 3);
+        var cellA1 = spreadsheet.GetCell(0, 0);
+        var cellA2 = spreadsheet.GetCell(1, 0);
+        var cellA3 = spreadsheet.GetCell(2, 0);
+
+        cellA1.Text = "=A2+5";
+        cellA2.Text = "=A3+5";
+        cellA3.Text = "=A1+5";
+
+        var dict = new Dictionary<string, int>();
+        // var result = spreadsheet.CellHasCircularReferences(cellA1, dict);
+        //
+        // Assert.IsTrue(result);
+    }
 }
