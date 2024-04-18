@@ -296,7 +296,7 @@ public class Spreadsheet
                 try
                 {
                     // get the reference cell
-                    var referencedCell = this.GetCell(int.Parse(rowCharacter) - 1, columnCharacter - 'A');
+                    var referencedCell = this.GetCell(variable);
 
                     cell.AddReferenceCell(referencedCell);
                 }
@@ -327,27 +327,12 @@ public class Spreadsheet
         // this.CellPropertyChangedEvent.Invoke(sender, e);
     }
 
-    private bool CellHasCircularReferences(SpreadsheetCell cell, Dictionary<string, int> dict)
-    {
-        foreach (var cellName in cell.GetReferencedCellNames())
-        {
-            if (dict.ContainsKey(cellName))
-            {
-                return true;
-            }
-            dict.Add(cellName, 1);
 
-            return this.CellHasCircularReferences(GetCell(cellName), dict);
-        }
-
-        return false;
-    }
 
     private class SpreadsheetCell : Cell
     {
 
         public static string selfReference = "Self Reference";
-        public static string circularReference = "Circular Reference";
         /// <summary>
         ///     Initializes a new instance of the <see cref="SpreadsheetCell" /> class.
         /// </summary>
@@ -366,6 +351,8 @@ public class Spreadsheet
             get => this.value;
             protected internal set => this.SetandNotifyIfChanged(ref this.value, value);
         }
+
+        protected List<SpreadsheetCell> referencedCells = new();
 
         /// <summary>
         ///     Evaluates the cell's expression.
@@ -445,7 +432,7 @@ public class Spreadsheet
         ///     Adds a reference to a cell that this cell's expression references.
         /// </summary>
         /// <param name="cell">The new cell to reference.</param>
-        public void AddReferenceCell(Cell cell)
+        public void AddReferenceCell(SpreadsheetCell cell)
         {
             this.referencedCells.Add(cell);
             cell.PropertyChanged += this.OnReferenceChanged;
