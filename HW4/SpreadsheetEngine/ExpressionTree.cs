@@ -28,6 +28,8 @@ public class ExpressionTree
     /// </summary>
     private Dictionary<string, double> variableDatabase;
 
+    private readonly List<Node> postfixNodes;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="ExpressionTree"/> class.
     /// </summary>
@@ -47,10 +49,7 @@ public class ExpressionTree
         var postfixTokens = this.ConvertExpressionToPostfix(this.tokenizedExpression);
 
         // convert tokens to nodes
-        var postfixNodes = this.TokensToNodes(postfixTokens);
-
-        // build the expression tree
-        this.root = this.GenerateExpressionTree(postfixNodes);
+        this.postfixNodes = this.TokensToNodes(postfixTokens);
     }
 
     /// <summary>
@@ -124,6 +123,8 @@ public class ExpressionTree
     {
         try
         {
+            // build the expression tree
+            this.root = this.GenerateExpressionTree(this.postfixNodes);
             return this.EvaluateExpressionTree();
         }
         catch (NullReferenceException)

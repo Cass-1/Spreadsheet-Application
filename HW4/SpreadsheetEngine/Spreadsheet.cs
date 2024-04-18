@@ -3,6 +3,7 @@
 
 using System.ComponentModel;
 using System.Globalization;
+using System.Net.Mime;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -13,6 +14,7 @@ namespace SpreadsheetEngine;
 /// </summary>
 public class Spreadsheet
 {
+
     /// <summary>
     ///     A command manager.
     /// </summary>
@@ -88,14 +90,31 @@ public class Spreadsheet
 
     /// <summary>
     ///     Returns the cell at a specified location, using the spreadsheet naming convention.
+    ///     This is needed as I need to get cells by their name in the method CellHasCircularReferences.
     /// </summary>
-    /// <param name="col">A character that represents the column in the spreadsheet UI.</param>
-    /// <param name="row">A number that represents the row in the spreadsheet UI.</param>
+    /// <param name="name">The name of the cell.</param>
     /// <returns>A cell in the spreadsheet.</returns>
     /// <exception cref="ArgumentOutOfRangeException">
     ///     The argument(s) given are outside the bounds of
     ///     the spreadsheet.
     /// </exception>
+    private SpreadsheetCell GetCell(string name)
+    {
+        var rowIndex = int.Parse(name.Substring(1)) - 1;
+        var colIndex = name[0] - 'A';
+        if (rowIndex >= this.RowCount)
+        {
+            throw new ArgumentOutOfRangeException(nameof(rowIndex) + " is out of bounds");
+        }
+
+        if (colIndex >= this.ColumnCount)
+        {
+            throw new ArgumentOutOfRangeException(nameof(colIndex) + " is out of bounds");
+        }
+
+        return this.cellGrid[rowIndex, colIndex];
+    }
+
     public Cell GetCell(char col, int row)
     {
         var rowIndex = row - 1;
@@ -151,7 +170,14 @@ public class Spreadsheet
                     cell.ReadXml(xElement);
 
                     // If the cell has an expression, evaluate it
-                    cell.EvaluateExpression();
+                    try
+                    {
+                        cell.EvaluateExpression();
+                    }
+                    catch (ArgumentException)
+                    {
+                        cell.Text = SpreadsheetCell.selfReference;
+                    }
                 }
             }
         }
@@ -244,7 +270,14 @@ public class Spreadsheet
             var expression = cell.Text.TrimStart('=');
             if (expression == cell.Expression)
             {
-                cell.EvaluateExpression();
+                try
+                {
+                    cell.EvaluateExpression();
+                }
+                catch (ArgumentException)
+                {
+                    cell.Text = SpreadsheetCell.selfReference;
+                }
                 return;
             }
 
@@ -258,10 +291,7 @@ public class Spreadsheet
                 // and before we have finished entering a value.
                 var rowCharacter = variable.Substring(1, variable.Length - 1);
                 var columnCharacter = variable[0];
-                if (rowCharacter == columnCharacter.ToString())
-                {
-                    return;
-                }
+
 
                 try
                 {
@@ -276,7 +306,14 @@ public class Spreadsheet
                 }
             }
 
-            cell.EvaluateExpression();
+            try
+            {
+                cell.EvaluateExpression();
+            }
+            catch (ArgumentException)
+            {
+                cell.Text = SpreadsheetCell.selfReference;
+            }
         }
 
         // if the cell's text is not an expression
@@ -290,8 +327,27 @@ public class Spreadsheet
         // this.CellPropertyChangedEvent.Invoke(sender, e);
     }
 
+    private bool CellHasCircularReferences(SpreadsheetCell cell, Dictionary<string, int> dict)
+    {
+        foreach (var cellName in cell.GetReferencedCellNames())
+        {
+            if (dict.ContainsKey(cellName))
+            {
+                return true;
+            }
+            dict.Add(cellName, 1);
+
+            return this.CellHasCircularReferences(GetCell(cellName), dict);
+        }
+
+        return false;
+    }
+
     private class SpreadsheetCell : Cell
     {
+
+        public static string selfReference = "Self Reference";
+        public static string circularReference = "Circular Reference";
         /// <summary>
         ///     Initializes a new instance of the <see cref="SpreadsheetCell" /> class.
         /// </summary>
@@ -323,6 +379,11 @@ public class Spreadsheet
                 throw new ArgumentException("A cell cannot reference itself.");
             }
 
+            if (this.Text == selfReference)
+            {
+                return;
+            }
+
             // set the reference variables
             foreach (var cell in this.referencedCells)
             {
@@ -346,8 +407,6 @@ public class Spreadsheet
         {
             this.UnsubscribeFromReferencedCells();
             this.Expression = expression;
-            this.expressionTree = new ExpressionTree(this.Expression);
-
         }
 
         /// <summary>
@@ -356,6 +415,12 @@ public class Spreadsheet
         /// <returns>A list of all the cells that this cell's expression references.</returns>
         public List<string> GetReferencedCellNames()
         {
+            // this if is here so that my CircularReference method in Spreadsheet can get each cell's references
+            if(this.expressionTree == null)
+            {
+                this.expressionTree = new ExpressionTree(this.Expression);
+            }
+
             return this.expressionTree.GetVariableNames();
         }
 
@@ -393,7 +458,14 @@ public class Spreadsheet
         /// <param name="e">The event arguments.</param>
         private void OnReferenceChanged(object? sender, PropertyChangedEventArgs e)
         {
-            this.EvaluateExpression();
+            try
+            {
+                this.EvaluateExpression();
+            }
+            catch
+            {
+                this.Text = selfReference;
+            }
         }
 
         /// <summary>
