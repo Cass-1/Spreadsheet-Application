@@ -174,9 +174,17 @@ public class Spreadsheet
                     {
                         cell.EvaluateExpression();
                     }
-                    catch (ArgumentException)
+                    catch (ArgumentException a)
                     {
-                        cell.Text = SpreadsheetCell.selfReference;
+                        // cell.Clear();
+                        if(a.Message == SpreadsheetCell.selfReference)
+                        {
+                            cell.Text = SpreadsheetCell.selfReference;
+                        }
+                        else
+                        {
+                            cell.Text = SpreadsheetCell.circularReference;
+                        }
                     }
                 }
             }
@@ -274,9 +282,17 @@ public class Spreadsheet
                 {
                     cell.EvaluateExpression();
                 }
-                catch (ArgumentException)
+                catch (ArgumentException a)
                 {
-                    cell.Text = SpreadsheetCell.selfReference;
+                    // cell.Clear();
+                    if(a.Message == SpreadsheetCell.selfReference)
+                    {
+                        cell.Text = SpreadsheetCell.selfReference;
+                    }
+                    else
+                    {
+                        cell.Text = SpreadsheetCell.circularReference;
+                    }
                 }
                 return;
             }
@@ -310,9 +326,17 @@ public class Spreadsheet
             {
                 cell.EvaluateExpression();
             }
-            catch (ArgumentException)
+            catch (ArgumentException a)
             {
-                cell.Text = SpreadsheetCell.selfReference;
+                // cell.Clear();
+                if(a.Message == SpreadsheetCell.selfReference)
+                {
+                    cell.Text = SpreadsheetCell.selfReference;
+                }
+                else
+                {
+                    cell.Text = SpreadsheetCell.circularReference;
+                }
             }
         }
 
@@ -333,6 +357,8 @@ public class Spreadsheet
     {
 
         public static string selfReference = "Self Reference";
+        public static string circularReference = "Circular Reference";
+
         /// <summary>
         ///     Initializes a new instance of the <see cref="SpreadsheetCell" /> class.
         /// </summary>
@@ -363,19 +389,28 @@ public class Spreadsheet
 
             if (this.ReferencesSelf())
             {
-                throw new ArgumentException("A cell cannot reference itself.");
+                throw new ArgumentException(selfReference);
             }
 
-            // Dictionary<string, int> dict = new Dictionary<string, int>();
-            // if (HasCircularReferences(this, dict))
-            // {
-            //     throw new ArgumentException("Circular Reference");
-            // }
-
+            // have to do this check after the if statement for my self reference check
+            // BUG i don't know why this is happening
             if (this.Text == selfReference)
             {
                 return;
             }
+
+            Dictionary<string, int> dict = new Dictionary<string, int>();
+            if (this.HasCircularReferences(this, dict))
+            {
+                throw new ArgumentException(circularReference);
+            }
+
+            if (this.Text == circularReference)
+            {
+                return;
+            }
+
+
 
             // set the reference variables
             foreach (var cell in this.referencedCells)
@@ -471,9 +506,17 @@ public class Spreadsheet
             {
                 this.EvaluateExpression();
             }
-            catch
+            catch (ArgumentException a)
             {
-                this.Text = selfReference;
+                // this.Clear();
+                if(a.Message == selfReference)
+                {
+                    this.Text = selfReference;
+                }
+                else
+                {
+                    this.Text = circularReference;
+                }
             }
         }
 
