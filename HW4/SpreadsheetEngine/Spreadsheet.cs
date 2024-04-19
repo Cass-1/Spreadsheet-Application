@@ -170,14 +170,7 @@ public class Spreadsheet
                     cell.ReadXml(xElement);
 
                     // If the cell has an expression, evaluate it
-                    try
-                    {
-                        cell.EvaluateExpression();
-                    }
-                    catch (ArgumentException)
-                    {
-                        cell.Text = SpreadsheetCell.selfReference;
-                    }
+                    cell.EvaluateExpression();
                 }
             }
         }
@@ -335,7 +328,6 @@ public class Spreadsheet
     private class SpreadsheetCell : Cell
     {
 
-        public static string selfReference = "Self Reference";
         /// <summary>
         ///     Initializes a new instance of the <see cref="SpreadsheetCell" /> class.
         /// </summary>
@@ -375,7 +367,7 @@ public class Spreadsheet
                 throw new ArgumentException("Circular Reference");
             }
 
-            if (this.Text == "Circular Reference")
+            if (this.Text == "Circular Reference" || this.Text == "Self Reference")
             {
                 return;
             }
@@ -476,13 +468,12 @@ public class Spreadsheet
         /// <param name="e">The event arguments.</param>
         private void OnReferenceChanged(object? sender, PropertyChangedEventArgs e)
         {
-            try
+            // don't reevaluate if the cell has a circular reference
+            var cell = (SpreadsheetCell)sender!;
+
+            if (cell.Text != "Circular Reference" && cell.Text != "Self Reference")
             {
                 this.EvaluateExpression();
-            }
-            catch
-            {
-                this.Text = selfReference;
             }
         }
 
