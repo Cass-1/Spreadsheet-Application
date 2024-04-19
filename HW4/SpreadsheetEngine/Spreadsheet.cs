@@ -306,7 +306,17 @@ public class Spreadsheet
                 }
             }
 
-            cell.EvaluateExpression();
+            try
+            {
+                cell.EvaluateExpression();
+            }
+            catch (ArgumentException)
+            {
+                cell.Text = "Circular Reference";
+                cell.Value = cell.Text;
+                cell.SetExpression(string.Empty);
+                cell.ClearReferences();
+            }
         }
 
         // if the cell's text is not an expression
