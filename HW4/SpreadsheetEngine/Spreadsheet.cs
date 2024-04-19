@@ -302,6 +302,11 @@ public class Spreadsheet
                     cell.Text = "Invalid Reference";
                     return;
                 }
+                catch (Exception)
+                {
+                    cell.Text = "Invalid Reference";
+                    return;
+                }
             }
 
             try
