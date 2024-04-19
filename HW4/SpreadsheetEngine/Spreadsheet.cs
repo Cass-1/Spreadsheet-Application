@@ -286,39 +286,30 @@ public class Spreadsheet
             // assignes the reference cells to the cell
             foreach (var variable in variables)
             {
-                // this try catch block prevents errors from happening in the spreadsheet when we are still typing
-                // and before we have finished entering a value.
-                var rowCharacter = variable.Substring(1, variable.Length - 1);
-                var columnCharacter = variable[0];
-
-
                 try
                 {
-                    // get the reference cell
                     var referencedCell = this.GetCell(variable);
-
                     cell.AddReferenceCell(referencedCell);
                 }
-                catch (Exception)
+                catch (ArgumentOutOfRangeException)
                 {
+                    cell.Text = "Invalid Reference";
+                    return;
+                }
+                catch (ArgumentException)
+                {
+                    cell.Text = "Invalid Reference";
                     return;
                 }
             }
 
-            try
-            {
-                cell.EvaluateExpression();
-            }
-            catch (ArgumentException)
-            {
-                cell.Text = SpreadsheetCell.selfReference;
-            }
+            cell.EvaluateExpression();
         }
 
         // if the cell's text is not an expression
         else
         {
-            cell.Expression = string.Empty;
+            cell.SetExpression(string.Empty);
             cell.Value = cell.Text;
         }
 
