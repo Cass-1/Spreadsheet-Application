@@ -312,10 +312,10 @@ public class Spreadsheet
             }
             catch (ArgumentException)
             {
+                cell.ClearReferences();
                 cell.Text = "Circular Reference";
                 cell.Value = cell.Text;
                 cell.SetExpression(string.Empty);
-                cell.ClearReferences();
             }
         }
 
@@ -403,6 +403,7 @@ public class Spreadsheet
                 {
                     return true;
                 }
+
                 dict.Add(currentCell.Name, 1);
 
                 return HasCircularReferences(currentCell, dict);
