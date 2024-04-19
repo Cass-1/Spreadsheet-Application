@@ -606,7 +606,7 @@ public class SpreadsheetTests
         cellA1.Text = "=A2+5";
         cellA2.Text = "=A1+5";
 
-        bool result = (cellA1.Text == "Circular Reference") || (cellA2.Text == "Circular Reference");
+        bool result = (cellA1.Value == "5") && (cellA2.Text == "Circular Reference");
 
         Assert.IsTrue(result);
     }
@@ -624,7 +624,7 @@ public class SpreadsheetTests
         cellA3.Text = "=A1+5";
 
 
-        bool result = (cellA1.Text == "Circular Reference") || (cellA2.Text == "Circular Reference") || (cellA3.Text == "Circular Reference");
+        bool result = (cellA3.Text == "Circular Reference" && cellA1.Value == "10" && cellA2.Value == "5");
 
         Assert.IsTrue(result);
     }
