@@ -34,7 +34,7 @@ public class Spreadsheet
         ArgumentOutOfRangeException.ThrowIfNegativeOrZero(rowCount);
         ArgumentOutOfRangeException.ThrowIfNegativeOrZero(columnCount);
 
-        // initalize row and column count
+        // initialize row and column count
         this.RowCount = rowCount;
         this.ColumnCount = columnCount;
 
