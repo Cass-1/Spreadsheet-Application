@@ -35,7 +35,7 @@ public abstract class Cell : INotifyPropertyChanged
     /// <summary>
     ///     The cell's expression tree.
     /// </summary>
-    protected ExpressionTree expressionTree = null!;
+    protected ExpressionTree? expressionTree = null!;
 
     /// <summary>
     ///     A list of the referenced cells in the expressionTree.

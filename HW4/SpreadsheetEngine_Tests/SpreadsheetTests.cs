@@ -583,6 +583,9 @@ public class SpreadsheetTests
         Assert.That(testCell.Text, Is.EqualTo("6"));
     }
 
+    /// <summary>
+    /// Tests for if a cell references itself.
+    /// </summary>
     [Test]
     public void SelfReferenceInMultipleCellsTest()
     {
@@ -596,6 +599,9 @@ public class SpreadsheetTests
         Assert.That(cellA2.Text, Is.EqualTo("Self Reference"));
     }
 
+    /// <summary>
+    /// Tests for if a cell references itself.
+    /// </summary>
     [Test]
     public void CellHasCircularReferencesTest_TwoCellsCircularReference()
     {
@@ -606,11 +612,14 @@ public class SpreadsheetTests
         cellA1.Text = "=A2+5";
         cellA2.Text = "=A1+5";
 
-        bool result = (cellA1.Value == "5") && (cellA2.Text == "Circular Reference");
+        bool result = cellA1.Value == "5" && cellA2.Text == "Circular Reference";
 
         Assert.IsTrue(result);
     }
 
+    /// <summary>
+    /// Tests for if a cell references itself.
+    /// </summary>
     [Test]
     public void CellHasCircularReferencesTest_ThreeCellsCircularReference()
     {
@@ -623,10 +632,8 @@ public class SpreadsheetTests
         cellA2.Text = "=A3+5";
         cellA3.Text = "=A1+5";
 
-
-        bool result = (cellA3.Text == "Circular Reference" && cellA1.Value == "10" && cellA2.Value == "5");
+        bool result = cellA3.Text == "Circular Reference" && cellA1.Value == "10" && cellA2.Value == "5";
 
         Assert.IsTrue(result);
     }
-
 }

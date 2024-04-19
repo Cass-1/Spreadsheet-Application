@@ -3,7 +3,6 @@
 
 using System.ComponentModel;
 using System.Globalization;
-using System.Net.Mime;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -14,7 +13,6 @@ namespace SpreadsheetEngine;
 /// </summary>
 public class Spreadsheet
 {
-
     /// <summary>
     ///     A command manager.
     /// </summary>
@@ -89,32 +87,12 @@ public class Spreadsheet
     }
 
     /// <summary>
-    ///     Returns the cell at a specified location, using the spreadsheet naming convention.
-    ///     This is needed as I need to get cells by their name in the method CellHasCircularReferences.
+    ///   Returns the cell at a specified location, using the spreadsheet naming convention.
     /// </summary>
-    /// <param name="name">The name of the cell.</param>
-    /// <returns>A cell in the spreadsheet.</returns>
-    /// <exception cref="ArgumentOutOfRangeException">
-    ///     The argument(s) given are outside the bounds of
-    ///     the spreadsheet.
-    /// </exception>
-    private SpreadsheetCell GetCell(string name)
-    {
-        var rowIndex = int.Parse(name.Substring(1)) - 1;
-        var colIndex = name[0] - 'A';
-        if (rowIndex >= this.RowCount)
-        {
-            throw new ArgumentOutOfRangeException(nameof(rowIndex) + " is out of bounds");
-        }
-
-        if (colIndex >= this.ColumnCount)
-        {
-            throw new ArgumentOutOfRangeException(nameof(colIndex) + " is out of bounds");
-        }
-
-        return this.cellGrid[rowIndex, colIndex];
-    }
-
+    /// <param name="col">The column character.</param>
+    /// <param name="row">The row number.</param>
+    /// <returns>The cell at the specified location.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">Trown when the row or col are out of bounds.</exception>
     public Cell GetCell(char col, int row)
     {
         var rowIndex = row - 1;
@@ -133,7 +111,7 @@ public class Spreadsheet
     }
 
     /// <summary>
-    /// Loads the spreadsheet from a stream.
+    ///     Loads the spreadsheet from a stream.
     /// </summary>
     /// <param name="stream">The stream to load informatino from.</param>
     public void Load(StreamReader stream)
@@ -177,7 +155,7 @@ public class Spreadsheet
     }
 
     /// <summary>
-    /// Clears the spreadsheet.
+    ///     Clears the spreadsheet.
     /// </summary>
     public void Clear()
     {
@@ -195,7 +173,7 @@ public class Spreadsheet
     }
 
     /// <summary>
-    /// Saves the spreadsheet to a stream.
+    ///     Saves the spreadsheet to a stream.
     /// </summary>
     /// <param name="stream">The stream to save the spreadsheet to.</param>
     public void Save(StreamWriter stream)
@@ -240,6 +218,33 @@ public class Spreadsheet
 
 // Reset the position of the MemoryStream to the beginning
         // stream.Position = 0;
+    }
+
+    /// <summary>
+    ///     Returns the cell at a specified location, using the spreadsheet naming convention.
+    ///     This is needed as I need to get cells by their name in the method CellHasCircularReferences.
+    /// </summary>
+    /// <param name="name">The name of the cell.</param>
+    /// <returns>A cell in the spreadsheet.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">
+    ///     The argument(s) given are outside the bounds of
+    ///     the spreadsheet.
+    /// </exception>
+    private SpreadsheetCell GetCell(string name)
+    {
+        var rowIndex = int.Parse(name.Substring(1)) - 1;
+        var colIndex = name[0] - 'A';
+        if (rowIndex >= this.RowCount)
+        {
+            throw new ArgumentOutOfRangeException(nameof(rowIndex) + " is out of bounds");
+        }
+
+        if (colIndex >= this.ColumnCount)
+        {
+            throw new ArgumentOutOfRangeException(nameof(colIndex) + " is out of bounds");
+        }
+
+        return this.cellGrid[rowIndex, colIndex];
     }
 
     /// <summary>
@@ -323,10 +328,9 @@ public class Spreadsheet
         // this.CellPropertyChangedEvent.Invoke(sender, e);
     }
 
-
-
     private class SpreadsheetCell : Cell
     {
+        private new List<SpreadsheetCell> referencedCells = new();
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="SpreadsheetCell" /> class.
@@ -347,8 +351,6 @@ public class Spreadsheet
             protected internal set => this.SetandNotifyIfChanged(ref this.value, value);
         }
 
-        protected List<SpreadsheetCell> referencedCells = new();
-
         /// <summary>
         ///     Evaluates the cell's expression.
         /// </summary>
@@ -361,7 +363,7 @@ public class Spreadsheet
                 throw new ArgumentException("A cell cannot reference itself.");
             }
 
-            Dictionary<string, int> dict = new Dictionary<string, int>();
+            var dict = new Dictionary<string, int>();
             if (HasCircularReferences(this, dict))
             {
                 throw new ArgumentException("Circular Reference");
@@ -387,23 +389,6 @@ public class Spreadsheet
             this.Value = this.expressionTree.Evaluate().ToString(CultureInfo.InvariantCulture);
         }
 
-        private static bool HasCircularReferences(SpreadsheetCell cell, Dictionary<string, int> dict)
-        {
-            foreach (var currentCell in cell.referencedCells)
-            {
-                if (dict.ContainsKey(currentCell.Name))
-                {
-                    return true;
-                }
-
-                dict.Add(currentCell.Name, 1);
-
-                return HasCircularReferences(currentCell, dict);
-            }
-
-            return false;
-        }
-
         /// <summary>
         ///     Sets the cell's expression.
         /// </summary>
@@ -422,7 +407,7 @@ public class Spreadsheet
         public List<string> GetReferencedCellNames()
         {
             // this if is here so that my CircularReference method in Spreadsheet can get each cell's references
-            if(this.expressionTree == null)
+            if (this.expressionTree == null)
             {
                 this.expressionTree = new ExpressionTree(this.Expression);
             }
@@ -431,7 +416,7 @@ public class Spreadsheet
         }
 
         /// <summary>
-        /// Checks if a cell references itself.
+        ///     Checks if a cell references itself.
         /// </summary>
         /// <returns>True or false.</returns>
         public bool ReferencesSelf()
@@ -460,6 +445,37 @@ public class Spreadsheet
 
             this.referencedCells.Add(cell);
             cell.PropertyChanged += this.OnReferenceChanged;
+        }
+
+        /// <summary>
+        ///   Clears all references.
+        /// </summary>
+        public void ClearReferences()
+        {
+            this.referencedCells = new List<SpreadsheetCell>();
+        }
+
+        /// <summary>
+        ///   Unsubscribe from all reference cells.
+        /// </summary>
+        /// <param name="cell">The cell to check for circular references.</param>
+        /// <param name="dict">A dictionary to keep track of the cells that have been encountered.</param>
+        /// <returns>Whether there is a circular reference or not.</returns>
+        private static bool HasCircularReferences(SpreadsheetCell cell, Dictionary<string, int> dict)
+        {
+            foreach (var currentCell in cell.referencedCells)
+            {
+                if (dict.ContainsKey(currentCell.Name))
+                {
+                    return true;
+                }
+
+                dict.Add(currentCell.Name, 1);
+
+                return HasCircularReferences(currentCell, dict);
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -492,11 +508,6 @@ public class Spreadsheet
 
                 this.referencedCells.Clear();
             }
-        }
-
-        public void ClearReferences()
-        {
-            this.referencedCells = new List<SpreadsheetCell>();
         }
     }
 }
