@@ -472,7 +472,7 @@ public class Spreadsheet
             // don't reevaluate if the cell has a circular reference
             var cell = (SpreadsheetCell)sender!;
 
-            if (cell.Text != "Circular Reference" && cell.Text != "Self Reference")
+            if (cell.Text != "Circular Reference" && cell.Text != "Self Reference" && cell.Text != "Invalid Reference")
             {
                 this.EvaluateExpression();
             }
