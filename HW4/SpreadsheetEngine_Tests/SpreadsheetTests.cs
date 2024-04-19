@@ -582,4 +582,18 @@ public class SpreadsheetTests
 
         Assert.That(testCell.Text, Is.EqualTo("6"));
     }
+
+[Test]
+public void SelfReferenceInMultipleCellsTest()
+{
+    var spreadsheet = new Spreadsheet(3, 3);
+    var cellA1 = spreadsheet.GetCell(0, 0);
+    var cellA2 = spreadsheet.GetCell(1, 0);
+
+    cellA1.Text = "5";
+    cellA2.Text = "=A1+A2";
+
+    Assert.That(cellA2.Text, Is.EqualTo("Self Reference"));
+}
+
 }

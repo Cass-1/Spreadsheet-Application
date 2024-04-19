@@ -266,19 +266,22 @@ public class Spreadsheet
         // if the cell's text is an expression
         if (cell.Text.StartsWith('='))
         {
-            // The location of the cell to get the value from.
-            var expression = cell.Text.TrimStart('=');
+            // get the expression
+            cell.SetExpression(cell.Text.TrimStart('='));
 
-            cell.SetExpression(expression);
-
+            // get the referenced cells string names
             var variables = cell.GetReferencedCellNames();
 
+            // check for a self reference
             foreach (var cellName in variables)
             {
                 if (cell.Name == cellName)
                 {
                     // self reference
                     cell.Text = "Self Reference";
+                    cell.Value = cell.Text;
+                    cell.SetExpression(string.Empty);
+                    cell.ClearReferences();
                     return;
                 }
             }
@@ -406,6 +409,7 @@ public class Spreadsheet
         {
             this.UnsubscribeFromReferencedCells();
             this.Expression = expression;
+            this.expressionTree = null;
         }
 
         /// <summary>
