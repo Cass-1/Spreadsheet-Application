@@ -268,23 +268,22 @@ public class Spreadsheet
         {
             // The location of the cell to get the value from.
             var expression = cell.Text.TrimStart('=');
-            if (expression == cell.Expression)
-            {
-                try
-                {
-                    cell.EvaluateExpression();
-                }
-                catch (ArgumentException)
-                {
-                    cell.Text = SpreadsheetCell.selfReference;
-                }
-                return;
-            }
 
             cell.SetExpression(expression);
 
             var variables = cell.GetReferencedCellNames();
 
+            foreach (var cellName in variables)
+            {
+                if (cell.Name == cellName)
+                {
+                    // self reference
+                    cell.Text = "Self Reference";
+                    return;
+                }
+            }
+
+            // assignes the reference cells to the cell
             foreach (var variable in variables)
             {
                 // this try catch block prevents errors from happening in the spreadsheet when we are still typing
@@ -319,8 +318,8 @@ public class Spreadsheet
         // if the cell's text is not an expression
         else
         {
-            cell.Value = cell.Text;
             cell.Expression = string.Empty;
+            cell.Value = cell.Text;
         }
 
         // invoke the property changed event to update the UI
@@ -456,6 +455,11 @@ public class Spreadsheet
         /// <param name="cell">The new cell to reference.</param>
         public void AddReferenceCell(SpreadsheetCell cell)
         {
+            if (this.Name == cell.Name)
+            {
+                throw new ArgumentException("A cell cannot reference itself.");
+            }
+
             this.referencedCells.Add(cell);
             cell.PropertyChanged += this.OnReferenceChanged;
         }
@@ -491,6 +495,11 @@ public class Spreadsheet
 
                 this.referencedCells.Clear();
             }
+        }
+
+        public void ClearReferences()
+        {
+            this.referencedCells = new List<SpreadsheetCell>();
         }
     }
 }

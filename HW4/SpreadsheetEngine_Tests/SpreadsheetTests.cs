@@ -563,10 +563,23 @@ public class SpreadsheetTests
         var spreadsheet = new Spreadsheet(3, 3);
         var testCell = spreadsheet.GetCell(0, 0);
 
-            // BUG doesn't work bc the spreadsheet is the one who calls the cell to evaluate itself
-            testCell.Text = "=7+A1*9";
+        testCell.Text = "=7+A1*9";
 
+        Assert.That(testCell.Text, Is.EqualTo("Self Reference"));
+    }
 
-        Assert.AreEqual(testCell.Text, "Self Reference");
+    /// <summary>
+    /// Tests for if a cell references itself.
+    /// </summary>
+    [Test]
+    public void ChangeAfterSelfReferenceTest()
+    {
+        var spreadsheet = new Spreadsheet(3, 3);
+        var testCell = spreadsheet.GetCell(0, 0);
+
+        testCell.Text = "=7+A1*9";
+        testCell.Text = "6";
+
+        Assert.That(testCell.Text, Is.EqualTo("6"));
     }
 }
