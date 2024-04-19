@@ -359,13 +359,13 @@ public class Spreadsheet
                 throw new ArgumentException("A cell cannot reference itself.");
             }
 
-            // Dictionary<string, int> dict = new Dictionary<string, int>();
-            // if (HasCircularReferences(this, dict))
-            // {
-            //     throw new ArgumentException("Circular Reference");
-            // }
+            Dictionary<string, int> dict = new Dictionary<string, int>();
+            if (HasCircularReferences(this, dict))
+            {
+                throw new ArgumentException("Circular Reference");
+            }
 
-            if (this.Text == selfReference)
+            if (this.Text == "Circular Reference")
             {
                 return;
             }
@@ -385,7 +385,7 @@ public class Spreadsheet
             this.Value = this.expressionTree.Evaluate().ToString(CultureInfo.InvariantCulture);
         }
 
-        private bool HasCircularReferences(SpreadsheetCell cell, Dictionary<string, int> dict)
+        private static bool HasCircularReferences(SpreadsheetCell cell, Dictionary<string, int> dict)
         {
             foreach (var currentCell in cell.referencedCells)
             {
@@ -395,7 +395,7 @@ public class Spreadsheet
                 }
                 dict.Add(currentCell.Name, 1);
 
-                return this.HasCircularReferences(currentCell, dict);
+                return HasCircularReferences(currentCell, dict);
             }
 
             return false;
