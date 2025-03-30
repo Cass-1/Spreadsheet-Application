@@ -5,7 +5,7 @@
       "companyName": "Cass Dahle",
       "copyrightText": "Copyright (c) {companyName} 11775278.\nLicensed under the GPL v3.0 License. See LICENSE in the project root for license information.",
       "xmlHeader": false,
-      "fileNamingConvention": "metadata"
+      "fileNamingConvention": "metadata",
     },
     "layoutRules": {
       "newlineAtEndOfFile": "require"

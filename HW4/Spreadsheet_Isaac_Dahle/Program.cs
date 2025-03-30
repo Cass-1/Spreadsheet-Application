@@ -23,9 +23,7 @@ internal sealed class Program
 
     // Avalonia configuration, don't remove; also used by visual designer.
     // ReSharper disable once IdentifierTypo
-#pragma warning disable SA1600
     public static AppBuilder BuildAvaloniaApp()
-#pragma warning restore SA1600
         => AppBuilder.Configure<App>()
             .UsePlatformDetect()
             .WithInterFont()
