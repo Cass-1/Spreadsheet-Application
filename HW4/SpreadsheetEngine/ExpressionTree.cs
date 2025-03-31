@@ -28,6 +28,8 @@ public class ExpressionTree
     /// </summary>
     private Dictionary<string, double> variableDatabase;
 
+    private readonly List<Node> postfixNodes;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="ExpressionTree"/> class.
     /// </summary>
@@ -47,10 +49,7 @@ public class ExpressionTree
         var postfixTokens = this.ConvertExpressionToPostfix(this.tokenizedExpression);
 
         // convert tokens to nodes
-        var postfixNodes = this.TokensToNodes(postfixTokens);
-
-        // build the expression tree
-        this.root = this.GenerateExpressionTree(postfixNodes);
+        this.postfixNodes = this.TokensToNodes(postfixTokens);
     }
 
     /// <summary>
@@ -124,6 +123,8 @@ public class ExpressionTree
     {
         try
         {
+            // build the expression tree
+            this.root = this.GenerateExpressionTree(this.postfixNodes);
             return this.EvaluateExpressionTree();
         }
         catch (NullReferenceException)
@@ -220,8 +221,6 @@ public class ExpressionTree
         return postfixTokens;
     }
 
-    // TODO: make this private. It is currently public for testing but i should use refelction to test it
-
     /// <summary>
     /// Takes this.expression and populates this.tokenizedExpression.
     /// </summary>
@@ -276,7 +275,7 @@ public class ExpressionTree
     /// <exception cref="NotImplementedException">Not implemented.</exception>
     private Node GenerateExpressionTree(List<Node> postfixNodes)
     {
-        // TODO: Loop through postfix tokenized expression and generate nodes.
+        // Loop through postfix tokenized expression and generate nodes.
         Stack<Node> nodeStack = new Stack<Node>();
         Node localRoot;
 
